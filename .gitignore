@@ -221,3 +221,6 @@ TSWLatexianTemp*
 
 # Biber in folder
 biber
+
+# Mac finder files and hidden folders
+.DS_Store
