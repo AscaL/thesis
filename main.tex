@@ -1,0 +1,131 @@
+% !TeX encoding = UTF-8
+% !TeX program = pdflatex
+% !TeX spellcheck = it_IT
+% !TeX spellcheck = en_EN
+
+\documentclass[LaM,binding=0.6cm,english,noexaminfo]{sapthesis}
+
+\usepackage{microtype}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenx}
+\usepackage[alphabetic]{biblatex}
+ 
+\addbibresource{bibliography.bib}
+
+\usepackage{hyperref}
+\hypersetup{pdftitle={M.Sc - E. Orfanelli - Sapienza Univiversity - 2018-2019},pdfauthor={Emanuele Orfanelli}}
+
+% Remove in a normal thesis
+%\usepackage{lipsum}
+%\usepackage{curve2e}
+%\definecolor{gray}{gray}{0.4}
+%\newcommand{\bs}{\textbackslash}
+
+% Commands for the titlepage
+\title{Lie Detection Thesis}
+\author{Emanuele Orfanelli}
+\IDnumber{1383726}
+\course{Informatica}
+\courseorganizer{Facoltà di Ingengeria dell'informazione, Informatica e Statistica}
+\AcademicYear{2018/2019}
+\copyyear{2018}
+\advisor{Prof. Luigi Cinque}
+\coadvisor{Dr. Danilo Avola}
+\coadvisor{Dr. Daniele Pannone}
+\authoremail{emanueleorfanelli@gmail.com}
+
+%\examdate{16 October 2018}
+%\examiner{Prof. Nome Cognome}
+%\examiner{Prof. Nome Cognome}
+%\examiner{Dr. Nome Cognome}
+%\versiondate{\today}
+
+
+
+\begin{document}
+
+\frontmatter
+
+\maketitle
+
+\dedication{Dedicated to\\ my Family and Friends}
+
+\begin{acknowledgments}
+fill
+\end{acknowledgments}
+
+\tableofcontents
+
+
+
+\mainmatter
+
+\chapter{Introduction}
+In this chapter we give an overview of the work (Par. \ref{overview}). We then present a taxonomy of the current state of the art (Par \ref{sota}). The last section is about the structure of this work and our contribution (Par \ref{contrib}).
+
+\section{Overview of the work} \label{overview}
+fill
+% also talk about non-contact
+
+\section{State of the Art} \label{sota}
+In computer vision, lie detection is done using an array of different techniques, often combining many of them to gather better results. We now proceed to describe the state of the art for them:
+
+\subsection*{Speech}
+Speech is one of the many methods used to help recognize a lie, as the pitch and  stress level change while the subject is lying. In \cite{relidss} MFCC (Mel Frequency Cepstral Coefficient) and pitch are extracted and processed through Matlab. A classifier is then trained with SVM to classify new data, obtaining an accuracy of Lie and Truth detection of speech audio respectively 88.23\% and 84.52\%. \\
+In \cite{Perez-Rosas:2015:DDU:2818346.2820758} \cite{Mihalcea:2013:ADD:2522848.2522888} Perez et al. use real life trial data to identify deception, achieving 60-75\% accuracy using a model that extracts features from both the linguistic and gesture modalities.
+ 
+\subsection*{Eyes}
+Using the eyes to detect lies is one of the most studied approaches as the eyes hold a lot of information \cite{FUKUDA2001239}. Moreover is possible to generate a non invasive approach while analyzing the eyes. Cognitive load, which is set to increase while lying, is one of the factor. Significant is also the blink rate.\\
+In \cite{8125844} the authors analyze blink count and blink duration of 50 subjects, while asking different questions, to see if there is a variation in them while the subject is being asked questions. The results show that both blink duration and count are increased while lying.\\
+Singh et al. in \cite{7324092} show that while lying there is an increase in cognitive load and a significant decrease in eye blinks, directly followed by an increase as soon as the cognitive demand ceases, after telling the lie. Blink detection is done with MATLAB using HAAR Cascade algorithm.\\
+Lim et al. study eye gaze \cite{Lim:2013:LTE:2535948.2535954} to investigate the relation with lie detection. The result supports the theory that cognitive load decreases the number of eye movements.\\
+Bhaskaran et al. measure deception by the deviation from normal behavior \cite{5771407} at critical points during an investigative interrogation. For starters a dynamic Bayesian model of eye movement is trained during a normal conversation, then the remainder of the conversation is broken into pieces and each piece is tested against the normal behavior. The deviation from normality are observed during critical points in the interrogation and used to deduce the presence of deceit, obtaining an accuracy of 82.5\%. \\
+In \cite{7165946} Proudfoot et al. using latent growth curve modeling, research how the pupil diameter changes over the course of an interaction with a deception detection system. The results indicate that the trends in the changes are indicative of deception during the interaction, regardless if incriminating items are shown. \\
+%is this useful at all???
+Nurcin et al. \cite{NURCIN2017417} analyze the segmentation of pupil and iris radius in images taken from the MMU iris database. The assumptio n is that bigger pupils are lying ones and small pupils are neutral. The algorithm does the segmentation of iris and pupil radius, and then trains a neural network to classify high and low pupil to iris radius. All images from the MMU database were correctly classified.
+
+
+
+\subsection*{EEG}
+EEG (Electroencephalogram) records brain activities based on its potential. In \cite{7440177}  Simbolon et al, use ERP (Event Related Potentials) to measure brain response directly from thought or perception. Among many types of signals that constitute ERP signal, P300 is the most important in detecting lies. The accuracy reached by a SVM classifier is 70.83\% in detecting lying subjects.\\
+In \cite{Lai2017} the authors use an EEG to identify frequency bands and measure lying state based on spectral analysis, with the use of fuzzy reasoning, obtaining 89.5\% detection accuracy. \\
+Arasteh et al. \cite{7511728} use empirical mode decomposition (EMD) to extract features from EEG signal. A genetic algorithm was then utilized for the feature selection. The classification accuracy of guilty and innocent subjects was 92.73\%.
+
+\subsection*{Head}
+Noje et al. \cite{7367432} built an application to detect head movement and position by performing a frame to frame analysis on a video stream. A correlation was made between head movement/position and lie detection. The results are not concluding as this information cannot be used without being integrated with other modalities like voice, gaze, words and so on.
+
+\subsection*{Facial Expression}
+Facial micro-expressions have been used and classified since 1977 \cite{ekman} to classify and distinguish real or fake emotions. \\
+Owayjan et al. \cite{6462897} designed a lie detection system using micro-expressions. A video stream is converted into frames, and each frame is processed in four stages, converting the images, filtering out useless features, applying geometric templates and finally extracting the measurements to detect the micro-expressions. Eight facial expressions can be recognized and lies can be discerned with high precision. \\
+%maybe not exactly micro expr
+In \cite{10.1007/978-3-319-47955-2_27} Kawulok et al. explore how to exploit fast smile intensity detectors to extract temporal features using a SVM classifier. This allows to detect in real time between spontaneous or posed expressions. \\
+Su et al. \cite{SU201652} aim to test the validity of facial clues to deception detection in high-stakes situations using computer vision approaches. By using invariant 2D features from nine separate facial regions they perform facial analysis on eye blink, eyebrow motion, wrinkle occurrence and mouth motion, integrated with a facial behavior pattern vector. Training a Random Forest to classify the patterns into deceptive or truthful, they achieved a 76.92\% accuracy.
+
+\subsection*{Thermal}
+In thermal imaging, thermal features are extracted from the face using a high definition thermal camera to analyze whether differences occur when a subject responded truthfully or deceptively. The most relevant zones are forehead and periorbital regions \cite{Rajoub} \cite{Abouelenien:2015:TAD:2823465.2823470}. \\
+In \cite{6967765} data are gathered non-intrusively from the nostril and periorbital regions using two dimensional far infrared cameras. The temperature is converted in change in blood flow velocity and a signature of the respiration pattern is determined in terms of the ratio of the measured maximum and minimum temperatures in the nostril area. The classification rate for this study is 88.5\%.
+
+\subsection*{Multimodal}
+There are ways to detect lies that are a combination of different modalities. This improves the detection of deceptive behavior \cite{Abouelenien:2014:DDU:2663204.2663229}. \\
+In \cite{Abouelenien:2016:ATV:2910674.2910682} Abouelenien et al. examine thermal and visual clues of deception. Using the CERT (Computer Expression Recognition Toolbox) to detect facial expression and encoding them with AU (Action Units). They also calculated normalized blinking rates and the mean head orientation angle along the entire length of the response. In addiction over 60 physiological features were also extracted and stored. The experimental results show that the non-contact feature fusion model outperforms traditional physiological measurements.\\
+In a following paper \cite{7782429} Abouelenien et al. explore a multimodal deception detection approach comprised of physiological, linguistic, and thermal features. They determine the most discriminative region of the face based on thermal imaging, and perform feature analysis using a decision tree model. The result says that the forehead could be a better indicator of deceit than the periorbital area. The physiological features did not contribute very much, while the linguistic feature played a critical role, where self-referencing and exaggeration words where indicators of deceit. The overall accuracy of the system is ~70\%\\
+Another example of multimodal detection is found in \cite{DBLP:journals/corr/abs-1712-04415} where Wu et al. develop a system for covert automated deception detection. They utilize three modalities: vision, audio and text. For vision they employ a classifier trained on low level video features to predict on human micro-expressions. About text the transcript of the considered videos are analyzed, but the performance increase is marginal. For speech they integrate the vision side with MFCC features analysis from the audio, boosting the performances significantly, reaching an AUC of 0.877. \\
+
+
+\section{My Contributions} \label{contrib}
+fill
+
+
+\chapter{Thesis Chap 1}
+th ch 1
+
+\chapter{Th Ch 2}
+\input{chapters/conclusion}
+
+\backmatter
+
+\printbibliography
+
+\cleardoublepage
+
+\end{document}
