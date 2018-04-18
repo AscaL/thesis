@@ -15,12 +15,6 @@
 \usepackage{hyperref}
 \hypersetup{pdftitle={M.Sc - E. Orfanelli - Sapienza Univiversity - 2018-2019},pdfauthor={Emanuele Orfanelli}}
 
-% Remove in a normal thesis
-%\usepackage{lipsum}
-%\usepackage{curve2e}
-%\definecolor{gray}{gray}{0.4}
-%\newcommand{\bs}{\textbackslash}
-
 % Commands for the titlepage
 \title{Lie Detection Thesis}
 \author{Emanuele Orfanelli}
@@ -61,21 +55,27 @@ fill
 \mainmatter
 
 \chapter{Introduction}
-In this chapter we give an overview of the work (Par. \ref{overview}). We then present a taxonomy of the current state of the art (Par \ref{sota}). The last section is about the structure of this work and our contribution (Par \ref{contrib}).
+In this chapter we give an overview of the work (Par. \ref{overview}). We then present a taxonomy of the current state of the art (Par \ref{sota}) concerning computer vision lie detection. The last section is about the structure of this work and our contribution (Par \ref{contrib}).
+
+\pagebreak
 
 \section{Overview of the work} \label{overview}
 fill
 % also talk about non-contact
 
+\pagebreak
+
 \section{State of the Art} \label{sota}
-In computer vision, lie detection is done using an array of different techniques, often combining many of them to gather better results. We now proceed to describe the state of the art for them:
+In computer vision, lie detection is done using an array of different techniques, employing not only RGB cameras but also physical sensors and thermal cameras, with machine learning techniques, and often combining many of them to achieve better results. We now proceed to describe the state of the art, based on the latest researches done in the field:
 
 \subsection*{Speech}
-Speech is one of the many methods used to help recognize a lie, as the pitch and  stress level change while the subject is lying. In \cite{relidss} MFCC (Mel Frequency Cepstral Coefficient) and pitch are extracted and processed through Matlab. A classifier is then trained with SVM to classify new data, obtaining an accuracy of Lie and Truth detection of speech audio respectively 88.23\% and 84.52\%. \\
+Speech is one of the many methods used to recognize a lie, in fact the speech signal contains linguistic, expressive, organic and biological data. Speech analysis can reveal changes that affect behavior, such as stress, emotion, deception etc. by analyzing the pitch and the stress level. When a stressful situation arise, the hormonal levels of the body change, and this causes an increase in blood pressure and heart rate. This in turn affects the muscle in the respiratory system, and so speech is affected \cite{norena}. \\
+ In sound processing, the mel-frequency cepstrum (MFC) is a representation of the short-term power spectrum of a sound. Mel-frequency cepstral coefficients (MFCCs) are coefficients that collectively make up an MFC \cite{wiki:mfcc}. \\
+ In \cite{relidss} the authors extract MFCC and pitch and process them through Matlab. An SVM classifier is then trained to classify new data, obtaining an accuracy of Lie and Truth detection of speech audio respectively 88.23\% and 84.52\%. \\
 In \cite{Perez-Rosas:2015:DDU:2818346.2820758} \cite{Mihalcea:2013:ADD:2522848.2522888} Perez et al. use real life trial data to identify deception, achieving 60-75\% accuracy using a model that extracts features from both the linguistic and gesture modalities.
  
 \subsection*{Eyes}
-Using the eyes to detect lies is one of the most studied approaches as the eyes hold a lot of information \cite{FUKUDA2001239}. Moreover is possible to generate a non invasive approach while analyzing the eyes. Cognitive load, which is set to increase while lying, is one of the factor. Significant is also the blink rate.\\
+Using the eyes to detect lies is one of the most studied approaches as the eyes hold a lot of information \cite{FUKUDA2001239}. Moreover is possible to generate a non invasive approach while analyzing the eyes. Cognitive load, which is set to increase while lying, is one of the factor. Significant are also the blink rate and pupil dilation.\\
 In \cite{8125844} the authors analyze blink count and blink duration of 50 subjects, while asking different questions, to see if there is a variation in them while the subject is being asked questions. The results show that both blink duration and count are increased while lying.\\
 Singh et al. in \cite{7324092} show that while lying there is an increase in cognitive load and a significant decrease in eye blinks, directly followed by an increase as soon as the cognitive demand ceases, after telling the lie. Blink detection is done with MATLAB using HAAR Cascade algorithm.\\
 Lim et al. study eye gaze \cite{Lim:2013:LTE:2535948.2535954} to investigate the relation with lie detection. The result supports the theory that cognitive load decreases the number of eye movements.\\
@@ -83,8 +83,6 @@ Bhaskaran et al. measure deception by the deviation from normal behavior \cite{5
 In \cite{7165946} Proudfoot et al. using latent growth curve modeling, research how the pupil diameter changes over the course of an interaction with a deception detection system. The results indicate that the trends in the changes are indicative of deception during the interaction, regardless if incriminating items are shown. \\
 %is this useful at all???
 Nurcin et al. \cite{NURCIN2017417} analyze the segmentation of pupil and iris radius in images taken from the MMU iris database. The assumptio n is that bigger pupils are lying ones and small pupils are neutral. The algorithm does the segmentation of iris and pupil radius, and then trains a neural network to classify high and low pupil to iris radius. All images from the MMU database were correctly classified.
-
-
 
 \subsection*{EEG}
 EEG (Electroencephalogram) records brain activities based on its potential. In \cite{7440177}  Simbolon et al, use ERP (Event Related Potentials) to measure brain response directly from thought or perception. Among many types of signals that constitute ERP signal, P300 is the most important in detecting lies. The accuracy reached by a SVM classifier is 70.83\% in detecting lying subjects.\\
@@ -111,6 +109,7 @@ In \cite{Abouelenien:2016:ATV:2910674.2910682} Abouelenien et al. examine therma
 In a following paper \cite{7782429} Abouelenien et al. explore a multimodal deception detection approach comprised of physiological, linguistic, and thermal features. They determine the most discriminative region of the face based on thermal imaging, and perform feature analysis using a decision tree model. The result says that the forehead could be a better indicator of deceit than the periorbital area. The physiological features did not contribute very much, while the linguistic feature played a critical role, where self-referencing and exaggeration words where indicators of deceit. The overall accuracy of the system is ~70\%\\
 Another example of multimodal detection is found in \cite{DBLP:journals/corr/abs-1712-04415} where Wu et al. develop a system for covert automated deception detection. They utilize three modalities: vision, audio and text. For vision they employ a classifier trained on low level video features to predict on human micro-expressions. About text the transcript of the considered videos are analyzed, but the performance increase is marginal. For speech they integrate the vision side with MFCC features analysis from the audio, boosting the performances significantly, reaching an AUC of 0.877. \\
 
+\pagebreak
 
 \section{My Contributions} \label{contrib}
 fill
