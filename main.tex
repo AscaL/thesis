@@ -8,11 +8,11 @@
 \usepackage{microtype}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenx}
-\usepackage[alphabetic]{biblatex}
+\usepackage[backref=true,citetracker=false,alphabetic]{biblatex}
  
 \addbibresource{bibliography.bib}
 
-\usepackage{hyperref}
+\usepackage[colorlinks=true]{hyperref}
 \hypersetup{pdftitle={M.Sc - E. Orfanelli - Sapienza Univiversity - 2018-2019},pdfauthor={Emanuele Orfanelli}}
 
 % Commands for the titlepage
@@ -70,8 +70,8 @@ In computer vision, lie detection is done using an array of different techniques
 
 \subsection*{Speech}
 Speech is one of the many methods used to recognize a lie, in fact the speech signal contains linguistic, expressive, organic and biological data. Speech analysis can reveal changes that affect behavior, such as stress, emotion, deception etc. by analyzing the pitch and the stress level. When a stressful situation arise, the hormonal levels of the body change, and this causes an increase in blood pressure and heart rate. This in turn affects the muscle in the respiratory system, and so speech is affected \cite{norena}. \\
- In sound processing, the mel-frequency cepstrum (MFC) is a representation of the short-term power spectrum of a sound. Mel-frequency cepstral coefficients (MFCCs) are coefficients that collectively make up an MFC \cite{wiki:mfcc}. \\
- In \cite{relidss} the authors extract MFCC and pitch and process them through Matlab. An SVM classifier is then trained to classify new data, obtaining an accuracy of Lie and Truth detection of speech audio respectively 88.23\% and 84.52\%. \\
+In sound processing, the mel-frequency cepstrum (MFC) is a representation of the short-term power spectrum of a sound. Mel-frequency cepstral coefficients (MFCCs) are coefficients that collectively make up an MFC \cite{wiki:mfcc}. \\
+In \cite{relidss} the authors extract MFCC and pitch and process them through Matlab. An SVM classifier is then trained to classify new data, obtaining an accuracy of Lie and Truth detection of speech audio respectively 88.23\% and 84.52\%. \\
 In \cite{Perez-Rosas:2015:DDU:2818346.2820758} \cite{Mihalcea:2013:ADD:2522848.2522888} Perez et al. utilize real life trial data to identify deception, achieving 60-75\% accuracy employing a model that extracts features from both linguistic and gesture modalities.
  
 \subsection*{Eyes}
@@ -94,7 +94,10 @@ Arasteh et al. \cite{7511728} use empirical mode decomposition (EMD) to extract 
 Noje et al. \cite{7367432} set up a study with ten subjects to observe the potential of head movements in lie detection. They built an application to detect head movement and position by performing a frame to frame analysis on a video stream. A correlation was made between head movement/position and the identification of lies. The results of the study are not concluding as this data can't be utilized without being incorporated with other modalities such as voice, gaze, words, expressions et cetera.
 
 \subsection*{Facial Expression}
-Facial micro-expressions are very fast and involuntary expressions that come up on the human face when they are trying to suppress or hide an emotion. Micro-expressions have been used and classified since 1977 to classify and distinguish real or fake emotions \cite{ekman}. \\
+Facial micro-expressions are very fast (1/2 to 1/3 of a second) and involuntary expressions that come up on the human face when they are trying to suppress or hide an emotion. Micro-expressions have been used and classified since 1977 to recognize and distinguish real or fake emotions \cite{ekman}. \\
+Substantial work on Micro-Expressions has been done by Pfister, Li et al. In \cite{pfister2011micro} they collect data with a high speed camera and use a temporal interpolation model to recognize micro expressions. In \cite{xli2012spontaneous} they unveil a new dataset, the Spontaneous
+Micro-expression Database (SMIC), which includes 164 microexpression
+video clips elicited from 16 participants. A study of spontaneous micro expression spotting and recognition methods is done in \cite{xli2015reading}. A new training free method, based on feature difference contrast, for recognizing micro-expressions is presented and revealed effective on unseen videos. A micro-expression framework is presented and tested on SMIC and CASMEII database with very good results. A new micro-expression analysis system (MESR) is presented and it is able to recognize micro-expressions from spontaneous video data. \\
 Owayjan et al. \cite{6462897} designed a lie detection system using micro-expressions. At first an embedded video system is used to record the subject interview. The video stream is converted into frames, and each frame is processed in four stages: converting the images, filtering out useless features, applying geometric templates and finally extracting the measurements to detect the micro-expressions. Eight facial expressions can be recognized and lies can be discerned with high precision. \\
 %maybe not exactly micro expr
 In \cite{10.1007/978-3-319-47955-2_27} Kawulok et al. explore how to exploit fast smile intensity detectors to extract temporal features using a SVM classifier. Using exclusively a face detector, without localizing or tracking facial landmarks, they analyze the smile intensity time series. They then employ an SVM classifier to improve training from weakly labeled datasets. Then, to train the smile detectors, they use uniform local binary pattern features. This allows to detect, in real time, between spontaneous or posed expressions. \\
