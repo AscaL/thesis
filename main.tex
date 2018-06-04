@@ -9,6 +9,8 @@
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenx}
 \usepackage[backref=true,citetracker=false,alphabetic]{biblatex}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
  
 \addbibresource{bibliography.bib}
 
@@ -101,6 +103,13 @@ Arasteh et al. \cite{7511728} use empirical mode decomposition (EMD) to extract 
 Noje et al. \cite{7367432} set up a study with ten subjects to observe the potential of head movements in lie detection. They built an application to detect head movement and position by performing a frame to frame analysis on a video stream. A correlation was made between head movement/position and the identification of lies. The results of the study are not concluding as this data can't be utilized without being incorporated with other modalities such as voice, gaze, words, expressions et cetera.
 
 \subsection*{Facial Expression}
+
+\begin{figure}[!]
+	\centering
+	\includegraphics[width=3cm, height=4cm]{expr}
+	\caption{Example of a parametric plot ($\sin (x), \cos(x), x$)}
+\end{figure}
+
 Facial micro-expressions are very fast (1/2 to 1/3 of a second) and involuntary expressions that come up on the human face when they are trying to suppress or hide an emotion. Micro-expressions have been used and classified since 1977 to recognize and distinguish real or fake emotions \cite{ekman}. \\
 Substantial work on Micro-Expressions has been done by Pfister, Li et al. In \cite{pfister2011micro} they collect data with a high speed camera and use a temporal interpolation model to recognize micro expressions. In \cite{xli2012spontaneous} they unveil a new dataset, the Spontaneous
 Micro-expression Database (SMIC), which includes 164 microexpression
@@ -135,6 +144,8 @@ th ch 1
 \backmatter
 
 \printbibliography
+
+\listoffigures
 
 \cleardoublepage
 
