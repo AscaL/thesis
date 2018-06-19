@@ -22,16 +22,17 @@ filenames_L_test <- list.files("~/Desktop/projects/thesis/R-OpenFace/df/deceptiv
 lies_train <- rbindlist(lapply(filenames_L_train, fread))
 lies_test <- rbindlist(lapply(filenames_L_test, fread))
 lies <- rbind(lies_test, lies_train)
-head(lies)
 
 # Remove Useless Columns
 lies_train <- lies_train[,-c(1:5)]
 lies_test <- lies_test[,-c(1:5)]
+
 # Remove Intensity Columns
+lint_train <- lies_train[,c(1:17)]
 lies_train <- lies_train[,-c(1:17)]
+lint_test <- lies_test[,c(1:17)]
 lies_test <- lies_test[,-c(1:17)]
 lies <- lies[,-c(1:22)]
-
 ```
 
 Loading the Data - truth
@@ -45,55 +46,104 @@ truth <- rbind(truth_train, truth_test)
 # Remove Useless Columns
 truth_train <- truth_train[,-c(1:5)]
 truth_test <- truth_test[,-c(1:5)]
+
 # Remove Intensity Columns
+tint_train <- truth_train[,c(1:17)]
 truth_train <- truth_train[,-c(1:17)]
+tint_test <- truth_test[,c(1:17)]
 truth_test <- truth_test[,-c(1:17)]
 ```
+
+Utils
+```{r}
+makeAllCorrMatrix <- function(data) {
+  correlation <- cor(data)
+  rcorrelation <- rcorr(as.matrix(data))
+  # Standard Cor with 5 Clustering
+  corrplot(
+  correlation,
+  order = "hclust",
+  addrect = 5,
+  title = "Standard Cor with 5 Clustering",
+  mar = c(0, 0, 1, 0)
+  )
+  # Mixed Cor
+  corrplot.mixed(
+  correlation,
+  lower.col = "black",
+  number.cex = 0.55,
+  tl.cex = 0.4,
+  upper = "color",
+  order = "hclust",
+  tl.col = "black",
+  tl.srt = 45,
+  title = "Mixed Cor",
+  mar = c(0, 0, 1, 0)
+  )
+  # Insignificant correlation are crossed
+  corrplot(
+  rcorrelation$r,
+  type = "upper",
+  order = "hclust",
+  p.mat = res2$P,
+  sig.level = 0.01,
+  insig = "pch",
+  title = "Insignificant Crossed",
+  mar = c(0, 0, 1, 0)
+  )
+  # HeatMap
+  col <- colorRampPalette(c("blue", "white", "red"))(20)
+  heatmap(x = correlation, col = col, symm = TRUE)
+  mtest <- cor.mtest(truth_test, conf.level = .95)
+  ## specialized the insignificant value according to the significant level
+  corrplot(correlation, p.mat = mtest$p, sig.level = .2)
+  corrplot(correlation, p.mat = mtest$p, insig = "blank")
+  corrplot(correlation, p.mat = mtest$p, insig = "p-value")
+  corrplot(
+  correlation,
+  p.mat = mtest$p,
+  order = "hclust",
+  insig = "pch",
+  addrect = 5,
+  mar = c(0, 0, 1, 0)
+  )
+  # Visualize Confidence Intervals
+  corrplot(
+  correlation,
+  p.mat = mtest$p,
+  method = "color",
+  type = "upper",
+  sig.level = c(.001, .01, .05),
+  pch.cex = .9,
+  insig = "label_sig",
+  pch.col = "white",
+  order = "hclust",
+  title = "Confidence Intervals",
+  mar = c(0, 0, 1, 0)
+  )
+}
+
+flattenCorrMatrix <- function(cormat, pmat) {
+  ut <- upper.tri(cormat)
+  data.frame(
+    row = rownames(cormat)[row(cormat)[ut]],
+    column = rownames(cormat)[col(cormat)[ut]],
+    cor  =(cormat)[ut],
+    p = pmat[ut]
+    )
+}
+```
+
 Correlation
 ```{r}
-res <- cor(truth_test)
-res2 <- rcorr(as.matrix(truth_test))
-res2
-# Extract the correlation coefficients
-res2$r
-# Extract p-values
-res2$P
-
-corrplot.mixed(res, lower.col = "black", number.cex = 0.55, tl.cex = 0.4, upper = "color", order = "hclust", 
-         tl.col = "black", tl.srt = 45, addrect = 3)
-
-corrplot(res, order = "hclust", addrect = 5)
-
-
-# Insignificant correlation are crossed
-corrplot(res2$r, type="upper", order="hclust", 
-         p.mat = res2$P, sig.level = 0.01, insig = "blank")
-# Insignificant correlations are leaved blank
-corrplot(res2$r, type="upper", order="hclust", 
-         p.mat = res2$P, sig.level = 0.01, insig = "blank")
-
-# Get some colors
-col<- colorRampPalette(c("blue", "white", "red"))(20)
-heatmap(x = res, col = col, symm = TRUE)
-
-res3 <- cor.mtest(truth_test, conf.level = .95)
-res4 <- cor.mtest(truth_test, conf.level = .99)
-
-## specialized the insignificant value according to the significant level
-corrplot(res, p.mat = res3$p, sig.level = .2)
-corrplot(res, p.mat = res3$p, insig = "blank")
-corrplot(res, p.mat = res3$p, insig = "p-value")
-corrplot(res, p.mat = res3$p, order = "hclust", insig = "pch", addrect = 3)
-
-# Visualize confidence interval
-corrplot(res, p.mat = res3$p, low = res3$lowCI, upp = res3$uppCI,
-         order = "hclust", pch.col = "red", sig.level = 0.01,
-         addrect = 5, rect.col = "navy", plotC = "rect", cl.pos = "n")
-
-corrplot(res, p.mat = res3$p, method = "color", type = "upper",
-         sig.level = c(.001, .01, .05), pch.cex = .9,
-         insig = "label_sig", pch.col = "white", order = "AOE")
-
+makeAllCorrMatrix(truth_test)
+makeAllCorrMatrix(truth_train)
+makeAllCorrMatrix(tint_test)
+makeAllCorrMatrix(tint_train)
+makeAllCorrMatrix(lies_test)
+makeAllCorrMatrix(lies_train)
+makeAllCorrMatrix(lint_test)
+makeAllCorrMatrix(lint_train)
 ```
 
 
@@ -168,25 +218,6 @@ ggplot(data = test, aes(x = AU_TEST, y = LIE_TEST, fill = LIE_TEST)) +
 #   geom_bar(stat = "identity", position = "dodge") +
 #   geom_text(aes(label = LIE), vjust = -0.5, size = 2.5) +
 #   theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
-```
-
-Utiliyu Fns
-```{r}
-# ++++++++++++++++++++++++++++
-# flattenCorrMatrix
-# ++++++++++++++++++++++++++++
-# cormat : matrix of the correlation coefficients
-# pmat : matrix of the correlation p-values
-flattenCorrMatrix <- function(cormat, pmat) {
-  ut <- upper.tri(cormat)
-  data.frame(
-    row = rownames(cormat)[row(cormat)[ut]],
-    column = rownames(cormat)[col(cormat)[ut]],
-    cor  =(cormat)[ut],
-    p = pmat[ut]
-    )
-}
-
 ```
 
 
