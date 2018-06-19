@@ -222,7 +222,8 @@ TSWLatexianTemp*
 # Biber in folder
 biber
 
-# R-OpenFace/thesis.nb.html
+#R
+R-OpenFace/thesis.nb.html
 
 # Mac finder files and hidden folders
 .DS_Store

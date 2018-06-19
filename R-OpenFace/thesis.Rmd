@@ -13,6 +13,7 @@ library(dplyr)
 library(caret)
 library("Hmisc")
 library(corrplot)
+library(e1071)
 ```
 
 Loading the Data - lies
@@ -222,13 +223,10 @@ ggplot(data = test, aes(x = AU_TEST, y = LIE_TEST, fill = LIE_TEST)) +
 
 
 
-
-
-
-
-
-
-
+```{r}
+svm()
+jhg
+```
 
 
 
