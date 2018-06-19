@@ -1,0 +1,205 @@
+---
+title: "Thesis Clustering"
+output: html_notebook
+---
+
+Libs
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(data.table)
+library(reshape2)
+library(dplyr)
+library(caret)
+library("Hmisc")
+library(corrplot)
+```
+
+Loading the Data - lies
+```{r}
+filenames_L_train <- list.files("~/Desktop/projects/thesis/R-OpenFace/df/deceptive/train", pattern="*.csv", full.names=TRUE)
+filenames_L_test <- list.files("~/Desktop/projects/thesis/R-OpenFace/df/deceptive/test", pattern="*.csv", full.names=TRUE)
+lies_train <- rbindlist(lapply(filenames_L_train, fread))
+lies_test <- rbindlist(lapply(filenames_L_test, fread))
+lies <- rbind(lies_test, lies_train)
+head(lies)
+
+# Remove Useless Columns
+lies_train <- lies_train[,-c(1:5)]
+lies_test <- lies_test[,-c(1:5)]
+# Remove Intensity Columns
+lies_train <- lies_train[,-c(1:17)]
+lies_test <- lies_test[,-c(1:17)]
+lies <- lies[,-c(1:22)]
+
+```
+
+Loading the Data - truth
+```{r}
+filenames_T_train <- list.files("~/Desktop/projects/thesis/R-OpenFace/df/truthful/train", pattern="*.csv", full.names=TRUE)
+filenames_T_test <- list.files("~/Desktop/projects/thesis/R-OpenFace/df/truthful/test", pattern="*.csv", full.names=TRUE)
+truth_train <- rbindlist(lapply(filenames_T_train, fread))
+truth_test <- rbindlist(lapply(filenames_T_test, fread))
+truth <- rbind(truth_train, truth_test)
+
+# Remove Useless Columns
+truth_train <- truth_train[,-c(1:5)]
+truth_test <- truth_test[,-c(1:5)]
+# Remove Intensity Columns
+truth_train <- truth_train[,-c(1:17)]
+truth_test <- truth_test[,-c(1:17)]
+```
+Correlation
+```{r}
+res <- cor(truth_test)
+res2 <- rcorr(as.matrix(truth_test))
+res2
+# Extract the correlation coefficients
+res2$r
+# Extract p-values
+res2$P
+
+corrplot.mixed(res, lower.col = "black", number.cex = 0.55, tl.cex = 0.4, upper = "color", order = "hclust", 
+         tl.col = "black", tl.srt = 45, addrect = 3)
+
+corrplot(res, order = "hclust", addrect = 5)
+
+
+# Insignificant correlation are crossed
+corrplot(res2$r, type="upper", order="hclust", 
+         p.mat = res2$P, sig.level = 0.01, insig = "blank")
+# Insignificant correlations are leaved blank
+corrplot(res2$r, type="upper", order="hclust", 
+         p.mat = res2$P, sig.level = 0.01, insig = "blank")
+
+# Get some colors
+col<- colorRampPalette(c("blue", "white", "red"))(20)
+heatmap(x = res, col = col, symm = TRUE)
+
+res3 <- cor.mtest(truth_test, conf.level = .95)
+res4 <- cor.mtest(truth_test, conf.level = .99)
+
+## specialized the insignificant value according to the significant level
+corrplot(res, p.mat = res3$p, sig.level = .2)
+corrplot(res, p.mat = res3$p, insig = "blank")
+corrplot(res, p.mat = res3$p, insig = "p-value")
+corrplot(res, p.mat = res3$p, order = "hclust", insig = "pch", addrect = 3)
+
+# Visualize confidence interval
+corrplot(res, p.mat = res3$p, low = res3$lowCI, upp = res3$uppCI,
+         order = "hclust", pch.col = "red", sig.level = 0.01,
+         addrect = 5, rect.col = "navy", plotC = "rect", cl.pos = "n")
+
+corrplot(res, p.mat = res3$p, method = "color", type = "upper",
+         sig.level = c(.001, .01, .05), pch.cex = .9,
+         insig = "label_sig", pch.col = "white", order = "AOE")
+
+```
+
+
+Sums of occurence of all AU
+```{r}
+AU_count_T_train <- colSums(truth_train)
+AU_count_T_test <- colSums(truth_test)
+AU_count_L_train <- colSums(lies_train)
+AU_count_L_test <- colSums(lies_test)
+
+barplot(colMeans(truth_train), las=2)
+barplot(colMeans(truth_test), las=2)
+barplot(colMeans(lies_train), las=2)
+barplot(colMeans(lies_test), las=2)
+
+tr = data.frame(AU_count_T_train, AU_count_L_train)
+train <- cbind(rownames(tr), tr)
+rownames(train) <- NULL
+colnames(train) <- c("AU_TRAIN", "TRUTH_TRAIN", "LIE_TRAIN")
+train
+
+te = data.frame(AU_count_T_test, AU_count_L_test)
+test <- cbind(rownames(te), te)
+rownames(test) <- NULL
+colnames(test) <- c("AU_TEST", "TRUTH_TEST", "LIE_TEST")
+test
+```
+
+Plots
+```{r}
+ggplot(data = train, aes(x = AU_TRAIN, y = TRUTH_TRAIN, fill = TRUTH_TRAIN)) +
+  geom_bar(stat = "identity", color = "black") +
+  geom_text(aes(label = TRUTH_TRAIN), vjust = -0.5, size = 3.5) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
+
+ggplot(data = train, aes(x = AU_TRAIN, y = LIE_TRAIN, fill = LIE_TRAIN)) +
+  geom_bar(stat = "identity", color = "black") +
+  geom_text(aes(label = LIE_TRAIN), vjust = -0.5, size = 3.5) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
+
+ggplot(data = test, aes(x = AU_TEST, y = TRUTH_TEST, fill = TRUTH_TEST)) +
+  geom_bar(stat = "identity", color = "black") +
+  geom_text(aes(label = TRUTH_TEST), vjust = -0.5, size = 3.5) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
+
+ggplot(data = test, aes(x = AU_TEST, y = LIE_TEST, fill = LIE_TEST)) +
+  geom_bar(stat = "identity", color = "black") +
+  geom_text(aes(label = LIE_TEST), vjust = -0.5, size = 3.5) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
+
+# tr = data.frame(AU_count_T_train, AU_count_L_train)
+# train <- cbind(rownames(tr), tr)
+# rownames(train) <- NULL
+# colnames(train) <- c("AU", "TRUTH", "LIE")
+# train
+# 
+# te = data.frame(AU_count_T_test, AU_count_L_test)
+# test <- cbind(rownames(te), te)
+# rownames(test) <- NULL
+# colnames(test) <- c("AU", "TRUTH", "LIE")
+# test
+# 
+# ggplot(NULL, aes(AU, TRUTH)) + 
+#   geom_bar(stat = "identity", aes(fill = "TRUTH"), data = train, alpha = 0.5) +
+#   geom_bar(stat = "identity", aes(fill = "TRUTH"), data = test, alpha = 0.5) +
+#   theme(axis.text.x = element_text(angle = 90, hjust = 0.5)) 
+# 
+# test$name <- "test"
+# train$name <- "train"
+# d <- rbind(test, train)
+# ggplot(d, aes(AU, LIE, fill = name)) +
+#   geom_bar(stat = "identity", position = "dodge") +
+#   geom_text(aes(label = LIE), vjust = -0.5, size = 2.5) +
+#   theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
+```
+
+Utiliyu Fns
+```{r}
+# ++++++++++++++++++++++++++++
+# flattenCorrMatrix
+# ++++++++++++++++++++++++++++
+# cormat : matrix of the correlation coefficients
+# pmat : matrix of the correlation p-values
+flattenCorrMatrix <- function(cormat, pmat) {
+  ut <- upper.tri(cormat)
+  data.frame(
+    row = rownames(cormat)[row(cormat)[ut]],
+    column = rownames(cormat)[col(cormat)[ut]],
+    cor  =(cormat)[ut],
+    p = pmat[ut]
+    )
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
