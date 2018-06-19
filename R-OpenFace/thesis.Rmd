@@ -86,7 +86,7 @@ makeAllCorrMatrix <- function(data) {
   rcorrelation$r,
   type = "upper",
   order = "hclust",
-  p.mat = res2$P,
+  p.mat = rcorrelation$P,
   sig.level = 0.01,
   insig = "pch",
   title = "Insignificant Crossed",
@@ -96,18 +96,6 @@ makeAllCorrMatrix <- function(data) {
   col <- colorRampPalette(c("blue", "white", "red"))(20)
   heatmap(x = correlation, col = col, symm = TRUE)
   mtest <- cor.mtest(truth_test, conf.level = .95)
-  ## specialized the insignificant value according to the significant level
-  corrplot(correlation, p.mat = mtest$p, sig.level = .2)
-  corrplot(correlation, p.mat = mtest$p, insig = "blank")
-  corrplot(correlation, p.mat = mtest$p, insig = "p-value")
-  corrplot(
-  correlation,
-  p.mat = mtest$p,
-  order = "hclust",
-  insig = "pch",
-  addrect = 5,
-  mar = c(0, 0, 1, 0)
-  )
   # Visualize Confidence Intervals
   corrplot(
   correlation,
@@ -222,10 +210,8 @@ ggplot(data = test, aes(x = AU_TEST, y = LIE_TEST, fill = LIE_TEST)) +
 ```
 
 
-
+SVM?
 ```{r}
-svm()
-jhg
 ```
 
 
