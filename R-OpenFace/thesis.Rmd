@@ -7,13 +7,16 @@ Libs
 ```{r}
 library(tidyverse)
 library(ggplot2)
+library(MASS)
 library(data.table)
 library(reshape2)
+library(caret)
 library(dplyr)
 library(caret)
-library("Hmisc")
+library(Hmisc)
 library(corrplot)
 library(e1071)
+library(ResourceSelection)
 ```
 
 Loading the Data - lies
@@ -22,18 +25,22 @@ filenames_L_train <- list.files("~/Desktop/projects/thesis/R-OpenFace/df/decepti
 filenames_L_test <- list.files("~/Desktop/projects/thesis/R-OpenFace/df/deceptive/test", pattern="*.csv", full.names=TRUE)
 lies_train <- rbindlist(lapply(filenames_L_train, fread))
 lies_test <- rbindlist(lapply(filenames_L_test, fread))
-lies <- rbind(lies_test, lies_train)
+
+# Add "deceptive" to cols
+lies_test$truthful <- rep(0,nrow(lies_test))
+lies_train$truthful <- rep(0,nrow(lies_train))
 
 # Remove Useless Columns
 lies_train <- lies_train[,-c(1:5)]
 lies_test <- lies_test[,-c(1:5)]
 
 # Remove Intensity Columns
-lint_train <- lies_train[,c(1:17)]
+lint_train <- lies_train[,c(1:17, 36)]
+lint_test <- lies_test[,c(1:17, 36)]
 lies_train <- lies_train[,-c(1:17)]
-lint_test <- lies_test[,c(1:17)]
 lies_test <- lies_test[,-c(1:17)]
-lies <- lies[,-c(1:22)]
+lies <- rbind(lies_test, lies_train)
+int_lies <- rbind(lint_test, lint_train)
 ```
 
 Loading the Data - truth
@@ -42,17 +49,39 @@ filenames_T_train <- list.files("~/Desktop/projects/thesis/R-OpenFace/df/truthfu
 filenames_T_test <- list.files("~/Desktop/projects/thesis/R-OpenFace/df/truthful/test", pattern="*.csv", full.names=TRUE)
 truth_train <- rbindlist(lapply(filenames_T_train, fread))
 truth_test <- rbindlist(lapply(filenames_T_test, fread))
-truth <- rbind(truth_train, truth_test)
+
+# Add "truthful" to cols
+truth_test$truthful <- rep(1,nrow(truth_test))
+truth_train$truthful <- rep(1,nrow(truth_train))
 
 # Remove Useless Columns
 truth_train <- truth_train[,-c(1:5)]
 truth_test <- truth_test[,-c(1:5)]
 
 # Remove Intensity Columns
-tint_train <- truth_train[,c(1:17)]
+tint_train <- truth_train[,c(1:17, 36)]
+tint_test <- truth_test[,c(1:17, 36)]
 truth_train <- truth_train[,-c(1:17)]
-tint_test <- truth_test[,c(1:17)]
 truth_test <- truth_test[,-c(1:17)]
+truth <- rbind(truth_train, truth_test)
+int_truth <- rbind(tint_test, tint_train)
+```
+
+Train & Test Set
+```{r}
+# merge train and test
+DFint <- rbind(int_truth, int_lies)
+splitIndex <- createDataPartition(DFint[,truthful], p = .75, list = FALSE, times = 1)
+trainIntDF <- DFint[ splitIndex,]
+testIntDF  <- DFint[-splitIndex,]
+
+DF <- rbind(truth, lies)
+splitIndex <- createDataPartition(DF[,truthful], p = .75, list = FALSE, times = 1)
+trainDF <- DF[ splitIndex,]
+testDF  <- DF[-splitIndex,]
+
+outcomeName <- 'truthful'
+predictorsNames <- names(DF)[names(DF) != outcomeName]
 ```
 
 Utils
@@ -126,6 +155,7 @@ flattenCorrMatrix <- function(cormat, pmat) {
 Correlation
 ```{r}
 makeAllCorrMatrix(truth_test)
+makeAllCorrMatrix(trainDF[,-c("truthful")])
 makeAllCorrMatrix(truth_train)
 makeAllCorrMatrix(tint_test)
 makeAllCorrMatrix(tint_train)
@@ -182,39 +212,123 @@ ggplot(data = test, aes(x = AU_TEST, y = LIE_TEST, fill = LIE_TEST)) +
   geom_bar(stat = "identity", color = "black") +
   geom_text(aes(label = LIE_TEST), vjust = -0.5, size = 3.5) +
   theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
-
-# tr = data.frame(AU_count_T_train, AU_count_L_train)
-# train <- cbind(rownames(tr), tr)
-# rownames(train) <- NULL
-# colnames(train) <- c("AU", "TRUTH", "LIE")
-# train
-# 
-# te = data.frame(AU_count_T_test, AU_count_L_test)
-# test <- cbind(rownames(te), te)
-# rownames(test) <- NULL
-# colnames(test) <- c("AU", "TRUTH", "LIE")
-# test
-# 
-# ggplot(NULL, aes(AU, TRUTH)) + 
-#   geom_bar(stat = "identity", aes(fill = "TRUTH"), data = train, alpha = 0.5) +
-#   geom_bar(stat = "identity", aes(fill = "TRUTH"), data = test, alpha = 0.5) +
-#   theme(axis.text.x = element_text(angle = 90, hjust = 0.5)) 
-# 
-# test$name <- "test"
-# train$name <- "train"
-# d <- rbind(test, train)
-# ggplot(d, aes(AU, LIE, fill = name)) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   geom_text(aes(label = LIE), vjust = -0.5, size = 2.5) +
-#   theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
 ```
 
-
-SVM?
+GLM
 ```{r}
+# Presence
+glm.model <- glm(truthful ~ . , family = binomial, data = trainDF)
+summary(glm.model)
+
+glm.pred <- predict(glm.model, testDF, type = "response")
+glm.pred
+
+glm.predicted = rep(0, 22624)
+glm.predicted[glm.pred > .5] = 1
+
+table(glm.predicted, testDF$truthful)
+mean(glm.predicted == testDF$truthful)
+
+
+# Intensity
+glm.model_int <- glm(truthful ~ ., family = binomial, data = trainIntDF)
+summary(glm.model_int)
+
+glm.pred_int <- predict(glm.model_int, testIntDF, type = "response")
+
+glm.predicted_int = rep(0, 22624)
+glm.predicted_int[glm.pred_int > .5] = 1
+
+table(glm.predicted_int, testIntDF$truthful)
+mean(glm.predicted_int == testIntDF$truthful)
+
 ```
 
+LDA
+```{r}
+# Presence
+lda.model <- lda(truthful ~ ., trainDF)
+lda.pred <- predict(lda.model, testDF)
 
+# Assess the accuracy of the prediction
+ct <- table(testDF$truthful, lda.pred$class)
+diag(prop.table(ct, 1))
+# total percent correct
+sum(diag(prop.table(ct)))
 
+# Intensity
+lda.model_int <- lda(truthful ~ ., trainIntDF)
+lda.pred_int <- predict(lda.model_int, testIntDF)
 
+ct_int <- table(testIntDF$truthful, lda.pred_int$class)
+diag(prop.table(ct_int, 1))
+sum(diag(prop.table(ct_int)))
+
+```
+
+QDA 
+```{r}
+# Presence
+qda.model <- qda(truthful ~ . , data = trainDF)
+qda.model
+qda.class=predict(qda.model ,testDF)$class
+table(qda.class, testDF$truthful)
+mean(qda.class == testDF$truthful)
+
+# Intentsity
+qda.model_int <- qda(truthful ~ ., data = trainIntDF)
+qda.model_int
+qda.class_int <- predict(qda.model_int ,testIntDF)$class
+table(qda.class_int, testIntDF$truthful)
+mean(qda.class_int == testIntDF$truthful)
+```
+
+SVM
+```{r}
+# Presence
+
+## SVM Tuning
+svm.tuning = tune(svm, truthful ~ ., data=trainDF, kernel = "linear", ranges = list(cost=c(0.001, 0.01, 0.1, 1, 5, 10, 100)))
+# obj <- tune.svm(truthful ~ ., data = trainDF, cost = 2^(2:8), kernel = "linear")
+
+## SVM Classification
+
+### Linear
+svm.model_lin <- svm(truthful ~ . , data = trainDF, type = "C-classification", kernel = "linear", cost = 10, scale = FALSE)
+svm.pred_lin <- predict(svm.model_lin, testDF)
+summary(svm.model_lin)
+summary(svm.pred_lin)
+table(svm.pred_lin, testDF$truthful)
+mean(svm.pred_lin == testDF$truthful)
+
+### Radial Basis
+svm.model_rb <- svm(truthful ~ . , data = trainDF, type = "C-classification", kernel = "radial")
+svm.pred_rb <- predict(svm.model_rb, testDF)
+summary(svm.model_rb)
+summary(svm.pred_rb)
+table(svm.pred_rb, testDF$truthful)
+mean(svm.pred_rb == testDF$truthful)
+
+#trctrl <- trainControl(method = "repeatedcv", number = 10, repeats = 3)
+#svm_Linear <- train(truthful ~., data = trainDF, method = "svmLinear", trControl=trctrl, preProcess = c("center", "scale"), tuneLength = 10)
+
+# Intensity
+
+### Linear
+svm.model_int_lin <- svm(truthful ~ . , data = trainIntDF, type = "C-classification", kernel = "linear", cost = 10, scale = FALSE)
+svm.pred_int_lin <- predict(svm.model_int_lin, testIntDF)
+summary(svm.model_int_lin)
+summary(svm.pred_int_lin)
+table(svm.pred_int_lin, testIntDF$truthful)
+mean(svm.pred_int_lin == testIntDF$truthful)
+
+### Radial Basis
+svm.model_int_rb <- svm(truthful ~ . , data = trainIntDF, type = "C-classification", kernel = "radial")
+svm.pred_int_rb <- predict(svm.model_int_rb, testIntDF)
+summary(svm.model_int_rb)
+summary(svm.pred_int_rb)
+table(svm.pred_int_rb, testIntDF$truthful)
+mean(svm.pred_int_rb == testIntDF$truthful)
+
+```
 
