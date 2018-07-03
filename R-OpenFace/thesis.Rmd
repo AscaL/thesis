@@ -318,8 +318,9 @@ SVM
 # Presence
 
 ## SVM Tuning
-svm.tuning = tune(svm, truthful ~ ., data=trainDF, kernel = "linear", ranges = list(cost=c(0.001, 0.01, 0.1, 1, 5, 10, 100)))
-# obj <- tune.svm(truthful ~ ., data = trainDF, cost = 2^(2:8), kernel = "linear")
+
+# svm.tuning = tune(svm, truthful ~ ., data=trainDF, kernel = "linear", ranges = list(cost=c(0.001, 0.01, 0.1, 1, 5, 10, 100)))
+# obj <- tune.svm(truthful ~ ., data = trainDF, gamma = 2^(-1:1), cost = 2^(2:8), kernel = "radial")
 
 ## SVM Classification
 
@@ -327,7 +328,6 @@ svm.tuning = tune(svm, truthful ~ ., data=trainDF, kernel = "linear", ranges = l
 svm.model_lin <- svm(truthful ~ . , data = trainDF, type = "C-classification", kernel = "linear", cost = 10, scale = FALSE)
 svm.pred_lin <- predict(svm.model_lin, testDF)
 summary(svm.model_lin)
-summary(svm.pred_lin)
 table(svm.pred_lin, testDF$truthful)
 mean(svm.pred_lin == testDF$truthful)
 
@@ -335,7 +335,6 @@ mean(svm.pred_lin == testDF$truthful)
 svm.model_rb <- svm(truthful ~ . , data = trainDF, type = "C-classification", kernel = "radial")
 svm.pred_rb <- predict(svm.model_rb, testDF)
 summary(svm.model_rb)
-summary(svm.pred_rb)
 table(svm.pred_rb, testDF$truthful)
 mean(svm.pred_rb == testDF$truthful)
 
