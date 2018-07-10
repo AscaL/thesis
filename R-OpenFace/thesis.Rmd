@@ -17,18 +17,21 @@ library(Hmisc)
 library(corrplot)
 library(e1071)
 library(ResourceSelection)
+library(randomForest)
 ```
 
 Loading the Data - lies
 ```{r}
-filenames_L_train <- list.files("~/Desktop/projects/thesis/R-OpenFace/df/deceptive/train", pattern="*.csv", full.names=TRUE)
-filenames_L_test <- list.files("~/Desktop/projects/thesis/R-OpenFace/df/deceptive/test", pattern="*.csv", full.names=TRUE)
+filenames_L_train <- list.files("./df/deceptive/train", pattern="*.csv", full.names=TRUE)
+filenames_L_test <- list.files("./df/deceptive/test", pattern="*.csv", full.names=TRUE)
 lies_train <- rbindlist(lapply(filenames_L_train, fread))
 lies_test <- rbindlist(lapply(filenames_L_test, fread))
 
 # Add "deceptive" to cols
-lies_test$truthful <- rep(0,nrow(lies_test))
-lies_train$truthful <- rep(0,nrow(lies_train))
+lies_test$truthful <- rep(0, nrow(lies_test))
+lies_test$truthful <- factor(lies_test$truthful)
+lies_train$truthful <- rep(0, nrow(lies_train))
+lies_train$truthful <- factor(lies_train$truthful)
 
 # Remove Useless Columns
 lies_train <- lies_train[,-c(1:5)]
@@ -48,14 +51,16 @@ int_lies <- rbind(lint_test, lint_train)
 
 Loading the Data - truth
 ```{r}
-filenames_T_train <- list.files("~/Desktop/projects/thesis/R-OpenFace/df/truthful/train", pattern="*.csv", full.names=TRUE)
-filenames_T_test <- list.files("~/Desktop/projects/thesis/R-OpenFace/df/truthful/test", pattern="*.csv", full.names=TRUE)
+filenames_T_train <- list.files("./df/truthful/train", pattern="*.csv", full.names=TRUE)
+filenames_T_test <- list.files("./df/truthful/test", pattern="*.csv", full.names=TRUE)
 truth_train <- rbindlist(lapply(filenames_T_train, fread))
 truth_test <- rbindlist(lapply(filenames_T_test, fread))
 
 # Add "truthful" to cols
-truth_test$truthful <- rep(1,nrow(truth_test))
-truth_train$truthful <- rep(1,nrow(truth_train))
+truth_test$truthful <- rep(1, nrow(truth_test))
+truth_test$truthful <- factor(truth_test$truthful)
+truth_train$truthful <- rep(1, nrow(truth_train))
+truth_train$truthful <- factor(truth_train$truthful)
 
 # Remove Useless Columns
 truth_train <- truth_train[,-c(1:5)]
@@ -157,6 +162,33 @@ flattenCorrMatrix <- function(cormat, pmat) {
     cor  =(cormat)[ut],
     p = pmat[ut]
     )
+}
+
+importanceRF <- function(rfmodel) {
+  # Get importance
+  importance <- importance(rfmodel)
+  varImportance <- data.frame(Variables = row.names(importance),
+  Importance = round(importance[, 'MeanDecreaseGini'], 2))
+  
+  # Create a rank variable based on importance
+  rankImportance <- varImportance %>%
+  mutate(Rank = paste0('#', dense_rank(desc(Importance))))
+  
+  # Use ggplot2 to visualize the relative importance of variables
+  ggplot(rankImportance, aes(x = reorder(Variables, Importance),
+  y = Importance)) +
+  geom_bar(stat = 'identity', colour = 'black') +
+  geom_text(
+  aes(x = Variables, y = 0.5, label = Rank),
+  hjust = 0,
+  vjust = 0.55,
+  size = 4,
+  colour = 'lavender',
+  fontface = 'bold'
+  ) +
+  labs(x = 'Variables', title = 'Relative Variable Importance') +
+  coord_flip() +
+  theme_minimal()
 }
 ```
 
@@ -295,8 +327,8 @@ sum(diag(prop.table(ct_all)))
 QDA 
 ```{r}
 # Presence
-qda.model <- qda(truthful ~ . , data = trainDF)
-qda.class=predict(qda.model ,testDF)$class
+qda.model <- qda(truthful ~ ., data = trainDF)
+qda.class=predict(qda.model, testDF)$class
 table(qda.class, testDF$truthful)
 mean(qda.class == testDF$truthful)
 
@@ -312,6 +344,38 @@ qda.class_all <- predict(qda.model_all, ALL_test)$class
 table(qda.class_all, ALL_test$truthful)
 mean(qda.class_all == ALL_test$truthful)
 ```
+
+Random Forests
+```{r}
+# Presence
+rf.model <- randomForest(truthful ~ ., data = trainDF, ntree = 250)
+print(rf.model)
+plot(rf.model)
+importanceRF(rf.model)
+rf.pred <- predict(rf.model, testDF)
+table(rf.pred, testDF$truthful)
+mean(rf.pred == testDF$truthful)
+
+# Intensity
+rf.model_int <- randomForest(truthful ~ ., data = trainIntDF, ntree = 250)
+print(rf.model_int)
+plot(rf.model_int)
+importanceRF(rf.model_int)
+rf.pred_int <- predict(rf.model_int, testIntDF)
+table(rf.pred_int, testIntDF$truthful)
+mean(rf.pred_int == testIntDF$truthful)
+
+# Merged
+rf.model_all <- randomForest(truthful ~ ., data = ALL_train, ntree = 250)
+print(rf.model_all)
+plot(rf.model_all)
+importanceRF(rf.model_all)
+rf.pred_all <- predict(rf.model_all, ALL_test)
+table(rf.pred_all, ALL_test$truthful)
+mean(rf.pred_all == ALL_test$truthful)
+
+```
+
 
 SVM
 ```{r}
