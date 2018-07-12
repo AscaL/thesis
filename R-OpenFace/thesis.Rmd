@@ -17,7 +17,10 @@ library(Hmisc)
 library(corrplot)
 library(e1071)
 library(ResourceSelection)
-library(randomForest)
+library(randomForest) # Random Forest
+# library(ranger) # Faster Random Forest
+# library(nnet) # Neural Network
+library(keras) # NN + TensorFlow
 ```
 
 Loading the Data - lies
@@ -81,17 +84,20 @@ int_truth <- rbind(tint_test, tint_train)
 Train & Test Set
 ```{r}
 # merge train and test
-DFint <- rbind(int_truth, int_lies)
-splitIndex <- createDataPartition(DFint[,truthful], p = .75, list = FALSE, times = 1)
-trainIntDF <- DFint[ splitIndex,]
-testIntDF  <- DFint[-splitIndex,]
-
 DF <- rbind(truth, lies)
+#write.csv2(DF, "./df/presence.csv", row.names = F)
 splitIndex <- createDataPartition(DF[,truthful], p = .75, list = FALSE, times = 1)
 trainDF <- DF[ splitIndex,]
 testDF  <- DF[-splitIndex,]
 
+DFint <- rbind(int_truth, int_lies)
+#write.csv2(DFint, "./df/intensity.csv", row.names = F)
+splitIndex <- createDataPartition(DFint[,truthful], p = .75, list = FALSE, times = 1)
+trainIntDF <- DFint[ splitIndex,]
+testIntDF  <- DFint[-splitIndex,]
+
 ALL <- rbind(ALLT, ALLL)
+#write.csv2(ALL, "./df/combined.csv", row.names = F)
 splitIndex <- createDataPartition(ALL[,truthful], p = .70, list = FALSE, times = 1)
 ALL_train <- ALL[ splitIndex,]
 ALL_test  <- ALL[-splitIndex,]
@@ -205,32 +211,6 @@ makeAllCorrMatrix(lint_test)
 makeAllCorrMatrix(lint_train)
 ```
 
-
-Sums of occurence of all AU
-```{r}
-AU_count_T_train <- colSums(truth_train)
-AU_count_T_test <- colSums(truth_test)
-AU_count_L_train <- colSums(lies_train)
-AU_count_L_test <- colSums(lies_test)
-
-barplot(colMeans(truth_train), las=2)
-barplot(colMeans(truth_test), las=2)
-barplot(colMeans(lies_train), las=2)
-barplot(colMeans(lies_test), las=2)
-
-tr = data.frame(AU_count_T_train, AU_count_L_train)
-train <- cbind(rownames(tr), tr)
-rownames(train) <- NULL
-colnames(train) <- c("AU_TRAIN", "TRUTH_TRAIN", "LIE_TRAIN")
-train
-
-te = data.frame(AU_count_T_test, AU_count_L_test)
-test <- cbind(rownames(te), te)
-rownames(test) <- NULL
-colnames(test) <- c("AU_TEST", "TRUTH_TEST", "LIE_TEST")
-test
-```
-
 Plots
 ```{r}
 ggplot(data = train, aes(x = AU_TRAIN, y = TRUTH_TRAIN, fill = TRUTH_TRAIN)) +
@@ -258,40 +238,30 @@ GLM
 ```{r}
 # Presence
 glm.model <- glm(truthful ~ . , family = binomial, data = trainDF)
-summary(glm.model)
-
+#summary(glm.model)
 glm.pred <- predict(glm.model, testDF, type = "response")
-
 glm.predicted = rep(0, 22624)
 glm.predicted[glm.pred > .5] = 1
-
 table(glm.predicted, testDF$truthful)
-mean(glm.predicted == testDF$truthful)
-
+1 - mean(glm.predicted == testDF$truthful)
 
 # Intensity
 glm.model_int <- glm(truthful ~ ., family = binomial, data = trainIntDF)
-summary(glm.model_int)
-
+#summary(glm.model_int)
 glm.pred_int <- predict(glm.model_int, testIntDF, type = "response")
-
 glm.predicted_int = rep(0, 22624)
 glm.predicted_int[glm.pred_int > .5] = 1
-
 table(glm.predicted_int, testIntDF$truthful)
-mean(glm.predicted_int == testIntDF$truthful)
+1 - mean(glm.predicted_int == testIntDF$truthful)
 
 # Merged
 glm.model_all <- glm(truthful ~ ., family = binomial, data = ALL_train)
-summary(glm.model_all)
-
+#summary(glm.model_all)
 glm.pred_all <- predict(glm.model_all, ALL_test, type = "response")
-
 glm.predicted_all = rep(0, 27149)
 glm.predicted_all[glm.pred_all > .5] = 1
-
 table(glm.predicted_all, ALL_test$truthful)
-mean(glm.predicted_all == ALL_test$truthful)
+1 - mean(glm.predicted_all == ALL_test$truthful)
 
 ```
 
@@ -301,10 +271,8 @@ LDA
 lda.model <- lda(truthful ~ ., trainDF)
 lda.pred <- predict(lda.model, testDF)
 
-# Assess the accuracy of the prediction
 ct <- table(testDF$truthful, lda.pred$class)
 diag(prop.table(ct, 1))
-# total percent correct
 sum(diag(prop.table(ct)))
 
 # Intensity
@@ -374,28 +342,31 @@ rf.pred_all <- predict(rf.model_all, ALL_test)
 table(rf.pred_all, ALL_test$truthful)
 mean(rf.pred_all == ALL_test$truthful)
 
-```
+# Ranger Implementation
+# rf.model_all_ranger <- ranger(truthful ~ ., data = ALL_train, num.trees = 250, write.forest = TRUE)
+# rf.pred_all_ranger <- predict(rf.model_all_ranger, ALL_test)
+# table(rf.pred_all_ranger, ALL_test$truthful)
+# mean(rf.pred_all_ranger == ALL_test$truthful)
 
+```
 
 SVM
 ```{r}
 # Presence
 
-## SVM Tuning
+## Tuning
 
 # svm.tuning = tune(svm, truthful ~ ., data=trainDF, kernel = "linear", ranges = list(cost=c(0.001, 0.01, 0.1, 1, 5, 10, 100)))
 # obj <- tune.svm(truthful ~ ., data = trainDF, gamma = 2^(-1:1), cost = 2^(2:8), kernel = "radial")
 
-## SVM Classification
-
-### Linear
+## Linear
 svm.model_lin <- svm(truthful ~ . , data = trainDF, type = "C-classification", kernel = "linear", cost = 10, scale = FALSE)
 svm.pred_lin <- predict(svm.model_lin, testDF)
 summary(svm.model_lin)
 table(svm.pred_lin, testDF$truthful)
 mean(svm.pred_lin == testDF$truthful)
 
-### Radial Basis
+## Radial Basis
 svm.model_rb <- svm(truthful ~ . , data = trainDF, type = "C-classification", kernel = "radial")
 svm.pred_rb <- predict(svm.model_rb, testDF)
 summary(svm.model_rb)
@@ -407,39 +378,45 @@ mean(svm.pred_rb == testDF$truthful)
 
 # Intensity
 
-### Linear
+## Linear
 svm.model_int_lin <- svm(truthful ~ . , data = trainIntDF, type = "C-classification", kernel = "linear", cost = 10, scale = FALSE)
 svm.pred_int_lin <- predict(svm.model_int_lin, testIntDF)
 ssummary(svm.model_int_lin)
-summary(svm.pred_int_lin)
 table(svm.pred_int_lin, testIntDF$truthful)
 mean(svm.pred_int_lin == testIntDF$truthful)
 
-### Radial Basis
+## Radial Basis
 svm.model_int_rb <- svm(truthful ~ . , data = trainIntDF, type = "C-classification", kernel = "radial")
 svm.pred_int_rb <- predict(svm.model_int_rb, testIntDF)
 summary(svm.model_int_rb)
-summary(svm.pred_int_rb)
 table(svm.pred_int_rb, testIntDF$truthful)
 mean(svm.pred_int_rb == testIntDF$truthful)
 
 # Total
 
-### Linear
+## Linear
 svm.model_lin_all <- svm(truthful ~ . , data = ALL_train, type = "C-classification", kernel = "linear", cost = 10, scale = FALSE)
 svm.pred_lin_all <- predict(svm.model_lin_all, ALL_test)
 summary(svm.model_lin_all)
-summary(svm.pred_lin_all)
 table(svm.pred_lin_all, ALL_test$truthful)
 mean(svm.pred_lin_all == ALL_test$truthful)
 
-### Radial Basis
+## Radial Basis
 svm.model_rb_all <- svm(truthful ~ . , data = ALL_train, type = "C-classification", kernel = "radial")
 svm.pred_rb_all <- predict(svm.model_rb_all, ALL_test)
 summary(svm.model_rb_all)
-summary(svm.pred_rb_all)
 table(svm.pred_rb_all, ALL_test$truthful)
 mean(svm.pred_rb_all == ALL_test$truthful)
+
+```
+
+NN
+```{r}
+?nnet
+nn.model <- nnet(truthful ~ ., data = ALL_train, size = 25, type = "class", maxit = 400)
+nn.pred <- predict(nn.model, ALL_test, type = "class")
+table(nn.pred, ALL_test$truthful)
+mean(nn.pred == ALL_test$truthful)
 
 ```
 
