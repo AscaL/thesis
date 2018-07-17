@@ -10,7 +10,6 @@ library(ggplot2)
 library(MASS)
 library(data.table)
 library(reshape2)
-library(caret)
 library(dplyr)
 library(caret)
 library(Hmisc)
@@ -412,7 +411,6 @@ mean(svm.pred_rb_all == ALL_test$truthful)
 
 NN
 ```{r}
-?nnet
 nn.model <- nnet(truthful ~ ., data = ALL_train, size = 25, type = "class", maxit = 400)
 nn.pred <- predict(nn.model, ALL_test, type = "class")
 table(nn.pred, ALL_test$truthful)
