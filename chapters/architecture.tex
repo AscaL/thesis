@@ -19,8 +19,7 @@ Another classification is based on the kind of output that the users wish to obt
 \subsection{Supervised Learning} \label{supervised}
 When using supervised learning we want to learn a function that maps an input to an output, based on example input-output pairs \cite{ai_sup}. This means that we need labeled training data, consisting of a vector of input objects and an output value. The objective is to correctly classify the new data based on the analyzed training pairs. \\
 The general steps to solve a supervised learning problem are (Fig. \ref{fig:sup_wf}):
-\begin{enumerate}
-	\setlength{\itemsep}{0pt}
+\begin{enumerate}[noitemsep]
 	\item Understand what kind of training example to use.
 	\item Gathering a training set.
 	\item Model the training set to be fed as input to the algorithm by choosing which features to use and how to represent the data.
@@ -37,15 +36,106 @@ The general steps to solve a supervised learning problem are (Fig. \ref{fig:sup_
 
 There are important considerations to make when using a supervised learning approach:
 \begin{itemize}
+	\item \textbf{Dimensionality of Input}: When the input feature vectors are very big there could be problems in learning the function, even if not all features contribute significantly to the function. This happens because the data depends on too many variables and this could cause high variance. \\
+	To avoid this, it is important to reduce the number of features through manual removal or using feature selection algorithms. This usually improves the accuracy of the classifier.
+	\item \textbf{Overfitting and Underfitting} \cite{overfit}: Overfitting (or overtraining) happens when the algorithm adapts too much on the training data and is no longer able to make accurate predictions on the test data (Fig. \ref{fig:ml_overfit}). This usually happens when there is an excessive number of parameters than can be justified by the data \cite{camb_over}. \\
+	Underfitting is the opposite: a model is not able to correctly capture the structure of the data, for example when fitting non linear data with a linear model.\\
+	A common way to avoid overfitting is to resample the data using different techniques, commonly k-fold cross validation. Other methods include feature removal, early stopping, regularization.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\textwidth]{ml_overfit}
+		\caption{Example of Overfitting (green line) \cite{wiki:ml_overfit}}
+		\label{fig:ml_overfit}
+	\end{figure}	
+	
 	% TODO: Write this better
 	\item \textbf{Bias-Variance Tradeoff} \cite{biasvar}: suppose we have different (but equally good) training set. An algorithm is biased for input x if, when trained on each of these data sets, it is consistently incorrect at predicting the correct output for x. \\
 	A learning algorithm has high variance for a particular input x if it predicts different output values when trained on different training sets. \\
 	The prediction error of a classifier is related to the sum of bias and variance, so generally there is a tradeoff between them. Low bias means that it fits the new data well, but if the bias is too low it will fit each training set differently and so result in high variance.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\textwidth]{biasvar}
+		\caption{Example of Bias-Variance Tradeoff \cite{biasvar}}
+		\label{fig:biasvar}
+	\end{figure}	
 \end{itemize}
 
+There are many algorithms used to perform supervised learning tasks, the most commonly used are: \\
+\begin{itemize}[noitemsep, topsep = -5pt]
+	\item Linear Regression
+	\item Logistic Regression
+	\item Naive Bayes
+	\item Linear Discriminant Analysis
+	\item Decision Trees
+	\item k-Nearest Neighbor
+	\item Neural Networks
+	\item Support Vector Machines (\ref{svm})
+\end{itemize}
+
+% TODO: Should i write how sup learning works? (from wiki section)
+
 \subsection{Unsupervised Learning} \label{unsupervised}
+Unsupervised learning is the subfield of Machine Learning tasked with inferring a function from the analysis of unlabeled data (not classified). Being unclassified there is also a difficulty in to evaluate the accuracy of the model.\\
+Usually items are grouped by some measure of similarity, like for example in k-means clustering (Fig. \ref{fig:clustering}).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{clustering}
+	\caption{Example of Unclustered and Clustered data \cite{kmeans}}
+	\label{fig:clustering}
+\end{figure}	
+
+These are the most widely used unsupervised learning algorithms:
+
+\begin{itemize}[noitemsep]
+	\item Clustering
+	\begin{itemize}[noitemsep]
+		\item k-means
+		\item mixture models
+		\item hierarchical clustering
+	\end{itemize}
+	\item Anomaly detection
+	\item Neural Networks
+	\begin{itemize}[noitemsep]
+		\item Autoencoders
+		\item Deep Belief Nets
+		\item Hebbian Learning
+		\item Generative Adversarial Networks
+		\item Self-organizing map
+	\end{itemize}
+	\item Expectation–maximization algorithm (EM)
+	\item Method of moments
+	\item Blind signal separation techniques
+	\begin{itemize}[noitemsep]
+		\item Principal component analysis,
+		\item Independent component analysis,
+		\item Non-negative matrix factorization
+		\item Singular value decomposition.
+	\end{itemize}
+\end{itemize}
 
 \subsection{Classification} \label{classification}
+In machine learning, classification is the problem of identifying in which of a set of categories a new observation belongs, based on a training set of data containing observations whose category is known in advance. A common example is classifying an email as spam or not.\\
+Classification is considered an instance of supervised learning, based on instances where a training set is available. As for unsupervised learning, classification would be clustering since it groups data into categories based on similarity, but without labeled data.\\
+The observations, called features or explanatory variables, take different types based on the value. They can be categorical, numerical or ordinal, or be compared by similarity between previous observations using a distance function.\\
+The observations representing the categories to be predicted are called explanatory variables (or regressors, or independent variables).\\
+The classifier is the algorithm that implements the classification, or a function that maps input data to a category.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{classification}
+	\caption{Example of Classification \cite{}}
+	\label{fig:classification}
+\end{figure}	
+
+Many classification algorithm, such as SVM (\ref{svm}), logistic regression, LDA (Linear Discriminant Analysis) or perceptron, can be described using a linear function assigning a score to each category c, by doing the dot product of the feature vector of an instance with a vector of weights, thus combining them. The predicted category will be the one with the highest score. This function is called linear predictor function and has this general formula:
+
+\begin{equation}
+score(X_i, c) = \beta_c \cdot X_i
+\end{equation}
+
+where $X_i$ is the feature vector of instance i and $\beta_c$ is the vector of weights of category c. This kind of algorithms are known as linear classifiers.
 
 \subsection{Regression} \label{regression}
 
