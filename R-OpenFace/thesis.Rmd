@@ -20,6 +20,7 @@ library(randomForest) # Random Forest
 # library(ranger) # Faster Random Forest
 library(nnet) # Neural Network
 library(keras) # NN + TensorFlow
+library(xgboost)
 ```
 
 Loading the Data - lies

@@ -1,21 +1,22 @@
-In this chapter we give an overview of the work (Par. \ref{overview}). We start with showing people's performance at detecting lies (Par. \ref{pplLieDet}). We then present a taxonomy of the current state of the art (Par. \ref{sota}) concerning lie detection with particular emphasis on computer vision. The last section is about the structure of the rest of this work and our contribution to it (Par \ref{contrib}).
+In this chapter we give an overview of the work (Par. \ref{overview}). We start with giving some information about how people perform at detecting lies (Par. \ref{pplLieDet}). We then present a taxonomy of the current state of the art (Par. \ref{sota}) concerning lie detection with particular emphasis on computer vision. The last section is about the structure of the rest of this work, and our contribution to it (Par \ref{contrib}).
 
 \pagebreak
 
 \section{Overview of the work} \label{overview}
 % TODO: Buttato li', da riscrivere. Circa 1 pagina
-Our work aims to recognize when a person is lying by analyzing a video frame by frame and through the openface framework + CIT extract all the action units performed by the person in the video to submit them to analysis with a SVM classifier.\\
-The dataset we are using was provided by AUTHOR + Cit and is composed by 121 videos taken from real life trials. These 121 videos have been labeled by authors and specialized guys to indicate the AU occurring. Being that those videos are taken "in the wild", substantial work was done to eliminate the bad parts, and many video were trimmed or deleted as result. From these video we have 58 subjects, meaning that there are more videos with the same subject. So it was important to divide the training and test set not to just make the classifier "remember" the person. This was done by never having the same subject in the training and test set.\\
-After trimming and dividing the videos we extracted all the AUs and split the data into training and test set. Then fed them through a carefully tuned SVM for classification, and achieved x\% accuracy on the test set.\\
-The result of this work, especially when improved, can be useful in different situations, even tho privacy is a real concern.\\
-It can be used to aid in airport security, work interview, many kind of social interactions. It could be eventually used by the public to review a speech of a political candidate or by the police force as an aid to interrogation. Another use can be in trials where people life are at stake and discerning a true or false testimony might be vital. We hope this works proves to be socially useful.
-
-
+Deception detection has always been a very interesting topic since it has numerous social implications in many different fields. In the past 40 years there has been a steady increase in researchers interested in studying deceptive behavior, first from a sociological and psychological point of view, and in more recent years from a technological standpoint, aided by the advance of machine learning techniques.\\
+Our work aims to recognize whether a person is lying or telling the truth by performing a frame by frame analysis on a database of videos, through the OpenFace framework \cite{Baltru2018}, and extracting a subset of the different facial movements performed by the person in the video. After finishing the extraction, the data is submitted to analysis by using different machine learning techniques.\\
+The dataset we are using was provided by Perez-Rosas et al \cite{Perez-Rosas:2015:DDU:2818346.2820758} and is composed by 121 videos taken from real life trials. These 121 videos have been labeled by the authors with the help of experts to indicate the facial movement occurring in each frame. Since those videos are taken from real life trials, the illumination, pose, audio and video features are not homogeneous and often substandard. Substantial work was done to eliminate the not relevant parts, and many video were trimmed or deleted as result.\\
+From the remaining videos we have 58 different subjects, meaning that there are more videos with the same subject. This means that it was important to divide the training and test set not to just make the classifier "remember" the person. This was done by never having the same subject appear in the training and test set. \\
+After trimming and dividing the videos we extracted all the facial movements and split the data into training and test set based on the subject ID. Then fed them through a carefully tuned SVM for classification, and achieved x\% accuracy on the test set.\\
+The result of this work, especially when improved by having a better and bigger training dataset, can be useful in different situations, even though it is important to remember that privacy is a real concern.\\
+We think the result of this work can be used to aid in airport security, work interview, many kind of social interactions. It could be eventually used by the public to review a speech of a political candidate or by the police force as an aid to interrogation. Another use can be in trials where people life are at stake and discerning a true or false testimony might be vital. We hope this works proves to be socially useful.
 
 \pagebreak
 
 \section{People Lie Detection} \label{pplLieDet}
 %TODO: reodred and say this better is just random info like this
+
 Most untrained people are no better than chance at detecting lies \cite{Porter2012SecretsAL},
 and considering that human lie twice a day on average \cite{LyingEverydayLife}, and  lying frequency is generally increased  \cite{DigitalDeception} due to on-line communication, the problem of detecting lies is an important one. \\
 We often think it is easy to detect liars, but we underestimate the effort it tales to spot liars, but have too much confidence on our judgment\cite{VrijDLD}. \\
@@ -114,7 +115,7 @@ Studying and classifying micro expression is very valuable and has many applicat
 Micro-expressions have been studied since 1966 to recognize and distinguish real or fake emotions, initially by Haggard and Isaacs \cite{Haggard}, and three years later by Ekman and Frisen \cite{EkmanLeakage}. \\
 % use this for FACS \cite{ekman}.
 Substantial work on Micro-Expressions has been done by Pfister, Li et al. In \cite{pfister2011micro} they collaborated with psychologists to design an induced emotion suppression experiment. The data was collected with a high speed camera to be able to register the micro expressions. Temporal interpolation model was used to counter the shortness of the video length, while multiple kernel learning, random forest and SMM were used to classify micro expressions reaching an accuracy of 71.4\%. \\
-The lack of a database was one of the biggest hindrance to research, to solve this problem in  \cite{xli2012spontaneous} they unveil a new dataset, the Spontaneous Micro-expression Database (SMIC), which includes 164 microexpression video clips taken from a group of 20 participants. They used two high speed cameras to record the face of the subjects while they were watching a selection of videos that induced strong emotional response, and they had to try and suppress those emotions. After the video they had to answer about the emotions they felt while watching it. The data were then segmented and labeled by two annotators. \\
+The lack of a database was one of the biggest hindrance to research, to solve this problem in \cite{xli2012spontaneous} they unveil a new dataset, the Spontaneous Micro-expression Database (SMIC), which includes 164 microexpression video clips taken from a group of 20 participants. They used two high speed cameras to record the face of the subjects while they were watching a selection of videos that induced strong emotional response, and they had to try and suppress those emotions. After the video they had to answer about the emotions they felt while watching it. The data were then segmented and labeled by two annotators. \\
 A study of spontaneous micro expression spotting and recognition methods is done in \cite{xli2015reading}. A new training-free method, based on feature difference contrast for recognizing micro-expressions is presented and revealed effective on unseen videos.
 The features are extracted from the video using LBP and Histogram of Optical Flow. 
 For micro-expression recognition the method used was to perform face alignment and temporal interpolation, then classify the images using an SVM. 
@@ -155,6 +156,10 @@ Many approaches to automatic facial AU detection fail to account for individual 
 
 
 \section{My Contributions} \label{contrib}
+% TODO: CHANGE THE WORDS THIS IS TAKEN FROM LIN SU
+1) This thesis has set a precedent for future research on high-stakes deception detection using facial action units. As far as we know, there is no computer vision research that has testified the validity of facial action unit as indicators of high-stakes deception. As will be seen in Chapter X, our results are  promising, implying the research potential of this topic in the future.
+2) The proposed method is at the forefront of analyzing facial expressions in unconstrained environments. Since the videos in our database were mostly collected from YouTube, certain uncontrollable factors add to the difficulty of their analysis. \\
+These totally unconstrained and spontaneous videos are subject to temporal variations in illumination, head pose and facial occlusion. However, in the current literature, little research has been conducted to address these issues with regard to facial expression analysis. Instead of seeking a solution to solve them, almost all of the studies to date have excluded certain data that were not ideal for the purpose of analysis. In comparison, the proposed method seeks to address the deception detection problem, but in the presence of exactly these factors.
 
 
 \section{Useful Things to Write and Cite}
