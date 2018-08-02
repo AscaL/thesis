@@ -15,19 +15,23 @@ We think the result of this work can be used to aid in airport security, work in
 \pagebreak
 
 \section{People Lie Detection} \label{pplLieDet}
-%TODO: reodred and say this better is just random info like this
-
-Most untrained people are no better than chance at detecting lies \cite{Porter2012SecretsAL},
-and considering that human lie twice a day on average \cite{LyingEverydayLife}, and  lying frequency is generally increased  \cite{DigitalDeception} due to on-line communication, the problem of detecting lies is an important one. \\
-We often think it is easy to detect liars, but we underestimate the effort it tales to spot liars, but have too much confidence on our judgment\cite{VrijDLD}. \\
-Emotionally intelligent people perform worse at deception detection. This is due to their greater sympathetic feelings to others \cite{EmotionallyIntelligent}. \\
-In \cite{BondDePauloAccuracy} the authors analyze the accuracy of deception judgments from a collection of 206 documents and 24.483 judges. They found that people can differentiate lies and truths with an accuracy of 54\%, with a lie detection accuracy of 47\% and a truth detection accuracy of 61\%. Their findings reveal that is easier for people to discriminate lies from the audio cues rather than the visual ones. \\
+It's very rare for people to be able to consistently discern between lies and truths, even though we hear lies regularly in the course of our lives. In fact most untrained people perform like chance (~50\%) when tasked with detecting lies \cite{Porter2012SecretsAL}, and considering that the ordinary person lies at least twice a day on average \cite{LyingEverydayLife}, and that in this digital age the amount of lies told daily are increasing \cite{DigitalDeception} due to on-line communication making us feel more protected and confident in our deceptions, the problem of detecting lies is an important one and we think it deserves a good deal of research effort. \\
+The problem with people's lie detection is based on the difficulty of being objective. We are biased by so many factors and skilled deceivers can take advantage of that. \\
+An important reason is that people generally think it is easy to spot liars, underestimating the effort it takes by having too much confidence on their own judgment and capabilities, and by believing in gut feelings instead of empirical clues \cite{VrijDLD}. \\
+In a study by Baker et al.  \cite{EmotionallyIntelligent} 116 participants were asked to judge 20 videos of people pleading for the safe return of missing family members, half of which were lies where the pleader was the one responsible for the disappearance of the victim. The partecipants provided confidence ratings, the cues they utilized to make their judgment, and their emotional response to each video.\\
+Weirdly, emotionally intelligent people perform worse at deception detection. This is due to their greater sympathetic feelings towards others (enhanced gullibility) that can often cloud their judgment.
+In \cite{BondDePauloAccuracy} De Paulo et al. analyze the accuracy of deception judgments from a collection of 206 documents and 24.483 judges. They found that people can differentiate lies and truths with an accuracy of 54\%, with a lie detection accuracy of 47\% and a truth detection accuracy of 61\%. Their findings reveal that is easier for people to discriminate lies from the audio cues rather than the visual ones. \\
 In another study \cite{HartwigGranhag} 192 students obtained an accuracy of 55.2\% on lie detection, with 61\% accuracy for guilty suspects and 49\% for innocent ones. Police officers and other trained officials seems to perform better at lie detection obtaining around 70\% accuracy at detecting both lies and truths correctly \cite{VrijPoliceDetect}.
 
-% also talk about non-contact
-
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{Ppl_lie_accuracy}
+	\caption{Performance on deceit detection by human observers \cite{SU201652}}
+\end{figure}
+ 
 \pagebreak
 
+% also talk about non-contact
 \section{State of the Art} \label{sota}
 How are lies detected? At the moment there are a lot of different instruments and technologies to detect lies, ranging from the good old polygraph and cameras to MRI machines. 
 In computer vision, lie detection is done using an array of different techniques, employing not only RGB cameras but also physical sensors and thermal cameras, with machine learning techniques, and often combining many of them to achieve better results. 
