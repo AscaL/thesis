@@ -1,3 +1,4 @@
+%TODO: maybe explain other tecniques
 In this chapter we will give a brief introduction of Machine Learning (\ref{ml}), explaining Classification (\ref{classification}), Regression (\ref{regression}), Supervised (\ref{supervised}) and Unsupervised (\ref{unsupervised}) Learning, proceding then to explain SVM (\ref{svm}) which is the most important technique used for this thesis.
 
 \section{Machine Learning} \label{ml}
@@ -39,8 +40,8 @@ There are important considerations to make when using a supervised learning appr
 	\item \textbf{Dimensionality of Input}: When the input feature vectors are very big there could be problems in learning the function, even if not all features contribute significantly to the function. This happens because the data depends on too many variables and this could cause high variance. \\
 	To avoid this, it is important to reduce the number of features through manual removal or using feature selection algorithms. This usually improves the accuracy of the classifier.
 	\item \textbf{Overfitting and Underfitting} \cite{overfit}: Overfitting (or overtraining) happens when the algorithm adapts too much on the training data and is no longer able to make accurate predictions on the test data (Fig. \ref{fig:ml_overfit}). This usually happens when there is an excessive number of parameters than can be justified by the data \cite{camb_over}. \\
-	Underfitting is the opposite: a model is not able to correctly capture the structure of the data, for example when fitting non linear data with a linear model.\\
-	A common way to avoid overfitting is to resample the data using different techniques, commonly k-fold cross validation. Other methods include feature removal, early stopping, regularization.
+	Underfitting is the opposite: a model is not able to correctly capture the structure of the data, for example when fitting non linear data with a linear model. \\
+	A common way to avoid overfitting is to resample the data using different techniques, commonly k-fold cross validation or leave-one-out. Other methods include feature removal, early stopping, regularization.
 	
 	\begin{figure}[H]
 		\centering
@@ -117,8 +118,8 @@ These are the most widely used unsupervised learning algorithms:
 
 \subsection{Classification} \label{classification}
 In machine learning, classification is the problem of identifying in which of a set of categories a new observation belongs, based on a training set of data containing observations whose category is known in advance. A common example is classifying an email as spam or not.\\
-Classification is considered an instance of supervised learning, based on instances where a training set is available. As for unsupervised learning, classification would be clustering since it groups data into categories based on similarity, but without labeled data.\\
-The observations, called features or explanatory variables, take different types based on the value. They can be categorical, numerical or ordinal, or be compared by similarity between previous observations using a distance function.\\
+Classification is considered an instance of supervised learning, based on instances where a training set is available. As for unsupervised learning, classification would be clustering since it groups data into categories based on similarity, but without knowing the label of the data.\\
+The observations, called features or explanatory variables, take different types based on the value. They can be categorical, numerical or ordinal, or be compared by similarity between previous observations using some kind of distance function.\\
 The observations representing the categories to be predicted are called explanatory variables (or regressors, or independent variables).\\
 The classifier is the algorithm that implements the classification, or a function that maps input data to a category.
 
@@ -137,9 +138,71 @@ score(X_i, c) = \beta_c \cdot X_i
 
 where $X_i$ is the feature vector of instance i and $\beta_c$ is the vector of weights of category c. This kind of algorithms are known as linear classifiers.
 
-\subsection{Regression} \label{regression}
+\subsection{Regression Analysis} \label{regression}
+%TODO: riscrivere e' messo di merda
+Regression analysis is used in statistics and machine learning to estimate the relationships between variables. It focus on the relationship between one dependent variable and more independent variables (also called predictors) and it is subsequently used to make predictions on how changing some of the  independent variables will affect the dependent one. \cite{wiki:linreg} \\
+Regression is generally used to estimate the average value of the dependent variable when the independent variables are fixed. In doing that a regression function is calculated. Another use of regression analysis is to understand the relationship among the independent and dependent variables.
+
+%TODO: dove metto ste figure? e' troppo stupida la seconda?
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{reg_plot}
+	\caption{Example of Regression Analysis}
+	\label{fig:reg_plot}
+\end{figure}	
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{reg_analysis}
+	\caption{Regression Analysis can solve this! \cite{reg_analisys}}
+	\label{fig:reg_analysis}
+\end{figure}
+
+\textbf{Regression Model} \\
+A general regression model uses the following variables and parameters:
+The unknown parameters, $\beta$, that represents either a scalar or a vector.\\
+The independent variables, $X$. \\
+The dependent variable, $Y$.\\
+
+A regression model relates $Y$ to a function of $X$ and $\beta$.
+\begin{equation}
+	Y \approx f(X,\beta)
+\end{equation}
+
+This is usually formalized as
+\begin{equation}
+	E(Y|X) = f(X,\beta)
+\end{equation}
+
+%TODO: riguardare anche questo, troppo wiki
+If $\beta$ is of length $k$ and the number of observed data points is enough ($N > k$), then it's possible to estimate a unique value for $\beta$ that best fits the data. If this is the case, regression analysys provides the means to find a solution for unknown parameters of $\beta$ to, for example, apply the method of least squares.
+
+To apply regression the data must abide by some assumption, generally:
+\begin{itemize}[noitemsep, topsep = -5pt]
+	\item The sample is representative of the population for the inference prediction.
+	\item The error is a random variable with a mean of zero.
+	\item The independent variables are measured with no error.
+	\item The independent variables (predictors) are linearly independent.
+	\item The errors are uncorrelated.
+	\item The variance of the error is constant across observations.
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \pagebreak
+
+\section{Random Forest}
 
 \section{SVM} \label{svm}
 Support Vector Machines (SVM) are a supervised machine learning algorithm used for both classification and regression. \\
