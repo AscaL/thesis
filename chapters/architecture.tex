@@ -140,8 +140,9 @@ where $X_i$ is the feature vector of instance i and $\beta_c$ is the vector of w
 
 \subsection{Regression Analysis} \label{regression}
 %TODO: riscrivere e' messo di merda
-Regression analysis is used in statistics and machine learning to estimate the relationships between variables. It focus on the relationship between one dependent variable and more independent variables (also called predictors) and it is subsequently used to make predictions on how changing some of the  independent variables will affect the dependent one. \cite{wiki:linreg} \\
+Regression analysis is used in statistics and machine learning to estimate the relationships between variables. It focus on the relationship between one dependent variable and more independent variables (also called predictors) and it is subsequently used to make predictions on how changing some of the  independent variables will affect the dependent one. \cite{wiki:reg_an} \\
 Regression is generally used to estimate the average value of the dependent variable when the independent variables are fixed. In doing that a regression function is calculated. Another use of regression analysis is to understand the relationship among the independent and dependent variables.
+In regression analysis, it is also of interest to characterize the variation of the dependent variable around the prediction of the regression function using a probability distribution.
 
 %TODO: dove metto ste figure? e' troppo stupida la seconda?
 \begin{figure}[H]
@@ -187,15 +188,37 @@ To apply regression the data must abide by some assumption, generally:
 	\item The variance of the error is constant across observations.
 \end{itemize}
 
+%TODO: section or sub?
+\subsection{Linear Regression}
+Linear regression is the most basic case of Regression Analysis, and it is a useful tool for predicting a quantitative response. Also most of the newer approaches to regression are often a generalization or extension of linear regression. \\
+Linear regression is a linear approach to modeling the relationship between a dependent variable and one or more independent variables. The simplest case of linear regression (LR) is when there is only one independent variable, and is called simple linear regression \cite{wiki:lin_reg} and has this form:
+\begin{equation}
+	y_i \approx \beta_0 + \beta_1x_i + \epsilon_i
+\end{equation}
+where $\epsilon_i$ is the error for the i-th observation.\\
+The point of LR is to estimate the $\beta$ coefficients to make predictions. To do so we make use of the training data to get the estimates $\widehat{\beta_0}$ and $\widehat{\beta_1}$ for the model coefficients. We can then make predictions by computing:
+\begin{equation}
+\widehat{y_i} \approx \widehat{\beta_0} + \widehat{\beta_1x_i}
+\end{equation}
 
+$e_i = y_i - \widehat{y_i}$ is the difference between the true value and the prediction  for an observation and it is called residual. 
+The most common method for estimation is called least squares. This method obtains parameter estimates that minimize the sum of squared residuals (SSR):
+\begin{equation}
+	SSR=\sum _{i=1}^{n}e_{i}^{2}
+\end{equation}
 
+The minimizers are
+\begin{equation}
+	 \widehat{\beta_{1}} = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{\sum(x_i - \bar{x})^2}
+\end{equation}
+where $\bar{x}$ and $\bar{y}$ are the mean of $x$ and $y$
 
-
-
-
-
-
-
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{reg_error}
+	\caption{The fit is found by minimizing the sum of squared errors. Each gray line segment represents an error, and the fit makes a compromise by averaging their square}
+	\label{fig:reg_error}
+\end{figure}
 
 
 
