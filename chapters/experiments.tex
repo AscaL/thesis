@@ -52,7 +52,7 @@ where $ {\overline {\mathbf {X}}}$ is defined as the mean shape across all train
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{PDM}
+	\includegraphics[width=0.3\textwidth]{PDM}
 	\caption{PDM of a metacarpal. Dots mark the possible position of landmarks, and the line denote the mean shape \cite{PDM}.}
 	\label{fig:PDM}
 \end{figure}
@@ -60,7 +60,7 @@ where $ {\overline {\mathbf {X}}}$ is defined as the mean shape across all train
 In the OpenFace framework Point Distribution Model \cite{PDM_RLMS} models the location of facial feature points in the image using non-rigid shape and rigid global transformation parameters, and is utilized in the second phase of the algorithm.\\
 The application of PDM has two objectives: first, they are employed to control the landmark locations, second they are used to regularize the shapes in the CE-CLM framework by using	Non-Uniform Regularized Landmark Mean Shift (NU-RLMS) \cite{Baltru2013}. In fact, in the final detected landmarks, the irregular shapes are imposed a penalty. \\
 
-\section{Action Unit Detection}
+\subsection{Action Unit Detection}
 %TODO: rewrite
 Action Unit (AU) detection plays a fundamental role in our work. We now describe the process used to detect the AUs.
 
@@ -71,7 +71,7 @@ Action Unit (AU) detection plays a fundamental role in our work. We now describe
 	\label{fig:AU_pipeline}
 \end{figure}
 
-\subsection{Dataset}
+\subsubsection{Dataset}
 There are three main dataset used for training the Action Unit detection system:  DISFA \cite{DISFA}, BP4D-Spontaneous \cite{BP4D-Spontaneous} and SEMAINE \cite{SEMAINE}. These three datasets consist of video of people subject to emotion inducing tasks.\\
 
 The BP4D database of spontaneous facial expressions includes videos of 41 participants (23 women and 18 men, 21 for training and 20 for validating). The age ranged from 18 to 29; 11 were Asian, 6 African-American, 4 Hispanic, and 20 Euro-American. Emotion inductions techniques were used to elicit expressions of emotion. Frame-level ground-truth for facial actions was obtained using the Facial Action Coding System. Each participant is associated with 8 tasks. For each task, there are both 3D and 2D videos and the meta-data includes annotations for 11 AUs for occurrence and 5 AUs for intensities.\\
@@ -90,17 +90,19 @@ All of the datasets have three AUs in common (2, 12, and 17). SEMAINE and DISFA 
 
 %todo: complete dataset description 
 Other dataset included in the study are:
-CK+ \cite{CK+}
-FERA 2011 \cite{FERA11}
-FERA 2015 \cite{FERA15}
-AVEC 2011 \cite{AVEC11}
+\begin{itemize}[noitemsep]
+\item CK+ \cite{CK+}:
+\item FERA 2011 \cite{FERA11}:
+\item FERA 2015 \cite{FERA15}:
+\item AVEC 2011 \cite{AVEC11}:
+\end{itemize}
 
 
 
-\subsection{Feature Extraction}
+\subsubsection{Feature Extraction}
 There are two types of features that are used: appearance and geometry ones. To extract those features it's required to track certain landmarks on a face, followed by face alignment.\\
 
-\subsubsection{Face Tracking}
+\paragraph{Face Tracking}
 %TODO: rewrite
 Constrained Local Neural Field (CLNF) [2] facial landmark detector and tracker for face tracking and to extract geometry based features (explained in Section IV-D). We use the open source CLNF implementation [2]. It uses a Structural SVM face detector [13], followed by CLNF.
 CLNF is an instance of a Constrained Local Model (CLM) [5], that uses more advanced patch experts and optimisation function. The model we used was trained on Multi-PIE [11] and in-the-wild [21] facial datasets.
@@ -112,7 +114,7 @@ CLNF is an instance of a Constrained Local Model (CLM) [5], that uses more advan
 
 In CLM (and CLNF), we estimate the maximum a posteriori probability (MAP) of the face model parameters p given an initial location of the parameters determined by a face detection step.
 
-\subsubsection{Alignment and Masking}
+\paragraph{Alignment and Masking}
 For the extracted face to be correctly analyzed, there needs to be a mapping to a common reference frame, and the changes resulting from scaling and in plane rotation need to be removed. \\
 In order to achieve this, a similarity transform from the currently detected landmarks to a representation of frontal landmarks from a neutral expression (projection of mean shape from a 3D PDM) is utilized. The similarity transform is done with Procrustes superimposition that minimizes the mean square error between aligned pixels.\\
 The result is a $112 \times 112$ pixel image of the face with 45 pixel interpupillary distance. \\
@@ -130,31 +132,32 @@ To determine those landmarks, the most stable CLNF detected landmark points unde
 
 Masking, performed using a convex hull surrounding the feature points, is done to remove non face relevant information from the images.
 
-\subsubsection{Appearance Features}
+\paragraph{Appearance Features}
 After the face is aligned to the $112 \times 112$ image it's time to extract the appearance features. To get the appearance features, $12 \times 12$ block of 31 dimensional Histogram of Oriented Gradients (HOG) are extracted, giving a 4464 dimensional vector characterizing the face. The implementation of HoG utilized comes from dlib \cite{dlib}.\\
 
 Once the feature vector is obtained, the next step is to reduce it's dimensionality. In order to do that Principal Component Analysis (PCA) is applied. To generalize the dimensionality reduction, the training was performed on the FERA 2015 \cite{FERA15}, CK+ \cite{CK+}, DISFA \cite{DISFA}, AVEC 2011 \cite{AVEC11} and FERA 2011 \cite{FERA11} datasets. By using PCA while sub-sampling from peak and neutral expressions and keeping 95\% of explained variability, the feature vector becomes of 1379 dimensions.
 
-\subsubsection{Geometry Features}
-%TODO: review all this
-For geometry features, we used the non-rigid shape parameters and landmark locations in object space inferred during CLNF model tracking. This led to a 23 + 204 = 227 dimensional vector describing geometry.\\
-Together both of the descriptors led to a 1606 dimensional vector, that describes appearance of the face. This feature vector is used in all of the following experiments.
+\paragraph{Geometry Features}
+%TODO: CHECK CLNF STUFF
+The geometry features are obtained trough the CE-CLM models, and consist of non-rigid shape parameters and landmarks locations. They resulted in a 227 dimensional vector representing geometry features.\\
+Summed to the appearance features, this leads to a 1606 dimensional vector that defines the appearance of the face.
 
+\paragraph{Neutral Expression Extraction}
+To extract some of the facial expression is very important to have a neutral starting expression. There are personal differences on how we appear while in a neutral resting state, such as people looking more smily or frowny then others \cite{normexpr}. To address this issue there needs to be a person specific calibration, done by adjusting for neutral expressions.\\
+This is done by computing the median value of the face descriptors in a video, leading to a neutral expression descriptor. This works assuming that in a video most of the frames will contain a neutral expression, this should hold true especially for real life situations where most of the time the interactions are performed with a neutral expression \cite{NatAffData}.\\
+The median face descriptor is subtracted from the feature descriptor, giving normalized features. To help with the ease of computing the median, a histogram is kept for each element in the feature vector.\\
 
-
-
-
-
-
-
-
-
-
-
-
-
+\paragraph{Classification and Regression}
+Action Units detection is performed through Support Vector Machines (SVM), and Action Unit intensity using Support Vector Regression (SVR). In both cases a linear kernel is utilized, as more complex kernels had no effect on performances and were quite slower. \\
+Since the AU occurrences are not balanced by nature, it's highly important to balance the training data. This was done by under-sampling the negative AU samples from training data, leading to an equal number of positive and negative samples.\\
 
 \section{Real Life Trial DataBase} \label{rldb}
+%TODO: review this and rewrite
+This section is about the database we used to perform our experiments: it comes from work done for the paper "Deception Detection using Real-life Trial Data" \cite{Perez-Rosas:2015:DDU:2818346.2820758} \\
+
+The dataset consists of real-life trial videos that are publicly available on YouTube channels and other public websites. The dataset also contains statements made by exonerees after exoneration and a few statements from defendants during crime-related TV episodes. The speakers in the videos are either defendants or witnesses. The video clips are labeled as deceptive or truthful based on a guilty verdict, not-guilty verdict, and exoneration. 
+
+The dataset consists of 121 videos including 61 deceptive and 60 truthful trial clips. The average length of the videos in the dataset is 28.0 seconds. The average video length is 27.7 seconds and 28.3 seconds for the deceptive and truthful clips, respectively. The data consists of 21 unique female and 35 unique male speakers, with their ages approximately ranging between 16 and 60 years.
 
 \section{GLM}
 
