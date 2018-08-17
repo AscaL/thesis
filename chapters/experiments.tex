@@ -4,6 +4,7 @@ In this section I will explain what I've done and the stack used for this thesis
 %TODO: pipeline OPENFACE + analysis. here or architecture?
 %TODO: SHORT review (table pherhaps) of face db, maybe not in this section
 
+
 \section{OpenFace} \label{OpenFace}
 The OpenFace \cite{Baltru2018} toolkit is a tool for machine learning and computer vision researchers created ba Baltrusaitis et al. to perform facial landmark detection, head pose estimation, action unit recognition and eye gaze estimation. \\
 
@@ -27,6 +28,14 @@ The first step in Action Unit identification is to detect the facial landmarks. 
 %TODO: write better?
 OpenFace uses a Convolutional Experts Constrained Local Model (CE-CLM) \cite{Baltru2017}, which is a Constrained Local Model (CLM) that uses CEN as a local detector. CLM are used to model the appearance of each facial landmark individually by using local detectors and a shape model for constrained optimization.\\
 The CE-CLM is divided in two fundamental parts: response map computation using CEN, and shape parameter update. In the first step, the landmarks alignment is computed separately from the other landmarks. In the second phase, all landmarks are considered together and for misaligned landmarks and irregular shapes their position is penalized, using a Point Distribution Model (PDM).\\
+
+%TODO: good position for this?
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{land_det_ex}
+	\caption{Example of landmarks detected with the OpenFace implementation \cite{Baltru2018}.}
+	\label{fig:land_det_ex}
+\end{figure}
 
 \subsubsection{CEN}
 In the first step the objective is to generate a response map to localize the individual landmarks. This is achieved by assessing the landmark alignment probability at specific pixel locations. CEN takes in input a Region of Interest (ROI) around the currently estimated position of a landmark, and outputs a response map that calculates the landmark alignment probability at each pixel location (Fig. \ref{fig:landmark_det}). \\
@@ -152,12 +161,24 @@ Action Units detection is performed through Support Vector Machines (SVM), and A
 Since the AU occurrences are not balanced by nature, it's highly important to balance the training data. This was done by under-sampling the negative AU samples from training data, leading to an equal number of positive and negative samples.\\
 
 \section{Real Life Trial DataBase} \label{rldb}
-%TODO: review this and rewrite
-This section is about the database we used to perform our experiments: it comes from work done for the paper "Deception Detection using Real-life Trial Data" \cite{Perez-Rosas:2015:DDU:2818346.2820758} \\
+This section is about the database we used to perform our experiments: it comes from the work done for the paper "Deception Detection using Real-life Trial Data" \cite{Perez-Rosas:2015:DDU:2818346.2820758} \\
 
-The dataset consists of real-life trial videos that are publicly available on YouTube channels and other public websites. The dataset also contains statements made by exonerees after exoneration and a few statements from defendants during crime-related TV episodes. The speakers in the videos are either defendants or witnesses. The video clips are labeled as deceptive or truthful based on a guilty verdict, not-guilty verdict, and exoneration. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{trial_images}
+	\caption{Examples of images from the dataset videos. \cite{Perez-Rosas:2015:DDU:2818346.2820758}.}
+	\label{fig:trial_images}
+\end{figure}
 
-The dataset consists of 121 videos including 61 deceptive and 60 truthful trial clips. The average length of the videos in the dataset is 28.0 seconds. The average video length is 27.7 seconds and 28.3 seconds for the deceptive and truthful clips, respectively. The data consists of 21 unique female and 35 unique male speakers, with their ages approximately ranging between 16 and 60 years.
+
+The dataset is gathered from real-life trial videos available on YouTube and other public websites. The dataset also contains statements made by exonerees after exoneration, and a few statements from defendants during crime-related TV episodes. \\
+The first step to collecting the dataset was to identify public multimedia sources where the recordings of the trials were available, and deceptive and truthful behavior could be observed and verified.\\
+The videos are of trial recordings where the defendant or witness in the video could be clearly identified, the face is visible enough during most of the clip duration, and the visual quality should be good enough to accurately see the facial expressions (Fig. \ref{fig:trial_images}).\\
+There are three outcomes for the trials that were considered to label the videos as deceptive or truthful: guilty, non-guilty, and exoneration. \\
+For the guilty verdicts the deceptive clips are taken from the defendant in the trial, while the truthful clips are gathered from the witnesses. There are also instances where the deceptive videos are of suspects denying a committed crime, and truthful ones are from the same person answering questions that where verified by the police as truthful.\\
+In regards to the witnesses, when the testimony is verified by a police officer they are labeled as true. Testimonies that help the guilty party are labeled as false. Exoneration (reversal of the sentence) testimonies are regarded as truthful.\\
+
+The dataset consists of 121 videos, 61 of which are deceptive and 60 truthful. The average length of the videos is 28.0 seconds. The average video length for deceptive videos is 27.7 seconds, while the one for truthful videos is 28.3 seconds. The data consists of 56 total subject, 21 unique females and 35 unique males, with ages between 16 and 60 years.
 
 \section{GLM}
 

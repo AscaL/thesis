@@ -1,17 +1,20 @@
 %TODO: maybe explain other tecniques
 In this chapter we will give a brief introduction of Machine Learning (\ref{ml}), explaining Classification (\ref{classification}), Regression (\ref{regression}), Supervised (\ref{supervised}) and Unsupervised (\ref{unsupervised}) Learning, 
 %TODO: not sure about this
-proceeding then to explain SVM (\ref{svm}) which is the most important technique used for this thesis.
+proceeding then to explain different techniques such as SVM (\ref{svm}) which is the most important technique used for this thesis.
 
 \section{Machine Learning} \label{ml}
 Machine Learning is a subfield of Artificial Intelligence that uses statistical techniques to provide computers with the ability to progressively improve performance on different tasks using data, while not being explicitly programmed \cite{wiki:ml}. \\
+
 The application for machine learning are huge and diverse, and range from character recognition to email filtering, with lots of application in computer vision, such as image recognition and classification. \\
-Machine learning also focuses on making prediction on data, by utilizing techniques taken from mathematical optimization. This has many applications, ranging from health care by predicting risk factors for diseases or gaining insights for prevention, to sports or politics where actual results can be predicted.\\
-The field of machine learning is subdivided in two broad categories (Fig. \ref{fig:ml_mldiv}), supervised learning (\ref{supervised}) and unsupervised learning (Fig. \ref{unsupervised}) based on whether the data is labeled or not.\\
+
+Machine learning also focuses on making prediction on data, by utilizing techniques taken from statistics  mathematical optimization. This has many applications, ranging from health care by predicting risk factors for diseases or gaining insights for prevention, to sports or politics where actual results can be predicted.\\
+
+The field of machine learning is subdivided in two broad categories (Fig. \ref{fig:ml_mldiv}), supervised learning (\ref{supervised}) and unsupervised learning (\ref{unsupervised}) (Fig. \ref{unsupervised}) based on whether the data is labeled or not.\\
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{ml_mldiv}
+	\includegraphics[width=0.75\textwidth]{ml_mldiv}
 	\caption{Machine Learning Subfields \cite{ml_mldiv}}
 	\label{fig:ml_mldiv}
 \end{figure}
@@ -20,7 +23,8 @@ Another classification is based on the kind of output that the users wish to obt
 
 % TODO: Section or SubSection?
 \subsection{Supervised Learning} \label{supervised}
-When using supervised learning we want to learn a function that maps an input to an output, based on example input-output pairs \cite{ai_sup}. This means that we need labeled training data, consisting of a vector of input objects and an output value. The objective is to correctly classify the new data based on the analyzed training pairs. \\
+When using supervised learning we want to learn a function that maps an input to an output, based on example input-output pairs \cite{ai_sup}. This means that we need labeled training data, consisting of a vector of input objects and an output value. The objective is to correctly classify the new data based on the previously analyzed training pairs. \\
+
 The general steps to solve a supervised learning problem are (Fig. \ref{fig:sup_wf}):
 \begin{enumerate}[noitemsep]
 	\item Understand what kind of training example to use.
@@ -53,9 +57,11 @@ There are important considerations to make when using a supervised learning appr
 	\end{figure}	
 	
 	% TODO: Write this better
-	\item \textbf{Bias-Variance Tradeoff} \cite{biasvar}: suppose we have different (but equally good) training set. An algorithm is biased for input x if, when trained on each of these data sets, it is consistently incorrect at predicting the correct output for x. \\
-	A learning algorithm has high variance for a particular input x if it predicts different output values when trained on different training sets. \\
-	The prediction error of a classifier is related to the sum of bias and variance, so generally there is a tradeoff between them. Low bias means that it fits the new data well, but if the bias is too low it will fit each training set differently and so result in high variance.
+	\item \textbf{Bias-Variance Tradeoff} \cite{biasvar}: suppose we have different (but equally good) training set. An algorithm is biased for input $x$ if, when trained on each of these data sets, it is consistently incorrect at predicting the correct output for $x$. \\
+	A high bias indicates that the data points tend to be very close to the mean, and to each other.
+	A learning algorithm has high variance for a particular input $x$ if it predicts output values that are correct on average but inconsistent when trained on different training sets. \\
+	Basically, a high variance indicates that the data points are very spread out from the mean, and from one another.\\
+	The prediction error of a classifier is related to the sum of bias and variance, so generally there is a tradeoff between them. Low bias means that it fits the new data well, but if the bias is too low it will fit each training set differently and so result in high variance.\\
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.5\textwidth]{biasvar}
@@ -120,7 +126,9 @@ These are the most widely used unsupervised learning algorithms:
 
 \subsection{Classification} \label{classification}
 In machine learning, classification is the problem of identifying in which of a set of categories a new observation belongs, based on a training set of data containing observations whose category is known in advance. A common example is classifying an email as spam or not.\\
+
 Classification is considered an instance of supervised learning, based on instances where a training set is available. As for unsupervised learning, classification would be clustering since it groups data into categories based on similarity, but without knowing the label of the data.\\
+
 The observations, called features or explanatory variables, take different types based on the value. They can be categorical, numerical or ordinal, or be compared by similarity between previous observations using some kind of distance function.\\
 The observations representing the categories to be predicted are called explanatory variables (or regressors, or independent variables).\\
 The classifier is the algorithm that implements the classification, or a function that maps input data to a category.
@@ -142,11 +150,17 @@ where $X_i$ is the feature vector of instance i and $\beta_c$ is the vector of w
 
 \subsection{Regression Analysis} \label{regression}
 %TODO: riscrivere e' messo di merda
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{reg_analysis}
+	\caption{Regression Analysis can solve this! \cite{reg_analisys}}
+	\label{fig:reg_analysis}
+\end{figure}
 Regression analysis is used in statistics and machine learning to estimate the relationships between variables. It focus on the relationship between one dependent variable and more independent variables (also called predictors) and it is subsequently used to make predictions on how changing some of the  independent variables will affect the dependent one. \cite{wiki:reg_an} \\
-Regression is generally used to estimate the average value of the dependent variable when the independent variables are fixed. In doing that a regression function is calculated. Another use of regression analysis is to understand the relationship among the independent and dependent variables.
+Regression is generally used to estimate the average value of the dependent variable when the independent variables are fixed. In doing that a regression function is calculated. \\
+Another use of regression analysis is to understand the relationship among the independent and dependent variables.\\
 In regression analysis, it is also of interest to characterize the variation of the dependent variable around the prediction of the regression function using a probability distribution.
 
-%TODO: dove metto ste figure? e' troppo stupida la seconda?
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{reg_plot}
@@ -154,14 +168,7 @@ In regression analysis, it is also of interest to characterize the variation of 
 	\label{fig:reg_plot}
 \end{figure}	
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\textwidth]{reg_analysis}
-	\caption{Regression Analysis can solve this! \cite{reg_analisys}}
-	\label{fig:reg_analysis}
-\end{figure}
-
-\textbf{Regression Model} \\
+\subsubsection*{Regression Model} 
 A general regression model uses the following variables and parameters:
 The unknown parameters, $\beta$, that represents either a scalar or a vector.\\
 The independent variables, $X$. \\
@@ -178,7 +185,7 @@ This is usually formalized as
 \end{equation}
 
 %TODO: riguardare anche questo, troppo wiki
-If $\beta$ is of length $k$ and the number of observed data points is enough ($N > k$), then it's possible to estimate a unique value for $\beta$ that best fits the data. If this is the case, regression analysys provides the means to find a solution for unknown parameters of $\beta$ to, for example, apply the method of least squares.
+If $\beta$ is of length $k$ and the number of observed data points is enough ($N > k$), then it's possible to estimate a unique value for $\beta$ that best fits the data. If this is the case, regression analysis provides the means to find a solution for unknown parameters of $\beta$ to, for example, apply the method of least squares.
 
 To apply regression the data must abide by some assumption, generally:
 \begin{itemize}[noitemsep, topsep = -5pt]
@@ -192,12 +199,14 @@ To apply regression the data must abide by some assumption, generally:
 
 %TODO: section or sub?
 \subsection{Linear Regression}
-Linear regression is the most basic case of Regression Analysis, and it is a useful tool for predicting a quantitative response. Also most of the newer approaches to regression are often a generalization or extension of linear regression. \\
+Linear regression is the most basic case of Regression Analysis, and it is a useful tool for predicting a quantitative response. Also, most of the newer approaches to regression are often a generalization or extension of linear regression. \\
+
 Linear regression is a linear approach to modeling the relationship between a dependent variable and one or more independent variables. The simplest case of linear regression (LR) is when there is only one independent variable, and is called simple linear regression \cite{wiki:lin_reg} and has this form:
 \begin{equation}
 	y_i \approx \beta_0 + \beta_1x_i + \varepsilon_i
 \end{equation}
 where $\epsilon_i$ is the error for the i-th observation. The error is a catch-all for what we miss with this simple model, since it's very probable that the true relationship is not linear, and that there may be other variables that influence $y$. \\
+
 The point of LR is to estimate the $\beta$ coefficients to make predictions. To do so, we utilize of the training dataset to produce estimates $\widehat{\beta_0}$ and $\widehat{\beta_1}$ for the model coefficients. We can then make predictions by computing:
 \begin{equation}
 \widehat{y_i} \approx \widehat{\beta_0} + \widehat{\beta_1x_i}
