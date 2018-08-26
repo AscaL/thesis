@@ -342,11 +342,27 @@ Once the coefficient have been estimated is pretty simple to compute the probabi
 
 \section{Random Forest}
 %TODO: review from wiki
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{RFClass}
+	\caption{Example of Random Forest Classification \cite{medium:RF}}
+	\label{fig:RFClass}
+\end{figure}
+
 Random forests are an ensemble learning method used mainly for classification and regression. They work by building a lot of decision trees while training, and outputting the class that is the mode of the classes for classification, or the mean prediction of the individual trees for regression \cite{wiki:randomforest}. \\
 
 Random Forest (RF) is preferred to decision trees because decision trees suffer from high variance. By using tree bagging, which is a commonly used technique to reduce variance, we can correct decision trees' habit of overfitting to their training set \cite{ESL}.
 
 \subsubsection{Decision Trees}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{decTree}
+	\caption{Example of a Decision Tree \cite{KDNrf}}
+	\label{fig:decTree}
+\end{figure}
+
 Decision trees are a popular method for various machine learning tasks and can be used for either classification or regression. However, they are often inaccurate. Specifically, by growing trees very deep, they tend to learn highly irregular patterns by overfitting to the training set (i.e. have low bias, but very high variance). \\
 Random forests are a way of averaging multiple deep decision trees, trained on different parts of the same training set, with the goal of reducing the variance. \\
 This comes at the expense of a small increase in the bias and some loss of interpretability, but generally greatly boosts the performance in the final model \cite{ESL}. 
@@ -360,8 +376,9 @@ This solution is not practical since we normally lack more than one training set
 Instead we utilize bagging: we can take repeated samples from the training set in order to generate B different bootstrapped training sets. We then train our method on the $b_{th}$ bootstrapped training set, and then average the resulting predictions. \\
 
 To apply bagging to regression trees specifically, we simply construct B regression trees using B bootstrapped training sets, and average the resulting predictions. These trees are grown deep, and are not pruned. Hence each individual tree has high variance, but low bias. Averaging these B trees reduces the variance \cite{ISLR}. \\
-If we are using RF for classification (like in this thesis), the simplest approach is this: \\
-Given test observation, we record the class predicted by each of the $B$ trees, and take a majority vote: the final prediction is the most frequent class among the $B$ predictions.
+
+If we are using RF for classification (like in this thesis), the simplest approach is the following: \\
+Given test observation, we record the class predicted by each of the $B$ trees, and take a majority vote: the final prediction is the most frequent class among the $B$ predictions. \\
 
 More formally, given a training set $X = x_1, \dots, x_n$ with responses $Y = y_1, \dots, y_n$, bagging $B$ times selects a random sample with replacement of the training set and fits trees to these samples \cite{wiki:randomforest}: \\
 
@@ -379,7 +396,7 @@ After training, predictions for unseen samples $x'$ can be made by averaging the
 
 or by using the majority vote in case of classification.\\
 %TODO: from here
-				
+%todo : maybe remove the rest
 Additionally, an estimate of the uncertainty of the prediction can be made as the standard deviation of the predictions from all the individual regression trees on $x'$:
 
 \begin{equation}
@@ -388,15 +405,23 @@ Additionally, an estimate of the uncertainty of the prediction can be made as th
 
 The number of samples/trees, B, is a free parameter. Typically, a few hundred to several thousand trees are used, depending on the size and nature of the training set. \\
 An optimal number of trees B can be found using cross-validation, or by observing the out-of-bag error: the mean prediction error on each training sample $x_i$, using only the trees that did not have $x_i$ in their bootstrap sample. \\
-The training and test error tend to level off after some number of trees have been fit.
+The training and test error tend to level off after some number of trees have been fit \cite{ISLR}.
 
 \subsubsection{From Bagging to Random Forests}
 
-The above procedure describes the original bagging algorithm for trees. Random forests differ in only one way from this general scheme: they use a modified tree learning algorithm that selects, at each candidate split in the learning process, a random subset of the features. This process is sometimes called "feature bagging". The reason for doing this is the correlation of the trees in an ordinary bootstrap sample: if one or a few features are very strong predictors for the response variable (target output), these features will be selected in many of the B trees, causing them to become correlated \cite{ESL}. 
+%todo: change caption
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{RF}
+	\caption{Random Forest overview}
+	\label{fig:RF}
+\end{figure}
 
-Typically, for a classification problem with p features, $\sqrt{p}$ features are used in each split. For regression problems the inventors recommend $p/3$ with a minimum node size of 5 as the default.
+Random Forests provide an improvement over bagged decision trees by decorrelating the trees. As in bagging, the decision trees are built on a bootstrapped training set. The difference is that every time a split is considered, a random sample of $m$ predictors is chosen as split candidates from the total $p$ predictors. The split can only use one of those $m$ predictors. $\sqrt{m}$ predictors are taken each split, typically with $m \equiv \sqrt{p}$ \cite{ISLR}.\\
 
+Practically, at each split in the tree, the algorithm can only consider a subset of the predictors. This works because if there is a very strong predictor, that predictor would be used in the majority of the trees, and then all the bagged trees would look alike and highly correlated, thus leading to a small reduction in variance.\\
 
+By forcing each split to consider only $m$ predictors, on average $(p - m)/p$ of splits will not take into account a strong predictor. This, in turn, will decorrelate the trees.\\
 
 \pagebreak
 
