@@ -4,6 +4,12 @@ In this chapter we will give a brief introduction of Machine Learning (\ref{ml})
 proceeding then to explain different techniques such as SVM (\ref{svm}) which is the most important technique used for this thesis.
 
 \section{Machine Learning} \label{ml}
+%TODO: remove?
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{ml_troll}
+	\label{fig:ml_troll}
+\end{figure}
 Machine Learning is a subfield of Artificial Intelligence that uses statistical techniques to provide computers with the ability to progressively improve performance on different tasks using data, while not being explicitly programmed \cite{wiki:ml}. \\
 
 The application for machine learning are huge and diverse, and range from character recognition to email filtering, with lots of application in computer vision, such as image recognition and classification. \\
@@ -131,7 +137,7 @@ Classification is considered an instance of supervised learning, based on instan
 
 The observations, called features or explanatory variables, take different types based on the value. They can be categorical, numerical or ordinal, or be compared by similarity between previous observations using some kind of distance function.\\
 The observations representing the categories to be predicted are called explanatory variables (or regressors, or independent variables).\\
-The classifier is the algorithm that implements the classification, or a function that maps input data to a category.
+The classifier is the algorithm that implements the classification, or a function that maps input data to a category. \\
 
 \begin{figure}[H]
 	\centering
@@ -156,9 +162,11 @@ where $X_i$ is the feature vector of instance i and $\beta_c$ is the vector of w
 	\caption{Regression Analysis can solve this! \cite{reg_analisys}}
 	\label{fig:reg_analysis}
 \end{figure}
-Regression analysis is used in statistics and machine learning to estimate the relationships between variables. It focus on the relationship between one dependent variable and more independent variables (also called predictors) and it is subsequently used to make predictions on how changing some of the  independent variables will affect the dependent one. \cite{wiki:reg_an} \\
+Regression analysis is used in statistics and machine learning to estimate the relationships between variables. It focus on the relationship between one dependent variable and more independent variables (also called predictors) and it is subsequently used to make predictions on how changing some of the  independent variables will affect the dependent one \cite{wiki:reg_an}. \\
+
 Regression is generally used to estimate the average value of the dependent variable when the independent variables are fixed. In doing that a regression function is calculated. \\
 Another use of regression analysis is to understand the relationship among the independent and dependent variables.\\
+
 In regression analysis, it is also of interest to characterize the variation of the dependent variable around the prediction of the regression function using a probability distribution.
 
 \begin{figure}[H]
@@ -185,7 +193,9 @@ This is usually formalized as
 \end{equation}
 
 %TODO: riguardare anche questo, troppo wiki
-If $\beta$ is of length $k$ and the number of observed data points is enough ($N > k$), then it's possible to estimate a unique value for $\beta$ that best fits the data. If this is the case, regression analysis provides the means to find a solution for unknown parameters of $\beta$ to, for example, apply the method of least squares.
+If $\beta$ is of length $k$ and the number of observed data points is enough ($N > k$), then it's possible to estimate a unique value for $\beta$ that best fits the data. \\
+
+If this is the case, regression analysis provides the means to find a solution for unknown parameters of $\beta$ to, for example, apply the method of least squares.
 
 To apply regression the data must abide by some assumption, generally:
 \begin{itemize}[noitemsep, topsep = -5pt]
@@ -198,7 +208,7 @@ To apply regression the data must abide by some assumption, generally:
 \end{itemize}
 
 %TODO: section or sub?
-\subsection{Linear Regression}
+\subsection{Linear Regression} \label{lin_reg}
 Linear regression is the most basic case of Regression Analysis, and it is a useful tool for predicting a quantitative response. Also, most of the newer approaches to regression are often a generalization or extension of linear regression. \\
 
 Linear regression is a linear approach to modeling the relationship between a dependent variable and one or more independent variables. The simplest case of linear regression (LR) is when there is only one independent variable, and is called simple linear regression \cite{wiki:lin_reg} and has this form:
@@ -248,9 +258,8 @@ We can then estimate the standard errors for the parameters, that tell us the av
 \begin{equation}
 	{\widehat{\sigma}_{\beta _{1}} = {\widehat{\sigma}_{\varepsilon}{\sqrt{\frac{1}{\sum(x_{i} - {\bar {x}})^{2}}}}}}
 \end{equation}
-
 \begin{equation}
-{\widehat{\sigma}_{\beta _{0}} = {\widehat{\sigma}_{\varepsilon}{\sqrt{\frac{1}{n} + \frac{\bar{x}^2}{\sum(x_{i} - {\bar {x}})^{2}}}}}}
+	{\widehat{\sigma}_{\beta _{0}} = {\widehat{\sigma}_{\varepsilon}{\sqrt{\frac{1}{n} + \frac{\bar{x}^2}{\sum(x_{i} - {\bar {x}})^{2}}}}}}
 \end{equation}
 
 Standard errors can be used to compute confidence intervals. A 95\% confidence interval is defined as a range of values such that with 95\% probability, the range will contain the true unknown value of the parameter.
@@ -263,16 +272,139 @@ where $x_{ij}$ is the i-th observation on the j-th independent variable.
 
 
 
+\pagebreak
+
+\section{Logistic Regression}
+In regression analysis, logistic regression is a method for estimating the parameters of a logistic model. A logistic model is one where the log-odds of the probability of an event is a linear combination of independent or predictor variables. \\
+The two possible dependent variable values are often labeled as "0" and "1", "true" or "false", "pass" or "fail" etc, and they represent binary outcomes (Fig. \ref{fig:logistic_exam}). \\
+It's possible to generalize the binary logistic regression model to more than two levels (outcomes) of the dependent variable \cite{wiki:logisticreg}.
+
+The binary logistic model works by estimating the probability of a binary response based on one or more predictor variables.\\
+With logistic regression is possible to say how much that the presence of a risk factor increases the odds of a given outcome. \\
+The model itself simply calculates the probability of output in terms of input, and it is not specifically a classifier, but it can be used to classify data by choosing a threshold value, for example if the probability is $\ge 50\%$ the class is "1" otherwise is "0".
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{exam_pass_logistic_curve}
+	\caption{Graph of a logistic regression curve showing probability of passing an exam versus hours studying \cite{wiki:logisticreg}}
+	\label{fig:logistic_exam}
+\end{figure}
+
+\subsubsection{Logistic Function}
+The logistic function to estimate the probabilities is a sigmoid function (exemplified in fig. \ref{fig:sigmoid}). \\
+A sigmoid function takes an input from the real numbers and outputs a value between $0$ and $1$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{sigmoid}
+	\caption{Example of a Sigmoid shaped function}
+	\label{fig:sigmoid}
+\end{figure}
+
+We want to model the relationship between $p(X) = Pr(Y = 1|X)$ and $X$. To model this relationship we use the a logistic function:
+
+\begin{equation} \label{eq:logr1}
+		p(X) = \frac{e^{\beta_{0}} + e^{\beta_{1}X}}{1+ e^{\beta_{0}} + e^{\beta_{1}X}} = \frac{1}{1 + e^{-({\beta_{0} + \beta_{1}X})}}
+\end{equation} 
+
+Equation \ref{eq:logr1} can be manipulated into: 
+
+\begin{equation} \label{eq:logr2}
+	\frac{p(X)}{1 - p(X)} = e^{\beta_{0}} + e^{\beta_{1}X}
+\end{equation} 
+
+$\frac{p(X)}{1 - p(X)}$ is called odds, and can take any value between $0$ and $\infty$.
+
+By doing the logarithm of \ref{eq:logr2} we get:
+
+\begin{equation} \label{eq:logr3}
+	\log{\frac{p(X)}{1 - p(X)}} = \beta_{0} + \beta_{1}X
+\end{equation} 
+
+The coefficients $\beta_{0}$ and $\beta_{1}$ in equation \ref{eq:logr1} are unknown, and must be estimated based on the available training data. \\
+To fit the model of equation \ref{eq:logr3}, the maximum likelihood method is commonly used. \\
+Intuitively we want to estimates $\beta_{0}$ and $\beta_{1}$ such that the predicted probability ${\hat{p}}(x_i)$ for a specific case corresponds as closely as possible to the observed class for that case.\\
+This can be achieved by using the likelihood function:
+
+\begin{equation} \label{eq:logr4}
+	\ell(\beta_{0}, \beta_{1}) = \prod_{i:y_i = 1}p(x_i) \prod_{i':{y_{i'}} = 0} (1- p(x_{i'}))
+\end{equation} 
+
+The estimates $\hat{\beta_{0}}$ and $\hat{\beta_{1}}$ are chosen to maximize this likelihood function.\\
+Maximum likelihood is a very general approach that is used to fit many of the non-linear models. For example in linear regression (Ch. \ref{lin_reg}), the least squares approach is a special case of maximum likelihood.
+
+Once the coefficient have been estimated is pretty simple to compute the probability:
+\begin{equation}
+	\hat{p}(X) = \frac{e^{\hat{\beta_{0}}} + e^{\hat{\beta_{1}}X}}{1+ e^{\hat{\beta_{0}}} + e^{\hat{\beta_{1}}X}}
+\end{equation}
+
+\pagebreak
+
+\section{Random Forest}
+%TODO: review from wiki
+Random forests are an ensemble learning method used mainly for classification and regression. They work by building a lot of decision trees while training, and outputting the class that is the mode of the classes for classification, or the mean prediction of the individual trees for regression \cite{wiki:randomforest}. \\
+
+Random Forest (RF) is preferred to decision trees because decision trees suffer from high variance. By using tree bagging, which is a commonly used technique to reduce variance, we can correct decision trees' habit of overfitting to their training set \cite{ESL}.
+
+\subsubsection{Decision Trees}
+Decision trees are a popular method for various machine learning tasks and can be used for either classification or regression. However, they are often inaccurate. Specifically, by growing trees very deep, they tend to learn highly irregular patterns by overfitting to the training set (i.e. have low bias, but very high variance). \\
+Random forests are a way of averaging multiple deep decision trees, trained on different parts of the same training set, with the goal of reducing the variance. \\
+This comes at the expense of a small increase in the bias and some loss of interpretability, but generally greatly boosts the performance in the final model \cite{ESL}. 
+
+\subsubsection{Tree Bagging}
+Given a set of $n$ independent observations $X_1, \dots, X_n$, each with variance $\sigma^2$, the variance of the mean $\overline{X}$ of the observations is given by $\sigma^2/n$. \\
+This means that averaging a set of observations reduces the variance. So to reduce the variance we can take many training sets from the population, build a prediction model using each training set, and average the resulting predictions. \\
+Basically we could calculate $\hat{f}^1(x), \hat{f}^2(x), \dots, \hat{f}^B(x)$ using B separate training sets, and average them in order to obtain a single model with low-variance \cite{ISLR}. \\
+
+This solution is not practical since we normally lack more than one training set. \\
+Instead we utilize bagging: we can take repeated samples from the training set in order to generate B different bootstrapped training sets. We then train our method on the $b_{th}$ bootstrapped training set, and then average the resulting predictions. \\
+
+To apply bagging to regression trees specifically, we simply construct B regression trees using B bootstrapped training sets, and average the resulting predictions. These trees are grown deep, and are not pruned. Hence each individual tree has high variance, but low bias. Averaging these B trees reduces the variance \cite{ISLR}. \\
+If we are using RF for classification (like in this thesis), the simplest approach is this: \\
+Given test observation, we record the class predicted by each of the $B$ trees, and take a majority vote: the final prediction is the most frequent class among the $B$ predictions.
+
+More formally, given a training set $X = x_1, \dots, x_n$ with responses $Y = y_1, \dots, y_n$, bagging $B$ times selects a random sample with replacement of the training set and fits trees to these samples \cite{wiki:randomforest}: \\
+
+For $b = 1, \dots, B$:
+\begin{enumerate}[noitemsep]
+	\item Sample, with replacement, $n$ training examples from $X, Y$; call these $X_b, Y_b$.
+	\item Train a classification or regression tree $f_b$ on $X_b, Y_b$.
+\end{enumerate}
+
+After training, predictions for unseen samples $x'$ can be made by averaging the predictions from all the individual regression trees on $x'$:
+
+\begin{equation}
+	{{\hat {f}}={\frac {1}{B}}\sum _{b=1}^{B}f_{b}(x')}
+\end{equation}
+
+or by using the majority vote in case of classification.\\
+%TODO: from here
+				
+Additionally, an estimate of the uncertainty of the prediction can be made as the standard deviation of the predictions from all the individual regression trees on $x'$:
+
+\begin{equation}
+	{\sigma ={\sqrt {\frac {\sum_{b=1}^{B}(f_{b}(x')-{\hat {f}})^{2}}{B-1}}}}
+\end{equation}
+
+The number of samples/trees, B, is a free parameter. Typically, a few hundred to several thousand trees are used, depending on the size and nature of the training set. \\
+An optimal number of trees B can be found using cross-validation, or by observing the out-of-bag error: the mean prediction error on each training sample $x_i$, using only the trees that did not have $x_i$ in their bootstrap sample. \\
+The training and test error tend to level off after some number of trees have been fit.
+
+\subsubsection{From Bagging to Random Forests}
+
+The above procedure describes the original bagging algorithm for trees. Random forests differ in only one way from this general scheme: they use a modified tree learning algorithm that selects, at each candidate split in the learning process, a random subset of the features. This process is sometimes called "feature bagging". The reason for doing this is the correlation of the trees in an ordinary bootstrap sample: if one or a few features are very strong predictors for the response variable (target output), these features will be selected in many of the B trees, causing them to become correlated \cite{ESL}. 
+
+Typically, for a classification problem with p features, $\sqrt{p}$ features are used in each split. For regression problems the inventors recommend $p/3$ with a minimum node size of 5 as the default.
 
 
 
 \pagebreak
 
-\section{Random Forest}
-
 \section{SVM} \label{svm}
 Support Vector Machines (SVM) are a supervised machine learning algorithm used for both classification and regression. \\
-The main idea is to find the optimal hyperplane for linearly separable data, and then extend this idea to data that are not linearly separable by mapping this data in a new space using a kernel function.\\
+
+The main idea is to find the optimal hyperplane for linearly separable data, and then extend this idea to data that are not linearly separable, by mapping this data in a new space using a kernel function.\\
+
 The definition of an hyperplane for p-dimensions is:
 \begin{equation}
 \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p = 0
@@ -294,28 +426,30 @@ The distance between the hyperplane and the nearest data point from either set i
 \end{figure}
 
 So the objective is to choose a hyperplane with the largest possible margin between it and the support vectors, since the larger is the margin, the lower the generalization error of the classifier.\\
+
 In essence, support vectors are the elements of the training set that would change the position of the dividing hyperplane if removed. This makes the support vectors the critical elements of the training set.\\
 
-Finding the maximal margin hyperplane based on a set of training observations $x_1, \dots x_n \in R^p$ and with class lables $y_1 \dots y_n$, translates to an optimization problem:
+Finding the maximal margin hyperplane based on a set of training observations $x_1, \dots x_n \in R^p$ and with class lables $y_1 \dots y_n$, translates to an optimization problem:\\
 
 Maximize M
-\begin{equation}
+\begin{equation} \label{eq:svm1}
 \beta_0, \beta_1, \beta_2, \dots, \beta_p, M
 \end{equation}
 
 subject to
-\begin{equation}
+\begin{equation} \label{eq:svm2}
 \sum_{j=1}^{p}\beta^2_j = 1
 \end{equation}
 
-\begin{equation}
-y_i(\beta_0 + \beta_1 X_i1 + \beta_2 X_i2 + \dots + \beta_p X_ip) \ge M \forall i = 1, \dots, n
+\begin{equation} \label{eq:svm3}
+y_i(\beta_0 + \beta_1 X_i1 + \beta_2 X_i2 + \dots + \beta_p X_ip) \ge M \quad \forall i = 1, \dots, n
 \end{equation}
 
-2.3 and 2.4 ensure that each observation is on the correct side of the hyperplane and at least a distance M from the hyperplane. Hence, M represents the margin of our hyperplane, and the optimization problem chooses $\beta_0, \beta_1, \beta_2, \dots, \beta_p$ to maximize M. \\
-Unfortunately this hyperplane does not necessarily exists, but we can extend this concept to find a hyperplane that almost separates the classes using a soft margin. This is what an SVM does.
+\ref{eq:svm2} and \ref{eq:svm3} ensure that each observation is on the correct side of the hyperplane and at least a distance M from the hyperplane. Hence, M represents the margin of our hyperplane, and the optimization problem chooses $\beta_0, \beta_1, \beta_2, \dots, \beta_p$ to maximize M. \\
 
-It is very probable that the data is not linearly separable, as we can see in figure \ref{fig:svmnotsep}.
+Unfortunately this hyperplane does not necessarily exists, but we can extend this concept to find a hyperplane that almost separates the classes using a soft margin. This is what an really SVM does.
+
+It is very probable that the data is not linearly separable, as we can see in figure \ref{fig:svmnotsep}:
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{svm_not_separable}
@@ -330,13 +464,11 @@ In this case, for example, we can add a new dimension and separate the data.
 	\caption{Three dimensional separable space \cite{svm_monkeylearn}}
 \end{figure} 
 
-And then map back to two dimension.
+And then map back to two dimensions.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{svm_separated}
 	\caption{Separated data \cite{svm_monkeylearn}}
 \end{figure}
-
-
 
 Calculating the transformation can be very computationally intensive, but SVM just needs the dot product between the vectors. This is called the kernel function. Kernels can be of different types, like linear or 
