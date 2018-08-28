@@ -10,13 +10,13 @@ proceeding then to explain different techniques such as SVM (\ref{svm}) which is
 	\includegraphics[width=0.5\textwidth]{ml_troll}
 	\label{fig:ml_troll}
 \end{figure}
-Machine Learning is a subfield of Artificial Intelligence that uses statistical techniques to provide computers with the ability to progressively improve performance on different tasks using data, while not being explicitly programmed \cite{wiki:ml}. \\
+Machine Learning is a subfield of Artificial Intelligence that uses statistical techniques to provide computers with the ability to progressively improve performance on different tasks using data, while not being explicitly programmed \cite{wiki:ml}.
 
-The application for machine learning are huge and diverse, and range from character recognition to email filtering, with lots of application in computer vision, such as image recognition and classification. \\
+The application for machine learning are huge and diverse, and range from character recognition to email filtering, with lots of application in computer vision, such as image recognition and classification.
 
-Machine learning also focuses on making prediction on data, by utilizing techniques taken from statistics  mathematical optimization. This has many applications, ranging from health care by predicting risk factors for diseases or gaining insights for prevention, to sports or politics where actual results can be predicted.\\
+Machine learning also focuses on making prediction on data, by utilizing techniques taken from statistics  mathematical optimization. This has many applications, ranging from health care by predicting risk factors for diseases or gaining insights for prevention, to sports or politics where actual results can be predicted.
 
-The field of machine learning is subdivided in two broad categories (Fig. \ref{fig:ml_mldiv}), supervised learning (\ref{supervised}) and unsupervised learning (\ref{unsupervised}) (Fig. \ref{unsupervised}) based on whether the data is labeled or not.\\
+The field of machine learning is subdivided in two broad categories (Fig. \ref{fig:ml_mldiv}), supervised learning (\ref{supervised}) and unsupervised learning (\ref{unsupervised}) (Fig. \ref{unsupervised}) based on whether the data is labeled or not.
 
 \begin{figure}[H]
 	\centering
@@ -29,7 +29,7 @@ Another classification is based on the kind of output that the users wish to obt
 
 % TODO: Section or SubSection?
 \subsection{Supervised Learning} \label{supervised}
-When using supervised learning we want to learn a function that maps an input to an output, based on example input-output pairs \cite{ai_sup}. This means that we need labeled training data, consisting of a vector of input objects and an output value. The objective is to correctly classify the new data based on the previously analyzed training pairs. \\
+When using supervised learning we want to learn a function that maps an input to an output, based on example input-output pairs \cite{ai_sup}. This means that we need labeled training data, consisting of a vector of input objects and an output value. The objective is to correctly classify the new data based on the previously analyzed training pairs.
 
 The general steps to solve a supervised learning problem are (Fig. \ref{fig:sup_wf}):
 \begin{enumerate}[noitemsep]
@@ -49,9 +49,13 @@ The general steps to solve a supervised learning problem are (Fig. \ref{fig:sup_
 
 There are important considerations to make when using a supervised learning approach:
 \begin{itemize}
-	\item \textbf{Dimensionality of Input}: When the input feature vectors are very big there could be problems in learning the function, even if not all features contribute significantly to the function. This happens because the data depends on too many variables and this could cause high variance. \\
+	\item \textbf{Dimensionality of Input}: 
+	
+	When the input feature vectors are very big there could be problems in learning the function, even if not all features contribute significantly to the function. This happens because the data depends on too many variables and this could cause high variance. \\
 	To avoid this, it is important to reduce the number of features through manual removal or using feature selection algorithms. This usually improves the accuracy of the classifier.
-	\item \textbf{Overfitting and Underfitting} \cite{overfit}: Overfitting (or overtraining) happens when the algorithm adapts too much on the training data and is no longer able to make accurate predictions on the test data (Fig. \ref{fig:ml_overfit}). This usually happens when there is an excessive number of parameters than can be justified by the data \cite{camb_over}. \\
+	\item \textbf{Overfitting and Underfitting} \cite{overfit}: 
+	
+	Overfitting happens when the algorithm adapts too much on the training data and is no longer able to make accurate predictions on the test data (Fig. \ref{fig:ml_overfit}). This usually happens when there is an excessive number of parameters than can be justified by the data \cite{camb_over}. \\
 	Underfitting is the opposite: a model is not able to correctly capture the structure of the data, for example when fitting non linear data with a linear model. \\
 	A common way to avoid overfitting is to resample the data using different techniques, commonly k-fold cross validation or leave-one-out. Other methods include feature removal, early stopping, regularization.
 	
@@ -63,11 +67,14 @@ There are important considerations to make when using a supervised learning appr
 	\end{figure}	
 	
 	% TODO: Write this better
-	\item \textbf{Bias-Variance Tradeoff} \cite{biasvar}: suppose we have different (but equally good) training set. An algorithm is biased for input $x$ if, when trained on each of these data sets, it is consistently incorrect at predicting the correct output for $x$. \\
+	\item \textbf{Bias-Variance Tradeoff} \cite{biasvar}: 
+	
+	suppose we have different (but equally good) training set. An algorithm is biased for input $x$ if, when trained on each of these data sets, it is consistently incorrect at predicting the correct output for $x$. \\
 	A high bias indicates that the data points tend to be very close to the mean, and to each other.
 	A learning algorithm has high variance for a particular input $x$ if it predicts output values that are correct on average but inconsistent when trained on different training sets. \\
 	Basically, a high variance indicates that the data points are very spread out from the mean, and from one another.\\
-	The prediction error of a classifier is related to the sum of bias and variance, so generally there is a tradeoff between them. Low bias means that it fits the new data well, but if the bias is too low it will fit each training set differently and so result in high variance.\\
+	The prediction error of a classifier is related to the sum of bias and variance, so generally there is a tradeoff between them. Low bias means that it fits the new data well, but if the bias is too low it will fit each training set differently and so result in high variance.
+	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.5\textwidth]{biasvar}
@@ -76,7 +83,8 @@ There are important considerations to make when using a supervised learning appr
 	\end{figure}	
 \end{itemize}
 
-There are many algorithms used to perform supervised learning tasks, the most commonly used are: \\
+There are many algorithms used to perform supervised learning tasks, the most commonly used are:
+
 \begin{itemize}[noitemsep, topsep = -5pt]
 	\item Linear Regression (\ref{regression})
 	\item Logistic Regression
@@ -131,13 +139,13 @@ These are the most widely used unsupervised learning algorithms:
 \end{itemize}
 
 \subsection{Classification} \label{classification}
-In machine learning, classification is the problem of identifying in which of a set of categories a new observation belongs, based on a training set of data containing observations whose category is known in advance. A common example is classifying an email as spam or not.\\
+In machine learning, classification is the problem of identifying in which of a set of categories a new observation belongs, based on a training set of data containing observations whose category is known in advance. A common example is classifying an email as spam or not.
 
-Classification is considered an instance of supervised learning, based on instances where a training set is available. As for unsupervised learning, classification would be clustering since it groups data into categories based on similarity, but without knowing the label of the data.\\
+Classification is considered an instance of supervised learning, based on instances where a training set is available. As for unsupervised learning, classification would be clustering since it groups data into categories based on similarity, but without knowing the label of the data.
 
 The observations, called features or explanatory variables, take different types based on the value. They can be categorical, numerical or ordinal, or be compared by similarity between previous observations using some kind of distance function.\\
 The observations representing the categories to be predicted are called explanatory variables (or regressors, or independent variables).\\
-The classifier is the algorithm that implements the classification, or a function that maps input data to a category. \\
+The classifier is the algorithm that implements the classification, or a function that maps input data to a category.
 
 \begin{figure}[H]
 	\centering
@@ -162,10 +170,10 @@ where $X_i$ is the feature vector of instance i and $\beta_c$ is the vector of w
 	\caption{Regression Analysis can solve this! \cite{reg_analisys}}
 	\label{fig:reg_analysis}
 \end{figure}
-Regression analysis is used in statistics and machine learning to estimate the relationships between variables. It focus on the relationship between one dependent variable and more independent variables (also called predictors) and it is subsequently used to make predictions on how changing some of the  independent variables will affect the dependent one \cite{wiki:reg_an}. \\
+Regression analysis is used in statistics and machine learning to estimate the relationships between variables. It focus on the relationship between one dependent variable and more independent variables (also called predictors) and it is subsequently used to make predictions on how changing some of the  independent variables will affect the dependent one \cite{wiki:reg_an}.
 
 Regression is generally used to estimate the average value of the dependent variable when the independent variables are fixed. In doing that a regression function is calculated. \\
-Another use of regression analysis is to understand the relationship among the independent and dependent variables.\\
+Another use of regression analysis is to understand the relationship among the independent and dependent variables.
 
 In regression analysis, it is also of interest to characterize the variation of the dependent variable around the prediction of the regression function using a probability distribution.
 
@@ -178,9 +186,10 @@ In regression analysis, it is also of interest to characterize the variation of 
 
 \subsubsection*{Regression Model} 
 A general regression model uses the following variables and parameters:
+
 The unknown parameters, $\beta$, that represents either a scalar or a vector.\\
 The independent variables, $X$. \\
-The dependent variable, $Y$.\\
+The dependent variable, $Y$.
 
 A regression model relates $Y$ to a function of $X$ and $\beta$.
 \begin{equation}
@@ -193,7 +202,7 @@ This is usually formalized as
 \end{equation}
 
 %TODO: riguardare anche questo, troppo wiki
-If $\beta$ is of length $k$ and the number of observed data points is enough ($N > k$), then it's possible to estimate a unique value for $\beta$ that best fits the data. \\
+If $\beta$ is of length $k$ and the number of observed data points is enough ($N > k$), then it's possible to estimate a unique value for $\beta$ that best fits the data.
 
 If this is the case, regression analysis provides the means to find a solution for unknown parameters of $\beta$ to, for example, apply the method of least squares.
 
@@ -209,20 +218,20 @@ To apply regression the data must abide by some assumption, generally:
 
 %TODO: section or sub?
 \subsection{Linear Regression} \label{lin_reg}
-Linear regression is the most basic case of Regression Analysis, and it is a useful tool for predicting a quantitative response. Also, most of the newer approaches to regression are often a generalization or extension of linear regression. \\
+Linear regression is the most basic case of Regression Analysis, and it is a useful tool for predicting a quantitative response. Also, most of the newer approaches to regression are often a generalization or extension of linear regression.
 
 Linear regression is a linear approach to modeling the relationship between a dependent variable and one or more independent variables. The simplest case of linear regression (LR) is when there is only one independent variable, and is called simple linear regression \cite{wiki:lin_reg} and has this form:
 \begin{equation}
 	y_i \approx \beta_0 + \beta_1x_i + \varepsilon_i
 \end{equation}
-where $\epsilon_i$ is the error for the i-th observation. The error is a catch-all for what we miss with this simple model, since it's very probable that the true relationship is not linear, and that there may be other variables that influence $y$. \\
+where $\varepsilon_i$ is the error for the i-th observation. The error is a catch-all for what we miss with this simple model, since it's very probable that the true relationship is not linear, and that there may be other variables that influence $y$.
 
 The point of LR is to estimate the $\beta$ coefficients to make predictions. To do so, we utilize of the training dataset to produce estimates $\widehat{\beta_0}$ and $\widehat{\beta_1}$ for the model coefficients. We can then make predictions by computing:
 \begin{equation}
-\widehat{y_i} \approx \widehat{\beta_0} + \widehat{\beta_1x_i}
+	\widehat{y_i} \approx \widehat{\beta_0} + {\widehat{\beta_1}x_i}
 \end{equation}
 
-$e_i = y_i - \widehat{y_i}$ is the difference between the true value and the prediction for an observation, and it is called residual (Fig. \ref{fig:reg_error}). \\
+$e_i = y_i - \widehat{y_i}$ is the difference between the true value and the prediction for an observation, and it is called residual (Fig. \ref{fig:reg_error}).
 
 \begin{figure}[H]
 	\centering
@@ -240,11 +249,12 @@ The minimizers are
 \begin{equation}
 	 \widehat{\beta_{1}} = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{\sum(x_i - \bar{x})^2}
 \end{equation}
+
 \begin{equation}
 	\widehat{\beta_{0}} = \bar{y} - \widehat{\beta_{1}} \bar {x}
 \end{equation}
 
-where $\bar{x}$ and $\bar{y}$ are the mean of $x$ and $y$.\\
+where $\bar{x}$ and $\bar{y}$ are the mean of $x$ and $y$.
 
 If we assume that the error term has constant variance, the estimate of the variance of the error is given by:
 
@@ -269,8 +279,6 @@ The general multiple regression model, where there are $p$ independent variables
 	y_{i}=\beta_{1}x_{i1} + \beta_{2}x_{i2} + \cdots + \beta_{p}x_{ip} + \varepsilon_{i}
 \end{equation}
 where $x_{ij}$ is the i-th observation on the j-th independent variable.
-
-
 
 \pagebreak
 
@@ -350,7 +358,7 @@ Once the coefficient have been estimated is pretty simple to compute the probabi
 	\label{fig:RFClass}
 \end{figure}
 
-Random forests are an ensemble learning method used mainly for classification and regression. They work by building a lot of decision trees while training, and outputting the class that is the mode of the classes for classification, or the mean prediction of the individual trees for regression \cite{wiki:randomforest}. \\
+Random forests are an ensemble learning method used mainly for classification and regression. They work by building a lot of decision trees while training, and outputting the class that is the mode of the classes for classification, or the mean prediction of the individual trees for regression \cite{wiki:randomforest}.
 
 Random Forest (RF) is preferred to decision trees because decision trees suffer from high variance. By using tree bagging, which is a commonly used technique to reduce variance, we can correct decision trees' habit of overfitting to their training set \cite{ESL}.
 
@@ -370,17 +378,24 @@ This comes at the expense of a small increase in the bias and some loss of inter
 \subsubsection{Tree Bagging}
 Given a set of $n$ independent observations $X_1, \dots, X_n$, each with variance $\sigma^2$, the variance of the mean $\overline{X}$ of the observations is given by $\sigma^2/n$. \\
 This means that averaging a set of observations reduces the variance. So to reduce the variance we can take many training sets from the population, build a prediction model using each training set, and average the resulting predictions. \\
-Basically we could calculate $\hat{f}^1(x), \hat{f}^2(x), \dots, \hat{f}^B(x)$ using B separate training sets, and average them in order to obtain a single model with low-variance \cite{ISLR}. \\
+Basically we could calculate $\hat{f}^1(x), \hat{f}^2(x), \dots, \hat{f}^B(x)$ using B separate training sets, and average them in order to obtain a single model with low-variance \cite{ISLR}.
 
 This solution is not practical since we normally lack more than one training set. \\
-Instead we utilize bagging: we can take repeated samples from the training set in order to generate B different bootstrapped training sets. We then train our method on the $b_{th}$ bootstrapped training set, and then average the resulting predictions. \\
+Instead we utilize bagging: we can take repeated samples from the training set in order to generate B different bootstrapped training sets. We then train our method on the $b_{th}$ bootstrapped training set, and then average the resulting predictions.
 
-To apply bagging to regression trees specifically, we simply construct B regression trees using B bootstrapped training sets, and average the resulting predictions. These trees are grown deep, and are not pruned. Hence each individual tree has high variance, but low bias. Averaging these B trees reduces the variance \cite{ISLR}. \\
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{bagging}
+	\caption{Bagging Example \cite{bagging}}
+	\label{fig:bagging}
+\end{figure}
+
+To apply bagging to regression trees specifically, we simply construct B regression trees using B bootstrapped training sets, and average the resulting predictions. These trees are grown deep, and are not pruned. Hence each individual tree has high variance, but low bias. Averaging these B trees reduces the variance \cite{ISLR}.
 
 If we are using RF for classification (like in this thesis), the simplest approach is the following: \\
-Given test observation, we record the class predicted by each of the $B$ trees, and take a majority vote: the final prediction is the most frequent class among the $B$ predictions. \\
+Given test observation, we record the class predicted by each of the $B$ trees, and take a majority vote: the final prediction is the most frequent class among the $B$ predictions.
 
-More formally, given a training set $X = x_1, \dots, x_n$ with responses $Y = y_1, \dots, y_n$, bagging $B$ times selects a random sample with replacement of the training set and fits trees to these samples \cite{wiki:randomforest}: \\
+More formally, given a training set $X = x_1, \dots, x_n$ with responses $Y = y_1, \dots, y_n$, bagging $B$ times selects a random sample with replacement of the training set and fits trees to these samples \cite{wiki:randomforest}:
 
 For $b = 1, \dots, B$:
 \begin{enumerate}[noitemsep]
@@ -394,7 +409,15 @@ After training, predictions for unseen samples $x'$ can be made by averaging the
 	{{\hat {f}}={\frac {1}{B}}\sum _{b=1}^{B}f_{b}(x')}
 \end{equation}
 
-or by using the majority vote in case of classification.\\
+or by using the majority vote in case of classification.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{baggingDT}
+	\caption{Bagging leads to different decision trees \cite{baggingDT}}
+	\label{fig:baggingDT}
+\end{figure}
+
 %TODO: from here
 %todo : maybe remove the rest
 Additionally, an estimate of the uncertainty of the prediction can be made as the standard deviation of the predictions from all the individual regression trees on $x'$:
@@ -408,69 +431,118 @@ An optimal number of trees B can be found using cross-validation, or by observin
 The training and test error tend to level off after some number of trees have been fit \cite{ISLR}.
 
 \subsubsection{From Bagging to Random Forests}
+Random Forests provide an improvement over bagged decision trees by decorrelating the trees. As in bagging, the decision trees are built on a bootstrapped training set. \\
+The difference is that every time a split is considered, a random sample of $m$ predictors is chosen as split candidates from the total $p$ predictors. The split can only use one of those $m$ predictors. $\sqrt{m}$ predictors are taken each split, typically with $m \equiv \sqrt{p}$ \cite{ISLR}.
 
-%todo: change caption
+Practically, at each split in the tree, the algorithm can only consider a subset of the predictors (Fig. \ref{fig:RF}). This works because if there is a very strong predictor, that predictor would be used in the majority of the trees, and then all the bagged trees would look alike and highly correlated, thus leading to a small reduction in variance.
+
+By forcing each split to consider only $m$ predictors, on average $(p - m)/p$ of splits will not take into account a strong predictor. This, in turn, will decorrelate the trees.
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{RF}
+	\includegraphics[width=1\textwidth]{RF}
 	\caption{Random Forest overview}
 	\label{fig:RF}
 \end{figure}
 
-Random Forests provide an improvement over bagged decision trees by decorrelating the trees. As in bagging, the decision trees are built on a bootstrapped training set. The difference is that every time a split is considered, a random sample of $m$ predictors is chosen as split candidates from the total $p$ predictors. The split can only use one of those $m$ predictors. $\sqrt{m}$ predictors are taken each split, typically with $m \equiv \sqrt{p}$ \cite{ISLR}.\\
+\subsubsection{Out of bag Error}
+There is a very direct way to estimate the test error of a bagged model: \\
+On average, we use $2/3$ of the observations to fit a bagged tree. The remaining $1/3$ that are not utilized are called the out-of-bag (OOB) observations. \\
+We can predict the response for the $i_{th}$ observation using each of the trees in which that observation was OOB. This will generate approximately $B/3$ predictions for the $i_{th}$ observation. We can then average these predictions (or use majority voting for classification). \\
+We can repeat the process for all the $n$ observations and get an average classification error. The resulting OOB error is a valid estimate of the test error for the bagged model, since the response for each observation is predicted using only the trees that were not fit using that observation \cite{ISLR}. 
 
-Practically, at each split in the tree, the algorithm can only consider a subset of the predictors. This works because if there is a very strong predictor, that predictor would be used in the majority of the trees, and then all the bagged trees would look alike and highly correlated, thus leading to a small reduction in variance.\\
-
-By forcing each split to consider only $m$ predictors, on average $(p - m)/p$ of splits will not take into account a strong predictor. This, in turn, will decorrelate the trees.\\
+\subsubsection{Variable Importance}
+Bagging has the advantage of giving an increased accuracy over using a single tree, at the cost of interpretability of the data. Unfortunately, we can no longer have easily interpreted diagrams.\\
+With Random Forest we can instead rank the importance of each predictor: \\
+First, given a dataset $D_n = \{X_i, Y_i\}_{i=1}^n$ we fit a RF to the data. While fitting the data, the out-of-bag error is averaged over the forest. \\
+To get the importance of the $j_{th}$ feature, we permute it's values over the training data and recompute the OOB error. \\
+The importance is given by doing the average of the difference between the OOB error before and after this permutation. Then the score is normalized by the standard deviation of the differences.
 
 \pagebreak
 
 \section{SVM} \label{svm}
-Support Vector Machines (SVM) are a supervised machine learning algorithm used for both classification and regression. \\
+Support Vector Machines (SVM) are a supervised machine learning algorithm used for both classification and regression.
 
-The main idea is to find the optimal hyperplane for linearly separable data, and then extend this idea to data that are not linearly separable, by mapping this data in a new space using a kernel function.\\
+The main idea is to find the optimal hyperplane for linearly separable data, and then extend this idea to data that are not linearly separable by mapping this data in a new space using a kernel function.
 
-The definition of an hyperplane for p-dimensions is:
-\begin{equation}
-\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p = 0
+\subsection{What is a hyperplane?}
+In \textit{p}-dimension, a hyperplane is a flat affine subspace of $p - 1$ dimension. For example, in two dimensions it's a line, in three dimensions it's a plane (Fig. \ref{fig:hyperplane}), and so on.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{hyperplane}
+	\caption{Two and three dimensional space hyperplanes \cite{hyperplaneimg}}
+	\label{fig:hyperplane}
+\end{figure}
+
+The definition of an hyperplane for two dimensions is:
+\begin{equation} \label{eq:hyper1}
+	\beta_0 + \beta_1 X_1 + \beta_2 X_2 = 0
 \end{equation}
 
-Support vectors are the data points that lie closest to the hyperplane (Fig. \ref{fig:suppvec}), they also are the data points most difficult to classify and have direct bearing on the optimum location of the hyperplane.\\
-\begin{figure}[h]
+And it can be extended to an hyperplane of p-dimensions:
+\begin{equation} \label{eq:hyper2}
+	\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p = 0
+\end{equation}
+
+If $X$ does not satisfy equation \ref{eq:hyper2}, but
+\begin{equation} \label{eq:hyper3}
+	\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p > 0 \ | < 0
+\end{equation}
+
+we know that $X$ lies to one side or the other of the hyperplane. So a hyperplane divides a space in two halves \cite{ISLR}.
+
+It's possible to build a hyperplane that can separate training data based on their class labels, for example assigning $\{-1, 1\}$ if the result lies on one side or the other.
+
+\subsection{Maximal Margin Classifier}
+If the dataset can be separated by a hyperplane, it means that there can be an infinite number of separating hyperplanes. \\
+To build a classifier it's necessary to chose one of those infinite hyperplanes.
+
+The distance between the hyperplane and the nearest data point from either side is known as the margin.\\
+Generally the choice is the \textit{maximal margin hyperplane}, meaning the hyperplane that \textit{maximizes} the margins (has the farthest minimum distance) for the data we are classifying.
+
+\begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{svm_support_vectors}
+	\includegraphics[width=0.5\textwidth]{hyperplane_margin}
+	\caption{Different hyperplanes have different margins \cite{svm_monkeylearn}}
+\end{figure}
+
+The idea is that a classifier with a large margin on the training set will have a large margin on the test set, so to classify it correctly \cite{ISLR}.
+
+\subsection{Support Vectors}
+Support vectors are the data points that lie closest to the hyperplane (Fig. \ref{fig:suppvec}), they are also the most difficult data points to classify and have direct influence on the location of the hyperplane. In fact, moving the support vectors would change the hyperplane's location.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{svm_support_vectors}
 	\caption{Example of Support Vectors}
 	\label{fig:suppvec}
 \end{figure}
 
-The distance between the hyperplane and the nearest data point from either set is known as the margin. The best hyperplane is the one that maximizes the margins for the data we are classifying.\\
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\textwidth]{hyperplane_margin}
-	\caption{Different hyperplanes with different margins \cite{svm_monkeylearn}}
-\end{figure}
+So the objective is to choose a hyperplane with the largest possible margin between it and the support vectors, since the larger is the margin, the lower the generalization error of the classifier \cite{ISLR}.
 
-So the objective is to choose a hyperplane with the largest possible margin between it and the support vectors, since the larger is the margin, the lower the generalization error of the classifier.\\
+\subsection{Constructing the Maximal Margin Classifier}
+Finding the maximal margin hyperplane based on a set of $n$ training observations $x_1, \dots x_n \in \mathbb{R}^p$ and with class labels $y_1 \dots y_n \in \{1, -1\}$, translates to an optimization problem:
 
-In essence, support vectors are the elements of the training set that would change the position of the dividing hyperplane if removed. This makes the support vectors the critical elements of the training set.\\
-
-Finding the maximal margin hyperplane based on a set of training observations $x_1, \dots x_n \in R^p$ and with class lables $y_1 \dots y_n$, translates to an optimization problem:\\
-
-Maximize M
+Maximize the margin $M$:
 \begin{equation} \label{eq:svm1}
-\beta_0, \beta_1, \beta_2, \dots, \beta_p, M
+	\beta_0, \beta_1, \beta_2, \dots, \beta_p, M
 \end{equation}
 
 subject to
 \begin{equation} \label{eq:svm2}
-\sum_{j=1}^{p}\beta^2_j = 1
+	\sum_{j=1}^{p}\beta^2_j = 1
 \end{equation}
 
 \begin{equation} \label{eq:svm3}
-y_i(\beta_0 + \beta_1 X_i1 + \beta_2 X_i2 + \dots + \beta_p X_ip) \ge M \quad \forall i = 1, \dots, n
+	y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) \ge M \quad \forall i = 1, \dots, n
 \end{equation}
 
-\ref{eq:svm2} and \ref{eq:svm3} ensure that each observation is on the correct side of the hyperplane and at least a distance M from the hyperplane. Hence, M represents the margin of our hyperplane, and the optimization problem chooses $\beta_0, \beta_1, \beta_2, \dots, \beta_p$ to maximize M. \\
+Equations \ref{eq:svm2} and \ref{eq:svm3} ensure that each observation is on the correct side of the hyperplane, and at least at distance $M$ from the hyperplane. \\
+So $M$ represents the margin of our hyperplane, and the optimization problem chooses $\beta_0, \beta_1, \beta_2, \beta_3, \dots, \beta_p$ to maximize M and find the maximal margin hyperplane \cite{ISLR}.
+
+%TODO: sono qui
+\subsection{title}
 
 Unfortunately this hyperplane does not necessarily exists, but we can extend this concept to find a hyperplane that almost separates the classes using a soft margin. This is what an really SVM does.
 

@@ -5,10 +5,13 @@
 
 \documentclass[LaM,binding=0.6cm,english,noexaminfo]{sapthesis}
 
+\usepackage[backref=true,citetracker=true,alphabetic=true]{biblatex}
 \usepackage{microtype}
-\usepackage[english]{babel}
+\usepackage{amssymb}
+\usepackage{parskip}
 \usepackage[utf8]{inputenx}
-\usepackage{biblatex}[backref=true,citetracker=false,alphabetic=true]
+\usepackage{csquotes}
+\usepackage[english]{babel}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{enumitem}
@@ -19,9 +22,9 @@
 \usepackage[colorlinks=true]{hyperref}
 
 %Change how bib backref are
-\DefineBibliographyStrings{english}{%
+\DefineBibliographyStrings{english}{
 	backrefpage = {p.},% originally "cited on page"
-	backrefpages = {p.},% originally "cited on pages"
+	backrefpages = {pp.},% originally "cited on pages"
 }
 
 \hypersetup{pdftitle={M.Sc - E. Orfanelli - Sapienza Univiversity - 2018-2019},pdfauthor={Emanuele Orfanelli}}
