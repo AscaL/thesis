@@ -480,6 +480,8 @@ The definition of an hyperplane for two dimensions is:
 	\beta_0 + \beta_1 X_1 + \beta_2 X_2 = 0
 \end{equation}
 
+Where any $X = (X_1, X_2)^T$ for which equation \ref{eq:hyper1} holds is a point on the hyperplane.
+
 And it can be extended to an hyperplane of p-dimensions:
 \begin{equation} \label{eq:hyper2}
 	\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p = 0
@@ -492,14 +494,16 @@ If $X$ does not satisfy equation \ref{eq:hyper2}, but
 
 we know that $X$ lies to one side or the other of the hyperplane. So a hyperplane divides a space in two halves \cite{ISLR}.
 
-It's possible to build a hyperplane that can separate training data based on their class labels, for example assigning $\{-1, 1\}$ if the result lies on one side or the other.
+It's possible to build a hyperplane that can separate training data based on their class labels, for example by assigning $\{-1, 1\}$ if the result lies on one side or the other of the hyperplane.
 
 \subsection{Maximal Margin Classifier}
-If the dataset can be separated by a hyperplane, it means that there can be an infinite number of separating hyperplanes. \\
-To build a classifier it's necessary to chose one of those infinite hyperplanes.
+If the data can be separated by a hyperplane, it means that there can be an infinite number of separating hyperplanes. \\
+To build a classifier it's necessary to chose one between those infinite hyperplanes, such that the classification results are as accurate as possible.
 
 The distance between the hyperplane and the nearest data point from either side is known as the margin.\\
 Generally the choice is the \textit{maximal margin hyperplane}, meaning the hyperplane that \textit{maximizes} the margins (has the farthest minimum distance) for the data we are classifying.
+
+In fact the distance of a data point from the hyperplane is a measure of our confidence that the observation was classified correctly \cite{ISLR}.
 
 \begin{figure}[H]
 	\centering
@@ -507,7 +511,7 @@ Generally the choice is the \textit{maximal margin hyperplane}, meaning the hype
 	\caption{Different hyperplanes have different margins \cite{svm_monkeylearn}}
 \end{figure}
 
-The idea is that a classifier with a large margin on the training set will have a large margin on the test set, so to classify it correctly \cite{ISLR}.
+The idea is that a classifier with a large margin on the training set will have a large margin on the test set, so it will classify it correctly \cite{ISLR}.
 
 \subsection{Support Vectors}
 Support vectors are the data points that lie closest to the hyperplane (Fig. \ref{fig:suppvec}), they are also the most difficult data points to classify and have direct influence on the location of the hyperplane. In fact, moving the support vectors would change the hyperplane's location.
@@ -542,30 +546,138 @@ Equations \ref{eq:svm2} and \ref{eq:svm3} ensure that each observation is on the
 So $M$ represents the margin of our hyperplane, and the optimization problem chooses $\beta_0, \beta_1, \beta_2, \beta_3, \dots, \beta_p$ to maximize M and find the maximal margin hyperplane \cite{ISLR}.
 
 %TODO: sono qui
-\subsection{title}
+\subsection{Support Vector Classifier}
+Unfortunately this hyperplane does not necessarily exists (\ref{fig:svmnotsep}), but we can extend this concept to find a hyperplane that almost separates the classes using a soft margin. This is really what an SVM does.
 
-Unfortunately this hyperplane does not necessarily exists, but we can extend this concept to find a hyperplane that almost separates the classes using a soft margin. This is what an really SVM does.
-
-It is very probable that the data is not linearly separable, as we can see in figure \ref{fig:svmnotsep}:
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{svm_not_separable}
-	\caption{Linearly not separable data \cite{svm_monkeylearn}}
+	\caption{Example of Linearly non separable data \cite{svm_not_sep}}
 	\label{fig:svmnotsep}
 \end{figure}
 
-In this case, for example, we can add a new dimension and separate the data. 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\textwidth]{svm_three_dim}
-	\caption{Three dimensional separable space \cite{svm_monkeylearn}}
-\end{figure} 
+Even if a separating hyperplane did exists, we might not want to use it: such a classifier would necessarily  classify all of the training data perfectly, and that would lead to sensitivity to changes in data points (fig. \ref{fig:margin_change}). Also, being so sensitive could mean that it's overfitting the data. 
 
-And then map back to two dimensions.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{svm_separated}
-	\caption{Separated data \cite{svm_monkeylearn}}
+	\includegraphics[width=0.8\textwidth]{margin_change}
+	\caption{Adding a single data point (from left to right) can change the maximal margin hyperplane very significantly \cite{ISLR}}
+	\label{fig:margin_change}
 \end{figure}
 
-Calculating the transformation can be very computationally intensive, but SVM just needs the dot product between the vectors. This is called the kernel function. Kernels can be of different types, like linear or 
+Instead we consider a classifier that does not separate the data perfectly, but is less prone to change for individual data points and can better classify \textit{most} of the observations.
+
+This classifier is called \textit{soft margin classifier} or \textit{support vector classifier} (Fig. \ref{fig:soft_svm}). \\
+In a support vector classifier (SVC) a small subset of the observations are on the wrong side of the margin, or even on the wrong side of the separating hyperplane.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{soft_svm}
+	\caption{Soft margin classifier. Some data points are allowed to be misclassified to find a larger margin \cite{soft_svm}}
+	\label{fig:soft_svm}
+\end{figure}
+
+The optimization problem we are solving now is the following: 
+
+Maximize the margin $M$:
+\begin{equation} \label{eq:svm4}
+	\beta_0, \beta_1, \beta_2, \dots, \beta_p, \epsilon_1, \dots, \epsilon_n, M
+\end{equation}
+
+subject to
+\begin{equation} \label{eq:svm5}
+	\sum_{j=1}^{p}\beta^2_j = 1
+\end{equation}
+
+\begin{equation} \label{eq:svm6}
+	y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) \ge M(1 - \epsilon_i), \quad \epsilon_i \ge 0, \quad \sum_{i=1}^{n}\epsilon_i \le C
+\end{equation}
+
+With $C \ge 0$, and $\epsilon_1, \dots, \epsilon_n$ being slack variables to allow data points to be on the wrong side of the margin.
+
+When we solve equations \ref{eq:svm4}-\ref{eq:svm6} we can classify $x^*$ by determining where it lies on the hyperplane:
+
+\begin{equation} \label{eq:svm7}
+	f(x^*) = \beta_0 + \beta_1 x_{1}^* + \beta_2 x_{2}^* + \dots + \beta_p x_{p}^*
+\end{equation}
+
+Based on the value of $\epsilon_i$ we can make some assumptions:
+\begin{itemize}[noitemsep]
+	\item If $\epsilon_i = 0$ the \textit{i}th observation is on the correct side of the margin.
+	\item If $\epsilon_i > 0$ the \textit{i}th observation is on the wrong side of the margin.
+	\item If $\epsilon_i > 1$ the \textit{i}th observation is on the wrong side of the hyperplane.
+\end{itemize}
+
+$C$ determines the quantity and quality of the violations of the margin and hyperplane that is tolerable by our classifier, and is called \textit{cost}.
+\begin{itemize}[noitemsep]
+	\item If $C = 0$ then we cannot violate the margin, and $\epsilon_1 = \dots = \epsilon_n = 0$.
+	\item If $C > 0$ then $\le C$ observations ca be on the wrong side of the hyperplane.
+\end{itemize} 
+
+When $C$ is small the margin is small and we have a classifier that is very fit to the data, with low bias and high variance. \\
+When $C$ is big the margin is larger and the classifier is less fit to the data and has high bias and low variance.
+
+The interesting property of this optimization problem is that only the support vectors (observations that are on the margin or that violate the margin) affect the hyperplane, and thus the classifier obtained. \\
+All the observations that lie on the correct side of the margin do not affect the support vector classifier.
+
+\subsection{Kernels}
+Sometimes data is not linearly separable (Fig. \ref{fig:svmnotsep}). When that happens, Support Vector Machines work by enlarging the feature space using specific function called kernels.
+
+The solution to equations \ref{eq:svm4}-\ref{eq:svm6} involves only the inner products of the observations, and not the observations themselves \cite{ISLR}.\\
+The inner product of two observations $x_i$ , $x_i'$ is given by:
+
+\begin{equation} \label{eq:svm9}
+	\langle x_i, x_i' \rangle = \sum_{j=1}^{p} x_{ij}x_{i'j}
+\end{equation}
+
+the linear SVC can be described as:
+
+\begin{equation} \label{eq:svm10}
+	f(x) = \beta_0 + \sum_{i=1}^{n} \alpha_i \langle x, x_i \rangle
+\end{equation}
+
+To estimate $\beta_{0}$ and $\alpha_1 \dots, \alpha_n$ all that is required are the $n \choose 2$ inner products $\langle x_i, x_i' \rangle$ between all pairs of training observations \cite{ISLR}.
+
+Every time we compute the inner product (\ref{eq:svm9}) in equation \ref{eq:svm10} we could replace it with a generalization:
+
+\begin{equation} \label{eq:svm11}
+	K(x_i, x_i')
+\end{equation}
+
+Where $K$ is a kernel function. A kernel function is used to quantify the similarity between two observations. \\
+For example a linear kernel is:
+
+\begin{equation} \label{eq:svm12}
+	K(x_i, x_i') = \sum_{j=1}^{p} x_{ij}x_{i'j}
+\end{equation}
+
+or for a polynomial kernel of degree \textit{d}:
+
+\begin{equation} \label{eq:svm13}
+	K(x_i, x_i') = (1 + \sum_{j=1}^{p} x_{ij}x_{i'j})^d
+\end{equation}
+
+or a radial kernel:
+\begin{equation} \label{eq:svm14}
+	K(x_i, x_i') = \exp(-\gamma\sum_{j=1}^{p} (x_{ij}, x_{i'j})^2), \quad \gamma \ge 0
+\end{equation} 
+
+There are many more kernel functions that can be used based on the shape of data.
+
+The advantage of using a kernel is first of all computational: by using a kernel we just need to compute $K(x_i, x_i')$ for all $n \choose 2$ distinct pairs ($i, i'$).
+
+Graphically, starting with a two dimensional non linearly separable data, this is what happens:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{svm_notsep}
+	\caption{Linearly non separable data \cite{kernel_trick}.}
+\end{figure} 
+
+We map the data from input space \textit{X} into a transformed feature space \textit{H}, by using a non-linear function $\phi: X \rightarrow H$
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{kernel_trick}
+	\caption{Transformation of the data in a feature space where the instances from the two classes may be linearly separable \cite{kernel_trick}.}
+\end{figure} 
+
