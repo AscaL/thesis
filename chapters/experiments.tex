@@ -253,7 +253,9 @@ The data consists of 56 total subject, 21 unique females and 35 unique males, wi
 %TODO: modification made by me to the DB 
 %TODO: rewrite tentative atm
 
-We modified this database to reduce the amount of videos where the face was hard to see, or that had 
+We modified this database to reduce the amount of videos where the face was hard to see, that had multiple subjects, or where the subjects were not visible while speaking.
+Also we performed a division of subjects to train the classifiers in a way that it wouldn't "remember" the person, since we have many videos with the same subject. 
+the same person never appears in the 
 
 
 \section{GLM}
