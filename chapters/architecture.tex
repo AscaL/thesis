@@ -1,22 +1,20 @@
-%TODO: maybe explain other tecniques
-In this chapter we will give a brief introduction of Machine Learning (\ref{ml}), explaining Classification (\ref{classification}), Regression (\ref{regression}), Supervised (\ref{supervised}) and Unsupervised (\ref{unsupervised}) Learning, 
-%TODO: not sure about this
-proceeding then to explain different techniques such as SVM (\ref{svm}) which is the most important technique used for this thesis.
+In this chapter we will give a brief introduction of Machine Learning (\ref{ml}), explaining Classification (\ref{classification}), Regression (\ref{regression}), Supervised (\ref{supervised}) and Unsupervised (\ref{unsupervised}) learning, proceeding then to explain different techniques such as SVM (\ref{svm}), which is the most important technique used for this thesis, and Random Forests \ref{random_forest}.
 
 \section{Machine Learning} \label{ml}
-%TODO: remove?
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{ml_troll}
+	\includegraphics[width=0.75\textwidth]{ml_troll}
 	\label{fig:ml_troll}
 \end{figure}
+
 Machine Learning is a subfield of Artificial Intelligence that uses statistical techniques to provide computers with the ability to progressively improve performance on different tasks using data, while not being explicitly programmed \cite{wiki:ml}.
 
-The application for machine learning are huge and diverse, and range from character recognition to email filtering, with lots of application in computer vision, such as image recognition and classification.
+The applications for machine learning are huge and diverse, and range from character recognition to email filtering, with lots of applications in computer vision, such as image recognition and classification.
 
 Machine learning also focuses on making prediction on data, by utilizing techniques taken from statistics  mathematical optimization. This has many applications, ranging from health care by predicting risk factors for diseases or gaining insights for prevention, to sports or politics where actual results can be predicted.
 
-The field of machine learning is subdivided in two broad categories (Fig. \ref{fig:ml_mldiv}), supervised learning (\ref{supervised}) and unsupervised learning (\ref{unsupervised}) (Fig. \ref{unsupervised}) based on whether the data is labeled or not.
+The field of machine learning is subdivided in two broad categories (Fig. \ref{fig:ml_mldiv}), supervised learning (\ref{supervised}) and unsupervised learning (\ref{unsupervised}) based on whether the data is labeled or not.
 
 \begin{figure}[H]
 	\centering
@@ -29,7 +27,8 @@ Another classification is based on the kind of output that the users wish to obt
 
 % TODO: Section or SubSection?
 \subsection{Supervised Learning} \label{supervised}
-When using supervised learning we want to learn a function that maps an input to an output, based on example input-output pairs \cite{ai_sup}. This means that we need labeled training data, consisting of a vector of input objects and an output value. The objective is to correctly classify the new data based on the previously analyzed training pairs.
+When using supervised learning we want to learn a function that maps an input to an output, based on example input-output pairs \cite{ai_sup}. \\
+This means that we need labeled training data, consisting of a vector of input objects and an output value. The objective is to correctly classify the new data based on the previously analyzed training pairs.
 
 The general steps to solve a supervised learning problem are (Fig. \ref{fig:sup_wf}):
 \begin{enumerate}[noitemsep]
@@ -42,37 +41,38 @@ The general steps to solve a supervised learning problem are (Fig. \ref{fig:sup_
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{sup_wf}
+	\includegraphics[width=0.8\textwidth]{sup_wf}
 	\caption{Supervised Learning Workflow \cite{sup_wf}}
 	\label{fig:sup_wf}
 \end{figure}
 
 There are important considerations to make when using a supervised learning approach:
 \begin{itemize}
-	\item \textbf{Dimensionality of Input}: 
-	
+	\item \textbf{Dimensionality of Input}:\\ 
 	When the input feature vectors are very big there could be problems in learning the function, even if not all features contribute significantly to the function. This happens because the data depends on too many variables and this could cause high variance. \\
 	To avoid this, it is important to reduce the number of features through manual removal or using feature selection algorithms. This usually improves the accuracy of the classifier.
-	\item \textbf{Overfitting and Underfitting} \cite{overfit}: 
+	\item \textbf{Overfitting and Underfitting} \cite{overfit}: \\	
+	Overfitting happens when the algorithm adapts too much on the training data and is no longer able to make accurate predictions on the test data (Fig. \ref{fig:underfitting}). This usually happens when there is an excessive number of parameters than what can be justified by the data \cite{camb_over}. 
 	
-	Overfitting happens when the algorithm adapts too much on the training data and is no longer able to make accurate predictions on the test data (Fig. \ref{fig:ml_overfit}). This usually happens when there is an excessive number of parameters than can be justified by the data \cite{camb_over}. \\
 	Underfitting is the opposite: a model is not able to correctly capture the structure of the data, for example when fitting non linear data with a linear model. \\
 	A common way to avoid overfitting is to resample the data using different techniques, commonly k-fold cross validation or leave-one-out. Other methods include feature removal, early stopping, regularization.
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.5\textwidth]{ml_overfit}
-		\caption{Example of Overfitting (green line) \cite{wiki:ml_overfit}}
-		\label{fig:ml_overfit}
+		\includegraphics[width=0.8\textwidth]{underfitting}
+		\caption{Example of overfitting and underfitting \cite{underfitting}}
+		\label{fig:underfitting}
 	\end{figure}	
 	
 	% TODO: Write this better
-	\item \textbf{Bias-Variance Tradeoff} \cite{biasvar}: 
-	
-	suppose we have different (but equally good) training set. An algorithm is biased for input $x$ if, when trained on each of these data sets, it is consistently incorrect at predicting the correct output for $x$. \\
+	\item \textbf{Bias-Variance Tradeoff} \cite{biasvar}: \\	
+	Suppose we have different (but equally good) training set: \\
+	an algorithm is biased for input $x$ if, when trained on each of these data sets, it is consistently inaccurate at predicting the correct output for $x$. \\
 	A high bias indicates that the data points tend to be very close to the mean, and to each other.
+	
 	A learning algorithm has high variance for a particular input $x$ if it predicts output values that are correct on average but inconsistent when trained on different training sets. \\
-	Basically, a high variance indicates that the data points are very spread out from the mean, and from one another.\\
+	Basically, a high variance indicates that the data points are very spread out from the mean, and from one another (Fig. \ref{fig:biasvar}).
+	
 	The prediction error of a classifier is related to the sum of bias and variance, so generally there is a tradeoff between them. Low bias means that it fits the new data well, but if the bias is too low it will fit each training set differently and so result in high variance.
 	
 	\begin{figure}[H]
@@ -87,7 +87,7 @@ There are many algorithms used to perform supervised learning tasks, the most co
 
 \begin{itemize}[noitemsep, topsep = -5pt]
 	\item Linear Regression (\ref{regression})
-	\item Logistic Regression
+	\item Logistic Regression \ref{logreg}
 	\item Naive Bayes
 	\item Linear Discriminant Analysis
 	\item Decision Trees
@@ -99,12 +99,12 @@ There are many algorithms used to perform supervised learning tasks, the most co
 % TODO: Should i write how sup learning works? (from wiki section)
 
 \subsection{Unsupervised Learning} \label{unsupervised}
-Unsupervised learning is the subfield of Machine Learning tasked with inferring a function from the analysis of unlabeled data (not classified). Being unclassified there is also a difficulty in to evaluate the accuracy of the model.\\
+Unsupervised learning is the subfield of Machine Learning tasked with inferring a function from the analysis of unlabeled (not classified) data. Being unclassified there is also a difficulty in evaluating the accuracy of the model.\\
 Usually items are grouped by some measure of similarity, like for example in k-means clustering (Fig. \ref{fig:clustering}).
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{clustering}
+	\includegraphics[width=0.7\textwidth]{clustering}
 	\caption{Example of Unclustered and Clustered data \cite{kmeans}}
 	\label{fig:clustering}
 \end{figure}	
@@ -139,7 +139,7 @@ These are the most widely used unsupervised learning algorithms:
 \end{itemize}
 
 \subsection{Classification} \label{classification}
-In machine learning, classification is the problem of identifying in which of a set of categories a new observation belongs, based on a training set of data containing observations whose category is known in advance. A common example is classifying an email as spam or not.
+In machine learning, classification is the problem of identifying in which of a set of categories a new observation belongs, based on a training set of data containing observations whose category is known in advance. A common example is classifying an email as spam or not \cite{wiki:classification}.
 
 Classification is considered an instance of supervised learning, based on instances where a training set is available. As for unsupervised learning, classification would be clustering since it groups data into categories based on similarity, but without knowing the label of the data.
 
@@ -154,26 +154,27 @@ The classifier is the algorithm that implements the classification, or a functio
 	\label{fig:classification}
 \end{figure}	
 
-Many classification algorithm, such as SVM (\ref{svm}), logistic regression, LDA (Linear Discriminant Analysis) or perceptron, can be described using a linear function assigning a score to each category c, by doing the dot product of the feature vector of an instance with a vector of weights, thus combining them. The predicted category will be the one with the highest score. This function is called linear predictor function and has this general formula:
+Many classification algorithm, such as SVM (\ref{svm}), logistic regression \ref{logreg}, LDA (Linear Discriminant Analysis) or perceptron, can be described using a linear function assigning a score to each category c, by doing the dot product of the feature vector of an instance with a vector of weights, thus combining them. The predicted category will be the one with the highest score. This function is called linear predictor function and has this general formula:
 
 \begin{equation}
-score(X_i, c) = \beta_c \cdot X_i
+	score(X_i, c) = \beta_c \cdot X_i
 \end{equation}
 
-where $X_i$ is the feature vector of instance i and $\beta_c$ is the vector of weights of category c. This kind of algorithms are known as linear classifiers.
+where $X_i$ is the feature vector of instance \textit{i} and $\beta_c$ is the vector of weights of category \textit{c}. This kind of algorithms are known as linear classifiers.
 
 \subsection{Regression Analysis} \label{regression}
-%TODO: riscrivere e' messo di merda
+%TODO: check if it's ok
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{reg_analysis}
+	\includegraphics[width=0.75\textwidth]{reg_analysis}
 	\caption{Regression Analysis can solve this! \cite{reg_analisys}}
 	\label{fig:reg_analysis}
 \end{figure}
-Regression analysis is used in statistics and machine learning to estimate the relationships between variables. It focus on the relationship between one dependent variable and more independent variables (also called predictors) and it is subsequently used to make predictions on how changing some of the  independent variables will affect the dependent one \cite{wiki:reg_an}.
 
-Regression is generally used to estimate the average value of the dependent variable when the independent variables are fixed. In doing that a regression function is calculated. \\
-Another use of regression analysis is to understand the relationship among the independent and dependent variables.
+Regression analysis is used in statistics and machine learning to estimate the relationships among variables. \\
+More specifically, it focuses on the relationship between one dependent variable and more independent variables (also called predictors), and generally is used to estimate the average value of the dependent variable when the independent variables are fixed, by calculating a regression function.
+
+By understanding the relationship between dependent and independent variables it's also possible to perform predictions on future data based on new inputs, or on changes to the old ones \cite{wiki:reg_an}.
 
 In regression analysis, it is also of interest to characterize the variation of the dependent variable around the prediction of the regression function using a probability distribution.
 
@@ -206,7 +207,7 @@ If $\beta$ is of length $k$ and the number of observed data points is enough ($N
 
 If this is the case, regression analysis provides the means to find a solution for unknown parameters of $\beta$ to, for example, apply the method of least squares.
 
-To apply regression the data must abide by some assumption, generally:
+To apply regression the data must abide by some assumptions, generally:
 \begin{itemize}[noitemsep, topsep = -5pt]
 	\item The sample is representative of the population for the inference prediction.
 	\item The error is a random variable with a mean of zero.
@@ -216,7 +217,6 @@ To apply regression the data must abide by some assumption, generally:
 	\item The variance of the error is constant across observations.
 \end{itemize}
 
-%TODO: section or sub?
 \subsection{Linear Regression} \label{lin_reg}
 Linear regression is the most basic case of Regression Analysis, and it is a useful tool for predicting a quantitative response. Also, most of the newer approaches to regression are often a generalization or extension of linear regression.
 
@@ -224,7 +224,7 @@ Linear regression is a linear approach to modeling the relationship between a de
 \begin{equation}
 	y_i \approx \beta_0 + \beta_1x_i + \varepsilon_i
 \end{equation}
-where $\varepsilon_i$ is the error for the i-th observation. The error is a catch-all for what we miss with this simple model, since it's very probable that the true relationship is not linear, and that there may be other variables that influence $y$.
+where $\varepsilon_i$ is the error for the i\textit{th} observation. The error is a catch-all for what we miss with this simple model, since it's very probable that the true relationship is not linear, and that there may be other variables that influence $y$ \cite{ISLR}.
 
 The point of LR is to estimate the $\beta$ coefficients to make predictions. To do so, we utilize of the training dataset to produce estimates $\widehat{\beta_0}$ and $\widehat{\beta_1}$ for the model coefficients. We can then make predictions by computing:
 \begin{equation}
@@ -282,7 +282,7 @@ where $x_{ij}$ is the i-th observation on the j-th independent variable.
 
 \pagebreak
 
-\section{Logistic Regression}
+\section{Logistic Regression} \label{logreg}
 In regression analysis, logistic regression is a method for estimating the parameters of a logistic model. A logistic model is one where the log-odds of the probability of an event is a linear combination of independent or predictor variables. \\
 The two possible dependent variable values are often labeled as "0" and "1", "true" or "false", "pass" or "fail" etc, and they represent binary outcomes (Fig. \ref{fig:logistic_exam}). \\
 It's possible to generalize the binary logistic regression model to more than two levels (outcomes) of the dependent variable \cite{wiki:logisticreg}.
@@ -348,40 +348,47 @@ Once the coefficient have been estimated is pretty simple to compute the probabi
 
 \pagebreak
 
-\section{Random Forest}
+\section{Random Forest} \label{random_forest}
 %TODO: review from wiki
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{RFClass}
+	\includegraphics[width=0.75\textwidth]{RFClass}
 	\caption{Example of Random Forest Classification \cite{medium:RF}}
 	\label{fig:RFClass}
 \end{figure}
 
-Random forests are an ensemble learning method used mainly for classification and regression. They work by building a lot of decision trees while training, and outputting the class that is the mode of the classes for classification, or the mean prediction of the individual trees for regression \cite{wiki:randomforest}.
+Random forests are an ensemble learning method used mainly for classification and regression. They work by building a lot of decision trees while in the training phase, and then outputting the class that is the mode of the classes for classification, or the mean prediction of the individual trees for regression \cite{wiki:randomforest}.
 
 Random Forest (RF) is preferred to decision trees because decision trees suffer from high variance. By using tree bagging, which is a commonly used technique to reduce variance, we can correct decision trees' habit of overfitting to their training set \cite{ESL}.
 
 \subsubsection{Decision Trees}
-
+%TODO: check this par
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{decTree}
+	\includegraphics[width=0.85\textwidth]{decTree}
 	\caption{Example of a Decision Tree \cite{KDNrf}}
 	\label{fig:decTree}
 \end{figure}
 
-Decision trees are a popular method for various machine learning tasks and can be used for either classification or regression. However, they are often inaccurate. Specifically, by growing trees very deep, they tend to learn highly irregular patterns by overfitting to the training set (i.e. have low bias, but very high variance). \\
+Decision trees are a popular method for various machine learning tasks and can be used for either classification or regression. The aim of decision trees is to create a model that predicts the value of a target variable based on several input variables. \\
+Each node of the tree corresponds to one of the input variables. Each leaf represents a value of the target variable given the values of the input variables represented by the path from the root to the leaf \cite{wiki:DT}.
+
+A decision tree is a simple representation for classifying examples. The arcs coming from a node labeled with an input feature are labeled with each of the possible values of the target or output feature or the arc leads to a subordinate decision node on a different input feature. Each leaf of the tree is labeled with a class or a probability distribution over the classes.
+
+Decision trees, however, are often inaccurate. Specifically, by growing trees very deep, they tend to learn highly irregular patterns by overfitting to the training set (i.e. have low bias, but very high variance). 
+
 Random forests are a way of averaging multiple deep decision trees, trained on different parts of the same training set, with the goal of reducing the variance. \\
 This comes at the expense of a small increase in the bias and some loss of interpretability, but generally greatly boosts the performance in the final model \cite{ESL}. 
 
 \subsubsection{Tree Bagging}
 Given a set of $n$ independent observations $X_1, \dots, X_n$, each with variance $\sigma^2$, the variance of the mean $\overline{X}$ of the observations is given by $\sigma^2/n$. \\
-This means that averaging a set of observations reduces the variance. So to reduce the variance we can take many training sets from the population, build a prediction model using each training set, and average the resulting predictions. \\
+This means that averaging a set of observations reduces the variance. So to reduce the variance we can take many training sets from the population, build a prediction model using each training set, and average the resulting predictions. 
+
 Basically we could calculate $\hat{f}^1(x), \hat{f}^2(x), \dots, \hat{f}^B(x)$ using B separate training sets, and average them in order to obtain a single model with low-variance \cite{ISLR}.
 
 This solution is not practical since we normally lack more than one training set. \\
-Instead we utilize bagging: we can take repeated samples from the training set in order to generate B different bootstrapped training sets. We then train our method on the $b_{th}$ bootstrapped training set, and then average the resulting predictions.
+Instead we utilize \textit{bagging}: we can take repeated samples from the training set in order to generate B different bootstrapped training sets. We then train our method on the b\textit{th} bootstrapped training set, and then average the resulting predictions.
 
 \begin{figure}[H]
 	\centering
@@ -392,7 +399,7 @@ Instead we utilize bagging: we can take repeated samples from the training set i
 
 To apply bagging to regression trees specifically, we simply construct B regression trees using B bootstrapped training sets, and average the resulting predictions. These trees are grown deep, and are not pruned. Hence each individual tree has high variance, but low bias. Averaging these B trees reduces the variance \cite{ISLR}.
 
-If we are using RF for classification (like in this thesis), the simplest approach is the following: \\
+If we are using Random Forests for classification (like in this thesis), the simplest approach is the following: \\
 Given test observation, we record the class predicted by each of the $B$ trees, and take a majority vote: the final prediction is the most frequent class among the $B$ predictions.
 
 More formally, given a training set $X = x_1, \dots, x_n$ with responses $Y = y_1, \dots, y_n$, bagging $B$ times selects a random sample with replacement of the training set and fits trees to these samples \cite{wiki:randomforest}:
@@ -413,12 +420,11 @@ or by using the majority vote in case of classification.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{baggingDT}
+	\includegraphics[width=0.9\textwidth]{baggingDT}
 	\caption{Bagging leads to different decision trees \cite{baggingDT}}
 	\label{fig:baggingDT}
 \end{figure}
 
-%TODO: from here
 %todo : maybe remove the rest
 Additionally, an estimate of the uncertainty of the prediction can be made as the standard deviation of the predictions from all the individual regression trees on $x'$:
 
@@ -434,7 +440,7 @@ The training and test error tend to level off after some number of trees have be
 Random Forests provide an improvement over bagged decision trees by decorrelating the trees. As in bagging, the decision trees are built on a bootstrapped training set. \\
 The difference is that every time a split is considered, a random sample of $m$ predictors is chosen as split candidates from the total $p$ predictors. The split can only use one of those $m$ predictors. $\sqrt{m}$ predictors are taken each split, typically with $m \equiv \sqrt{p}$ \cite{ISLR}.
 
-Practically, at each split in the tree, the algorithm can only consider a subset of the predictors (Fig. \ref{fig:RF}). This works because if there is a very strong predictor, that predictor would be used in the majority of the trees, and then all the bagged trees would look alike and highly correlated, thus leading to a small reduction in variance.
+Practically, at each split in the tree, the algorithm can only consider a subset of the predictors (Fig. \ref{fig:RF}). This works because if there is a very strong predictor, that predictor would be used in the majority of the trees, and then all the bagged trees would look alike and would be highly correlated, thus leading to a small reduction in variance.
 
 By forcing each split to consider only $m$ predictors, on average $(p - m)/p$ of splits will not take into account a strong predictor. This, in turn, will decorrelate the trees.
 
@@ -447,16 +453,30 @@ By forcing each split to consider only $m$ predictors, on average $(p - m)/p$ of
 
 \subsubsection{Out of bag Error}
 There is a very direct way to estimate the test error of a bagged model: \\
-On average, we use $2/3$ of the observations to fit a bagged tree. The remaining $1/3$ that are not utilized are called the out-of-bag (OOB) observations. \\
-We can predict the response for the $i_{th}$ observation using each of the trees in which that observation was OOB. This will generate approximately $B/3$ predictions for the $i_{th}$ observation. We can then average these predictions (or use majority voting for classification). \\
-We can repeat the process for all the $n$ observations and get an average classification error. The resulting OOB error is a valid estimate of the test error for the bagged model, since the response for each observation is predicted using only the trees that were not fit using that observation \cite{ISLR}. 
+On average, we use $2/3$ of the observations to fit a bagged tree. The remaining $1/3$ that are not utilized are called the out-of-bag (OOB) observations. 
+
+We can predict the response for the i\textit{th} observation using each of the trees in which that observation was OOB. This will generate approximately $B/3$ predictions for the i\textit{th} observation.
+We can then average these predictions (or use majority voting for classification). 
+
+We can repeat the process for all the $n$ observations and get an average classification error. \\
+The resulting OOB error is a valid estimate of the test error for the bagged model, since the response for each observation is predicted using only the trees that were not fit using that observation \cite{ISLR}. 
 
 \subsubsection{Variable Importance}
-Bagging has the advantage of giving an increased accuracy over using a single tree, at the cost of interpretability of the data. Unfortunately, we can no longer have easily interpreted diagrams.\\
+Bagging has the advantage of giving increased accuracy over using a single tree, at the cost of interpretability of the data. Using bagging we can no longer have easily interpreted diagrams.
+
 With Random Forest we can instead rank the importance of each predictor: \\
-First, given a dataset $D_n = \{X_i, Y_i\}_{i=1}^n$ we fit a RF to the data. While fitting the data, the out-of-bag error is averaged over the forest. \\
-To get the importance of the $j_{th}$ feature, we permute it's values over the training data and recompute the OOB error. \\
+given a dataset $D_n = \{X_i, Y_i\}_{i=1}^n$ we fit a RF to the data. While fitting the data, the out-of-bag error is averaged over the forest. 
+
+To get the importance of the j\textit{th} feature, we permute it's values over the training data and recompute the OOB error.
+
 The importance is given by doing the average of the difference between the OOB error before and after this permutation. Then the score is normalized by the standard deviation of the differences.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{RF_imp}
+	\caption{Example of variable importance with Random Forest \cite{rf_imp}.}
+	\label{fig:RF_imp}
+\end{figure}
 
 \pagebreak
 
@@ -545,7 +565,6 @@ subject to
 Equations \ref{eq:svm2} and \ref{eq:svm3} ensure that each observation is on the correct side of the hyperplane, and at least at distance $M$ from the hyperplane. \\
 So $M$ represents the margin of our hyperplane, and the optimization problem chooses $\beta_0, \beta_1, \beta_2, \beta_3, \dots, \beta_p$ to maximize M and find the maximal margin hyperplane \cite{ISLR}.
 
-%TODO: sono qui
 \subsection{Support Vector Classifier}
 Unfortunately this hyperplane does not necessarily exists (\ref{fig:svmnotsep}), but we can extend this concept to find a hyperplane that almost separates the classes using a soft margin. This is really what an SVM does.
 

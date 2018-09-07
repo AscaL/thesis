@@ -44,10 +44,9 @@ Police officers and other trained officials seems to perform better than the ave
 
 % also talk about non-contact
 \section{State of the Art} \label{sota}
-%TODO: wite better
-How are lies detected? At the moment there are a lot of different instruments and technologies to detect lies, ranging from the good old polygraph and MRI machines to thermal cameras and machine learning techniques.
+How are lies detected? At the moment there are a lot of different instruments and technologies to detect lies, ranging from analyzing psychological features, to using the polygraph or thermal cameras and machine learning approaches.
 
-In computer vision, lie detection is done using an array of different techniques, employing not only RGB cameras but also physical sensors and thermal cameras, with machine learning techniques, and often combining many of them to achieve better results.
+In computer vision specifically, lie detection is a somewhat new field of research, and as such it's done using many different techniques, employing not only RGB cameras but also physical sensors and thermal cameras and using voice, gaze, action and body analysis tools, all of this often aided by machine learning techniques, and by combining many of these modalities together to achieve better results.
 
 We now proceed to describe the state of the art, based on the latest researches done in the field, with focus on computer vision:
 
@@ -71,7 +70,7 @@ In sound processing, the mel-frequency cepstrum (MFC, Fig. \ref{fig:MFCC}) is a 
 In \cite{relidss} the authors created a new database by making 40 candidates try to deceive them while telling truthful or deceptive statements for about one to two minutes each. From this experiment they extracted MFCC and pitch, so that they could process them through Matlab's Voice Box. \\
 After acquiring the data, an SVM classifier was trained to classify new data, obtaining an accuracy of Lie and Truth detection from speech audio respectively of 88.23\% and 84.52\%.
 
-% TODO: this should go also in multimodal
+%TODO: better description
 In \cite{Perez-Rosas:2015:DDU:2818346.2820758} \cite{Mihalcea:2013:ADD:2522848.2522888} Perez et al. utilize real life trial data to identify deception, achieving 60-75\% accuracy employing a model that extracts features from both linguistic and gesture modalities.
  
 \subsection*{Eyes}
@@ -169,33 +168,36 @@ Another example of multimodal detection is found in \cite{DBLP:journals/corr/abs
 The authors decided to fuse the score of the classifiers on IDT and micro-expressions to boost the performance. Regarding text, the transcript of the considered videos are analyzed, but the performance increase is very marginal. \\
 For speech, they integrated the vision side with Mel Frequency Cepstral Coefficient (MFCC) features analysis from the audio, boosting the performances significantly, reaching an AUC of 0.877. 
 
-% TODO: this is bah, remove?
 Noje et al. \cite{7367432} set up a study with ten subjects to observe the potential of head movements in lie detection. They built an application to detect head movement and position by performing a frame to frame analysis on a video stream. A correlation was made between head movement/position and the identification of lies. The results of the study are not concluding as this data can't be utilized without being incorporated with other modalities such as voice, gaze, words, expressions et cetera.
 
+%TODO: scrivere bene guardando il paper, copiato da sopra atm
+In \cite{Perez-Rosas:2015:DDU:2818346.2820758} \cite{Mihalcea:2013:ADD:2522848.2522888} Perez et al. utilize real life trial data to identify deception, achieving 60-75\% accuracy employing a model that extracts features from both linguistic and gesture modalities.
+
 \subsection*{Facial Expression and Micro-Expressions}
+Facial Expressions are one of the main methods that we use to express our emotions, and are developed since the first months of our life to help us communicate our feelings to others. But what happens when we want to hide our emotions instead? 
+
+Facial micro-expressions are very fast (1/2 to 1/25 of a second) and involuntary expressions that come up on the human face when we are trying to suppress or hide an emotion, and are very difficult to control using just one's willpower \cite{EkmanER}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{expr}
-	\caption{Facial Expressions}
+	\includegraphics[width=0.8\textwidth]{expr}
+	\caption{Six basic Facial Expressions in adults and children \cite{baby_fe}.}
 \end{figure}
 
-%TODO: review this
-Facial Expressions are one of the main methods that we use to express our emotions. But what happens when we want to hide our emotions instead? \\
-Facial micro-expressions are very fast (1/2 to 1/25 of a second) and involuntary expressions that come up on the human face when they are trying to suppress or hide an emotion, and are very difficult to control just using one's willpower \cite{EkmanER}.
-
-Studying and classifying micro expression is very valuable and has many applications, especially in psychology and forensic sciences, but it is a hard feat as the duration is very short and the intensity is low.\\ 
+Studying and classifying micro-expression is very valuable and has many applications, especially in psychology and forensic sciences, but it is a hard feat as the duration is very short and the intensity is low.\\ 
 Micro-expressions have been studied since 1966 to recognize and distinguish real or fake emotions, initially by Haggard and Isaacs \cite{Haggard}, and three years later by Ekman and Frisen \cite{EkmanLeakage}.
 
 Substantial work on Micro-Expressions has been done by Pfister, Li et al. In \cite{pfister2011micro} they collaborated with psychologists to design an induced emotion suppression experiment. The data was collected with a high speed camera to be able to register the micro expressions of the subjects. A Temporal interpolation model was used to counter the shortness of the video length, while multiple kernel learning, random forest and SVM were used to classify micro expressions reaching an accuracy of 71.4\%.
 
-The lack of a big and well formed database was one of the biggest hindrance to their research, to solve this problem in \cite{xli2012spontaneous} they unveil a new dataset, the Spontaneous Micro-expression Database (SMIC), which includes 164 micro-expression video clips taken from a group of 20 participants.\\
+The lack of a big and well formed database was one of the biggest hindrance to their research. To solve this problem in \cite{xli2012spontaneous} they reveal a new dataset, the Spontaneous Micro-expression Database (SMIC), which includes 164 micro-expression video clips taken from a group of 20 participants.\\
 They used two high speed cameras to record the face of the subjects while they were watching a selection of videos that induced strong emotional response, and they had to try and suppress those emotions. After the video the subjects had to answer about the emotions they felt while watching it. The data were then segmented and labeled by two annotators.
 
-A study of spontaneous micro expression spotting and recognition methods is done in \cite{xli2015reading}. A new training-free method, based on feature difference contrast for recognizing micro-expressions is presented. The features are extracted from the video using Local Binary Pattern (LBP) and Histogram of Optical Flow. \\
-To recognize Micro expressions the authors performed face alignment and temporal interpolation, then they trained an SVM classifier. This micro-expression framework was tested on the SMIC and CASMEII database with very good results. After combining micro-expressions spotting and recognition they released a new micro-expression analysis system (MESR) that is able to recognize micro-expressions from spontaneous video data.
+A study of spontaneous micro expression spotting and recognition methods was done in \cite{xli2015reading}. A new training-free method, based on feature difference contrast for recognizing micro-expressions was presented. The features are extracted from the video using Local Binary Pattern (LBP) and Histogram of Optical Flow. \\
+To recognize the Micro expressions, the authors performed face alignment and temporal interpolation, then trained an SVM classifier. \\
+This micro-expression framework was tested on the SMIC and CASMEII database with very good results. After combining micro-expressions spotting and recognition they released a new micro-expression analysis system (MESR) that is able to recognize micro-expressions from spontaneous video data.
 
-Owayjan et al. \cite{6462897} designed a lie detection system using micro-expressions. At first an embedded video system is used to record the subject interview. The video stream is converted into frames, and each frame is processed in four stages: converting the images, filtering out useless features, applying geometric templates and finally extracting the measurements to detect the micro-expressions. Results show that up to eight facial expressions can be recognized, and that lies can be discerned with high precision.
+Owayjan et al. \cite{6462897} designed a lie detection system using micro-expressions. At first an embedded video system is used to record the subject interview. The video stream is converted into frames, and each frame is processed in four stages: converting the images, filtering out useless features, applying geometric templates and finally extracting the measurements to detect the micro-expressions. \\
+Results show that up to eight facial expressions can be recognized, and that lies can be discerned with high precision.
 
 In \cite{10.1007/978-3-319-47955-2_27} Kawulok et al. explore how to exploit fast smile intensity detectors to extract temporal features using a SVM classifier. Using exclusively a face detector, without localizing or tracking facial landmarks, they analyze the smile intensity time series. They then employ an SVM classifier to improve training from weakly labeled datasets. Then, to train the smile detectors, they use uniform local binary pattern features. This allows to detect, in real time, between spontaneous or posed expressions.
 
@@ -205,14 +207,21 @@ Su et al. \cite{SU201652} aim to test the validity of facial clues to deception 
 %TODO: review this
 Action Units (AUs) are defined as a contraction or relaxation of one or more muscles. They have been used in the Facial Action Coding System (FACS), a system developed initially by Hjorztsjö \cite{facsCH} and then improved by Freisen and Ekman \cite{facs1978}, that categorizes all the facial movements by their appearance on the face.
 
-Using FACS it's possible to code nearly any facial expression by deconstructing them into Action Units. For example the Duchenne smile (felt smile) is a combination of AU6 (orbicularis oculi, pars lateralis) and AU12 (zygomatic mayor).
+Using FACS it's possible to code nearly any facial expression by deconstructing them into Action Units. For example the Duchenne smile (felt smile) is a combination of AU6 (orbicularis oculi, pars lateralis) and AU12 (zygomatic mayor) as we can see from fig. \ref{fig:duchenne}).
 
-There are 44 AUs categorized with five level of intensity (A to E). Most of the AUs have an onset, peak and offset phase. \\
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{duchenne}
+	\caption{Duchenne smile (real) vs non Duchenne (fake).}
+	\label{fig:duchenne}
+\end{figure}
+
+In the FACS there are 44 AUs categorized with five level of intensity (A to E). Most of the AUs have an onset, peak and offset phase. \\
 By using AUs is possible to recognize emotions based on the combination of AUs displayed (Fig. \ref{fig:AUs}).
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{AUs}
+	\includegraphics[width=1\textwidth]{AUs}
 	\caption{AUs of six compound facial expressions of emotion. The AUs of the basic emotions are combined to produce the compound category \cite{Du2014CompoundFE}.}
 	\label{fig:AUs}
 \end{figure}
@@ -222,20 +231,22 @@ Baltrusaitis et al. developed a real-time Facial Action Unit occurrence and inte
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{OF_AU_Pipeline}
+	\includegraphics[width=0.8\textwidth]{OF_AU_Pipeline}
 	\caption{OpenFace AU detection and intensity estimation pipeline \cite{Baltru2015}.}
 	\label{fig:OF_AU_pipeline}
 \end{figure}
 
 In \cite{HaoWangAU} Hao et al. explore the dependencies between AUs, and propose a new AU recognition method consisting of a three layer Bayesian network where the top two layers are latent regression Bayesian networks (LRBN). \\
-LRBN are graphical models consisting of a visible layer representing the ground truth for AUs and a latent one. LRBN is able to capture the dependencies between AUs. They test this system on the CK+, SEMAINE and BP4D database, demonstrating that their approach can accurately capture AU relationships.
+LRBN are graphical models consisting of a visible layer representing the ground truth for AUs and a latent one. LRBN is able to capture the dependencies between AUs. They tested this system on the CK+ \cite{CK+}, SEMAINE \cite{SEMAINE} and BP4D \cite{BP4D-Spontaneous} database, demonstrating that their approach can accurately capture AU relationships.
 
-In \cite{AU_LSTM} the authors try to model three fundamental aspects of automated AU detection: spatial representation, temporal modeling, and AU correlation. They proposed an approach using a hybrid network architecture. Spatial representation is extrapolated by using a Convolutional Neural Network (CNN). For temporal dependencies Long Short-Term Memory Neural Networks (LSTM) are stacked on top of the CNN. \\
-The output of LSTMs and CNNs are then fused together to predict 12 AUs on a frame to frame basis. This network was then tested on the GFT and BP4D dataset, gaining improvements over standard CNN.
+In \cite{AU_LSTM} the authors try to model three fundamental aspects of automated AU detection: spatial representation, temporal modeling, and AU correlation. They proposed an approach using a hybrid network architecture. \\
+Spatial representation is extrapolated by using a Convolutional Neural Network (CNN). For temporal dependencies Long Short-Term Memory Neural Networks (LSTM) are stacked on top of the CNN. \\
+The output of LSTMs and CNNs are then fused together to predict 12 AUs on a frame to frame basis. This network was then tested on the GFT and BP4D \cite{BP4D-Spontaneous} dataset, gaining improvements over standard CNN.
 
 De la Torre et al. \cite{AU_STM} \cite{AU_STM2} tackle this problem by personalizing a generic classifier without requiring additional labels for the test subject (unsupervised). They use a transductive learning method, referred as Selective Transfer Machine (STM), that personalizes a generic classifier by attenuating people specific biases. This is done by  learning a classifier and re-weighting the training samples most relevant to the subject. \\
-The performance of STM were compared to generic classifiers and cross-domain learning methods and evaluated on CK+, GEMEP-FERA, RUFACS and GFT dataset, and STM is shown to outperform the generic classifiers on all datasets.
+The performance of STM were compared to generic classifiers and cross-domain learning methods and evaluated on CK+ \cite{CK+}, GEMEP-FERA, RUFACS and GFT dataset, and STM is shown to outperform the generic classifiers on all datasets.
 
+%TODO: this should not be the last par
 Many approaches to automatic facial AU detection fail to account for individual difference in morphology and behavior for the target person. This is a hard problem because it's difficult for classifiers to generalize to very different subjects, and training a person-specific classifier is neither feasible (very low training data) nor has particular theoretical interest. 
 
 \pagebreak
