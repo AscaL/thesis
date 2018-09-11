@@ -1,8 +1,12 @@
 %todo: complete, this is what my program does
-In this chapter we will discuss the architecture of our framework for Deception Detection. We will describe in detail [] with reference.
+In this chapter we will discuss the architecture of our framework and the tools used for this thesis in Deception Detection. We will introduce the OpenFace toolkit (\ref{OpenFace}), and describe landmark detection (\ref{landmark_det}), action unit recognition (\ref{au_det}), .
 
 \section{General Architecture}
-With pics
+%todo
+The general
+
+
+\pagebreak
 
 \section{OpenFace} \label{OpenFace}
 The OpenFace \cite{Baltru2018} toolkit is a tool for machine learning and computer vision researchers, created by Baltrusaitis et al., to support performing facial landmark detection, head pose estimation, action unit recognition and eye gaze estimation. \\
@@ -16,12 +20,14 @@ This tool is open source and customizable in the way that all the SVM models and
 	\label{fig:openface20_pipeline}
 \end{figure}
 
-\section{Landmark Detection}
+\pagebreak
+
+\section{Landmark Detection} \label{landmark_det}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.75\textwidth]{land_det_ex}
-	\caption{Example of different facial landmarks detected using OpenFace in different conditions and viewing angles. \cite{Baltru2018}.}
+	\caption{Example of different facial landmarks detected in diverse conditions and viewing angles. \cite{Baltru2018}.}
 	\label{fig:land_det_ex}
 \end{figure}
 
@@ -30,7 +36,7 @@ CEN has the advantage of aggregating a neural architecture and patch experts (lo
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{CEN}
+	\includegraphics[width=0.75\textwidth]{CEN}
 	\caption{Facial landmarks naturally cluster around appearance prototypes (facial hair, expressions, make-up etc). To model such appearance variations a Convolutional Experts Network (CEN) is used to bring together the advantages of neural architectures and mixtures of patch experts to model landmark alignment probability \cite{Baltru2017}.}
 	\label{fig:CEN}
 \end{figure}
@@ -116,7 +122,9 @@ The application of PDM has two objectives:
 \end{itemize}
 This has an effect in the final detected landmarks, where the irregular shapes are imposed a penalty.
 
-\section{Action Unit Detection}
+\pagebreak
+
+\section{Action Unit Detection} \label{au_det}
 %TODO: rewrite
 Action Unit (AU) detection plays a fundamental role in our work. We now describe the process used to detect the AUs through an SVM, starting with an overview of the utilized databases for AU detection.
 
@@ -149,10 +157,22 @@ All of the datasets have three AUs in common (2, 12, and 17). \\
 SEMAINE and DISFA share AUs 2, 12, 17, 25. \\
 BP4D and DISFA share AUs 1, 2, 4, 6, 12, 15, 17. This allows for cross-dataset training.
 
+This allows to detect the following AUs (\ref{fig:all_AUs}):
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{all_aus}
+	\caption{List of available AUs for prediction \cite{Baltru2018}.}
+	\label{fig:all_AUs}
+\end{figure}
+
 %todo: complete dataset description 
 Other dataset included in the study are:
 \begin{itemize}[noitemsep]
-	\item CK+ \cite{CK+}: 
+	\item CK+ \cite{CK+}: \\
+	The Cohn-Kanade AU-Coded Facial Expression Database is utilized for research in facial image analysis. \\
+	CK+, includes both posed and non-posed (spontaneous) expressions and additional types of metadata. Each posed expression is completely FACS coded, and emotion labels are part of the metadata. \\
+	CK+ also provides baseline results for facial feature tracking and action unit and emotion recognition.
 	\item FERA 2011 \cite{FERA11}:
 	\item FERA 2015 \cite{FERA15}:
 	\item AVEC 2011 \cite{AVEC11}:
@@ -193,10 +213,9 @@ In order to achieve this, a similarity transform from the currently detected lan
 The similarity transform is done with Procrustes superimposition that minimizes the mean square error between aligned pixels \cite{Baltru2013}.\\
 The result is a $112 \times 112$ pixel image of the face with 45 pixel interpupillary distance (Fig \ref{fig:alignment_masking}). 
 
-%TODO: tocca capire sta cosa del CLNF ecc
 To reduce the weight of significant facial expressions (mouth opening, brow raises etc.) on the similarity transform, only the most stable facial landmarks must be used. \\
 %TODO: non mi piace
-In order to determine those points, the most stable CLNF detected landmarks on the CK+ dataset \cite{CK+} are examined. CK+ is a dataset containing videos of people performing diverse facial expressions, mostly starting from a neutral pose, while the head is still.
+In order to determine those points, the most stable CLNF detected landmarks on the CK+ dataset \cite{CK+} are examined.
 
 \begin{figure}[H]
 	\centering
@@ -232,6 +251,8 @@ Action Units detection is performed through Support Vector Machines (SVM), and A
 
 Since the AU occurrences are not balanced by nature, it's highly important to balance the training data. To do this it was needed to under sample the negative AU samples from training data, thus getting to an equal number of positive and negative samples.
 
+\pagebreak
+
 \section{Deception Detection}
 %TODO: rewrite, tentative
 We perform deception detection using different machine learning techniques, such as svm and rf. 
@@ -239,5 +260,4 @@ We perform deception detection using different machine learning techniques, such
 \subsection{SVM}
 %todo: svm personalizzato a quello che ho fatto
 
-\subsection{RF}
 
