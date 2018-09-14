@@ -10,11 +10,12 @@ Deception detection has always been a very interesting topic since it has numero
 Our work aims to recognize whether a person is lying or telling the truth by performing a frame by frame analysis on a database of videos with the goal of extracting a set of the different facial movements performed by the person in the video. After finishing the extraction, the data is submitted to analysis by using statistical and machine learning techniques.
 
 %todo: way too much stuff about db in intro wtf
-The dataset we are using was provided by Perez-Rosas et al. \cite{Perez-Rosas:2015:DDU:2818346.2820758} and is composed by 121 videos taken from real life trials (Par. \ref{rldb}). Since those videos are taken from real life trials, the illumination, pose, audio and video features are not homogeneous and often substandard. Substantial work was done to eliminate the parts that are not relevant, and as result many video were trimmed or discarded.
+The dataset we are using was provided by Perez-Rosas et al. \cite{Perez-Rosas:2015:DDU:2818346.2820758} and is composed by 121 videos taken from real life trials (Par. \ref{rldb}). Since those videos are taken from real life events, the illumination, pose, audio and video features are not homogeneous and often substandard. Substantial work was done to eliminate the parts that are not relevant, and as result many video were trimmed or discarded.
 
 From the remaining videos we have 58 different subjects, meaning that there are more videos of the same subject. This means that it is important to divide the training and test set to avoid just making the classifier "remember" the person. This was done by never having the same subject appear both in the training and test set. \\
 After trimming and dividing the videos, we split the data into training and test set based on the subject ID and extracted all the facial movements. Then we utilized machine learning and statistical techniques for classification, and achieved $x \%$ accuracy on the test set.
 
+%todo: maybe in the result part?
 The result of this work, especially when improved by having a better and larger training dataset, can be useful in different situations, even though it is important to remember that privacy is a real concern, and with this kind of applications it should never be underestimated.\\
 We think the result of this work can be used to aid in airport security, work interview, and many kind of social interactions. It could be eventually used by the public to review a speech of a political candidate or by the police force as an aid to interrogation. Another use can be in trials where people life are at stake and discerning a true or false testimony might be vital. We really hope this work proves to be socially useful.
 
@@ -50,7 +51,7 @@ In computer vision specifically, lie detection is a somewhat new field of resear
 
 We now proceed to describe the state of the art, based on the latest researches done in the field, with focus on computer vision:
 
-\subsection*{Speech}
+\subsection{Speech}
 Speech is one of the many methods that can be used to recognize if a person is lying. In fact, the speech signal contains linguistic, expressive, organic and biological data \cite{norena}.
 
 One of the most used indicator of deception in various studies has been the response latency \cite{EaseLying}, since inventing a lie requires additional cognitive load as opposed to remembering the truth. The authors also notice that habitual lying makes it easier, and conversely often being spontaneous and telling the truth makes lying harder.\\
@@ -70,21 +71,20 @@ In sound processing, the mel-frequency cepstrum (MFC, Fig. \ref{fig:MFCC}) is a 
 In \cite{relidss} the authors created a new database by making 40 candidates try to deceive them while telling truthful or deceptive statements for about one to two minutes each. From this experiment they extracted MFCC and pitch, so that they could process them through Matlab's Voice Box. \\
 After acquiring the data, an SVM classifier was trained to classify new data, obtaining an accuracy of Lie and Truth detection from speech audio respectively of 88.23\% and 84.52\%.
 
-%TODO: better description
-In \cite{Perez-Rosas:2015:DDU:2818346.2820758} \cite{Mihalcea:2013:ADD:2522848.2522888} Perez et al. utilize real life trial data to identify deception, achieving 60-75\% accuracy employing a model that extracts features from both linguistic and gesture modalities.
+In \cite{Mihalcea:2013:ADD:2522848.2522888} Perez et al. utilize a dataset of 140 videos created by users who uploaded either truthful or deceptive statements. They collected the transcriptions from the videos both manually and via automatic speech recognition software. By using a bag-of-words representation of the transcripts they build a vocabulary, and to classify the data they employ a SVM and Naive Bayes classifier, achieving 73\% accuracy.
  
-\subsection*{Eyes}
-Using the eyes to detect lies is one of the most studied approaches, as the eyes hold a significant amount of information regarding our thinking and emotional state \cite{FUKUDA2001239} (Fig \ref{fig:eye-lies}). We focus on the Computer Vision approaches.
+\subsection{Eyes}
+Using the eyes to detect lies is one of the most studied approaches, as the eyes hold a significant amount of information regarding our thinking and emotional state \cite{FUKUDA2001239} (Fig \ref{fig:eye-lies}). We will focus our description on the Computer Vision approaches.
 
 % TODO: this pic has nothing to do with what is written here
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{eye-lies}
+	\includegraphics[width=0.85\textwidth]{eye-lies}
 	\caption{Eyes could hold a lot of informations regarding what we are thinking \cite{eyeLies}.}
 	\label{fig:eye-lies}
 \end{figure}
 
-Moreover is possible to generate a non invasive approach while analyzing the eyes, meaning that subjects do not need to willingly participate or even know if they are being examined or not (the moral matter should be considered in another setting), and there could be no need to have big and expensive machinery, like for example the polygraph or a fMRI machine.
+An important advantage of using the eyes as a vehicle for deception detection is that it is possible to generate a non invasive approach while analyzing the eyes, meaning that subjects do not need to willingly participate or even know if they are being examined or not (the moral matter should be considered in another setting), and there could be no need to have huge and expensive machinery, like for example the polygraph or a fMRI machine.
 
 Cognitive load, which is set to increase while lying, is one of the most significant factor for deception detection and can be analyzed through the eyes. Important are also the blink rate, gaze aversion and pupil dilation.
 
@@ -103,7 +103,7 @@ The remainder of the conversation is then broken into pieces and each piece is t
 In \cite{7165946} Proudfoot et al., using latent growth curve modeling, research how the pupil diameter changes over the course of an interaction with a deception detection system. The assumption is that anxiety changes the pupil diameter. The subjects are presented with crime-relevant target items (possibly incriminating) and non relevant items. \\
 The results indicate that the trends in the changes are indicative of deception during the interaction: pupil diameter is initially bigger for guilty subjects relative to innocent ones. Also the pupil diameter of the participants decreased between subsequent sections of the test, specifically the magnitude of the decrease was greater for guilty subjects who did not see incriminating items.
 
-\subsection*{Neuroscience}
+\subsection{Neuroscience}
 Electroencephalogram (EEG) and functional Magnetic Resonance Imaging (fMRI) have been employed for lie detection with good results for a long time, but at the cost of invasiveness, since both methods require big machinery, a suitable environment, and a subject willing to participate.
 
 EEG is a monitoring method that records brain activities based on its potential.
@@ -136,7 +136,7 @@ In most of the experiments with fMRI and lie detection, candidates are instructe
 
 As much as fMRI is useful for lie detection, it presents some shortcomings \cite{fMRIDD} \cite{fMRIDA}: many fMRI studies are small, not replicated and done with just a few subjects; there are some contradicting results between some studies; most of the studies are not done in a contest of high stake deception, but in a controlled environment where subjects are asked to lie about some topic or event, but often without a real interest in being deceitful. Another important point is that the fMRI approach requires collaboration and expensive equipment to be carried out, so this is a very limiting factor.
 
-\subsection*{Thermal Imaging}
+\subsection{Thermal Imaging}
 In thermal imaging, thermal features are extracted from the face using a high definition thermal camera. The objective is to analyze what kind of differences occur when a subject responds truthfully or deceptively to particular stimuli.
 
 \begin{figure}[H]
@@ -154,8 +154,7 @@ At the beginning of the interview four baseline questions were asked to register
 
 In \cite{6967765} data are gathered non-intrusively from the nostril and periorbital regions using two dimensional far infrared cameras. The study lasted for two years and covered 18 tests subjects involved in real crime cases. The temperature is extracted and converted in change in blood flow velocity, and a signature of the respiration pattern is determined in terms of the ratio of the measured maximum and minimum temperatures in the nostril area. The classification rate for this study is 88.5\%.
 
-\subsection*{Multimodal}
-%TODO: insert image somehwere
+\subsection{Multimodal}
 After seeing all these different techniques to detect lies, it's only natural for researchers to try and fuse or aggregate some of them to see if it's possible to achieve better results \cite{Abouelenien:2014:DDU:2663204.2663229}.
 
 In \cite{Abouelenien:2016:ATV:2910674.2910682} Abouelenien et al. collect data from a dataset of 30 subjects to examine thermal and visual clues of deception. Their aim is to identify the regions that offer higher capability of detecting deceit. \\
@@ -170,17 +169,22 @@ For speech, they integrated the vision side with Mel Frequency Cepstral Coeffici
 
 Noje et al. \cite{7367432} set up a study with ten subjects to observe the potential of head movements in lie detection. They built an application to detect head movement and position by performing a frame to frame analysis on a video stream. A correlation was made between head movement/position and the identification of lies. The results of the study are not concluding as this data can't be utilized without being incorporated with other modalities such as voice, gaze, words, expressions et cetera.
 
-%TODO: scrivere bene guardando il paper, copiato da sopra atm
-In \cite{Perez-Rosas:2015:DDU:2818346.2820758} \cite{Mihalcea:2013:ADD:2522848.2522888} Perez et al. utilize real life trial data to identify deception, achieving 60-75\% accuracy employing a model that extracts features from both linguistic and gesture modalities.
+In \cite{Perez-Rosas:2015:DDU:2818346.2820758} Perez et al. utilize real life trial videos to identify deception, employing a model that extracts features from both linguistic and gesture modalities. The verbal features consist of unigrams and bigrams derived from the bag-of-words representation of the video transcripts, while gesture features are taken from the annotations performed using the MUMIN coding scheme, where each feature indicates the presence of a gesture only if it's present in the majority of the video. Using Decision Trees and Random Forest classifiers they achieve between 60\% and 75\% accuracy.
 
-\subsection*{Facial Expression and Micro-Expressions}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{non_verbal_perez}
+	\caption{Distribution of non-verbal features for deceptive and truthful groups \cite{Perez-Rosas:2015:DDU:2818346.2820758}.}
+\end{figure}
+
+\subsection{Facial Expression and Micro-Expressions}
 Facial Expressions are one of the main methods that we use to express our emotions, and are developed since the first months of our life to help us communicate our feelings to others. But what happens when we want to hide our emotions instead? 
 
 Facial micro-expressions are very fast (1/2 to 1/25 of a second) and involuntary expressions that come up on the human face when we are trying to suppress or hide an emotion, and are very difficult to control using just one's willpower \cite{EkmanER}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{expr}
+	\includegraphics[width=1\textwidth]{expr}
 	\caption{Six basic Facial Expressions in adults and children \cite{baby_fe}.}
 \end{figure}
 
@@ -204,19 +208,26 @@ In \cite{10.1007/978-3-319-47955-2_27} Kawulok et al. explore how to exploit fas
 Su et al. \cite{SU201652} aim to test the validity of facial clues to deception detection in high-stakes situations using computer vision approaches. By using invariant 2D features from nine separate regions of the face they perform facial analysis on eye blink, eyebrow motion, wrinkle occurrence and mouth motion, integrated with a facial behavior pattern vector. Training a Random Forest to classify the patterns into deceptive or truthful, they achieved a 76.92\% accuracy.
 
 \subsection{Action Units} \label{au}
-%TODO: review this
 Action Units (AUs) are defined as a contraction or relaxation of one or more muscles. They have been used in the Facial Action Coding System (FACS), a system developed initially by Hjorztsjö \cite{facsCH} and then improved by Freisen and Ekman \cite{facs1978}, that categorizes all the facial movements by their appearance on the face.
 
 Using FACS it's possible to code nearly any facial expression by deconstructing them into Action Units. For example the Duchenne smile (felt smile) is a combination of AU6 (orbicularis oculi, pars lateralis) and AU12 (zygomatic mayor) as we can see from fig. \ref{fig:duchenne}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{duchenne}
+	\includegraphics[width=1\textwidth]{duchenne}
 	\caption{Duchenne smile (real) vs non Duchenne (fake).}
 	\label{fig:duchenne}
 \end{figure}
 
-In the FACS there are 44 AUs categorized with five level of intensity (A to E). Most of the AUs have an onset, peak and offset phase. \\
+In the FACS there are 44 AUs categorized with five level of intensity (A to E). Most of the AUs have an onset, peak and offset phase, as shown in fig. \ref{fig:au_intensity}. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{au_intensity}
+	\caption{Facial images with AU intensity variations (AU12: lip corner puller, AU25: lips part) \cite{DISFA}.}
+	\label{fig:au_intensity}
+\end{figure}
+
 By using AUs is possible to recognize emotions based on the combination of AUs displayed (Fig. \ref{fig:AUs}).
 
 \begin{figure}[H]
@@ -226,15 +237,8 @@ By using AUs is possible to recognize emotions based on the combination of AUs d
 	\label{fig:AUs}
 \end{figure}
 
-Substantial work on AU classification and intensity estimation has been done in \cite{Baltru2015} by Baltrusaitis et al. (Fig. \ref{fig:OF_AU_pipeline}) while developing the OpenFace \cite{Baltru2016} system. \\
-Baltrusaitis et al. developed a real-time Facial Action Unit occurrence and intensity detection system based on appearance and geometric features, using Histogram of Oriented Gradients, Shape Parameters and Landmark Locations. They achieved good results by using a median based feature normalization technique so that they could account for person specific neutral expressions (Par. \ref{OpenFace}).
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{OF_AU_Pipeline}
-	\caption{OpenFace AU detection and intensity estimation pipeline \cite{Baltru2015}.}
-	\label{fig:OF_AU_pipeline}
-\end{figure}
+Substantial work on AU classification and intensity estimation has been done in \cite{Baltru2015} by Baltrusaitis et al. while developing the OpenFace \cite{Baltru2016} system. \\
+Baltrusaitis et al. developed a real-time Facial Action Unit occurrence and intensity detection system based on appearance and geometric features, using Histogram of Oriented Gradients, Shape Parameters and Landmark Locations. They achieved good results by using a median based feature normalization technique so that they could account for person specific neutral expressions.
 
 In \cite{HaoWangAU} Hao et al. explore the dependencies between AUs, and propose a new AU recognition method consisting of a three layer Bayesian network where the top two layers are latent regression Bayesian networks (LRBN). \\
 LRBN are graphical models consisting of a visible layer representing the ground truth for AUs and a latent one. LRBN is able to capture the dependencies between AUs. They tested this system on the CK+ \cite{CK+}, SEMAINE \cite{SEMAINE} and BP4D \cite{BP4D-Spontaneous} database, demonstrating that their approach can accurately capture AU relationships.
@@ -246,18 +250,16 @@ The output of LSTMs and CNNs are then fused together to predict 12 AUs on a fram
 De la Torre et al. \cite{AU_STM} \cite{AU_STM2} tackle this problem by personalizing a generic classifier without requiring additional labels for the test subject (unsupervised). They use a transductive learning method, referred as Selective Transfer Machine (STM), that personalizes a generic classifier by attenuating people specific biases. This is done by  learning a classifier and re-weighting the training samples most relevant to the subject. \\
 The performance of STM were compared to generic classifiers and cross-domain learning methods and evaluated on CK+ \cite{CK+}, GEMEP-FERA, RUFACS and GFT dataset, and STM is shown to outperform the generic classifiers on all datasets.
 
-%TODO: this should not be the last par
-Many approaches to automatic facial AU detection fail to account for individual difference in morphology and behavior for the target person. This is a hard problem because it's difficult for classifiers to generalize to very different subjects, and training a person-specific classifier is neither feasible (very low training data) nor has particular theoretical interest. 
+Although there has been a lot of progress during the years, there is still a lot of work to be done regarding AUs, since many approaches to automatic facial AU detection fail to account for individual difference in morphology and behavior for the target person. This is a hard problem because it's difficult for classifiers to generalize to very different subjects, and training a person-specific classifier is neither feasible (very low training data) nor has particular theoretical interest. 
 
-\pagebreak
+\clearpage
+
 \section{Contributions and Outline} \label{contrib}
 
 \subsection{Contribution}
-% TODO: CHANGE THE WORDS THIS IS TAKEN FROM LIN SU
 The human face holds many clues to recognize emotions and to discern truth and lies. Human emotions can be recognized mainly by the expressions we make when a situation arises, such as being scared or happy. Those expressions are translated into movements of the muscles of the face. Building on this idea, the objective of this thesis is to classify if a person is lying or telling the truth based on the action units (muscular movements of the face) extracted from a video. It is important that all the videos are taken from high stakes situations, specifically court trials, so that all the liars and truth tellers have a big incentive in lying or telling the truth, since the validity of many studies is questionable based on the fact that the emotions analyzed are posed (non spontaneous). As far as we know this is the first time using an SVM to classify between truth and lies in high stakes situations, using extracted action units.
 
 \subsection{Outline}
-%todo: rewrite kinda
 This thesis is composed by the following chapters:
 
 \begin{itemize}

@@ -1,12 +1,11 @@
-%TODO: change a bit this intro
 %TODO: add more tecniques
-In this chapter we will give a brief introduction of Machine Learning (\ref{ml}), explaining Classification (\ref{classification}), Regression (\ref{regression}), Supervised (\ref{supervised}) and Unsupervised (\ref{unsupervised}) learning, proceeding then to explain different techniques such as SVM (\ref{svm}), which is the most important technique used for this thesis, Random Forests \ref{random_forest} and [].
+In this chapter we will give a brief introduction of Machine Learning (\ref{ml}), explaining Classification (\ref{classification}), Regression (\ref{regression}) and Supervised learning (\ref{supervised}), proceeding then to explain different techniques such as SVM (\ref{svm}), which is the most important technique used for this thesis, Random Forests \ref{random_forest} and [].
 
 \section{Machine Learning Introduction} \label{ml}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{ml_troll}
+	\includegraphics[width=1\textwidth]{ml_troll}
 	\label{fig:ml_troll}
 \end{figure}
 
@@ -27,7 +26,6 @@ The field of machine learning is subdivided in two broad categories (Fig. \ref{f
 
 Another classification is based on the kind of output that the users wish to obtain, mainly Classification (\ref{classification}), Regression (\ref{regression}) or Clustering.
 
-% TODO: Section or SubSection?
 \subsection{Supervised Learning} \label{supervised}
 When using supervised learning we want to learn a function that maps an input to an output, based on example input-output pairs \cite{ai_sup}. \\
 This means that we need labeled training data, consisting of a vector of input objects and an output value. The objective is to correctly classify the new data based on the previously analyzed training pairs.
@@ -43,32 +41,33 @@ The general steps to solve a supervised learning problem are (Fig. \ref{fig:sup_
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{sup_wf}
+	\includegraphics[width=1\textwidth]{sup_wf}
 	\caption{Supervised Learning Workflow \cite{sup_wf}}
 	\label{fig:sup_wf}
 \end{figure}
 
+% TODO: Write this better
 There are important considerations to make when using a supervised learning approach:
 \begin{itemize}
-	\item \textbf{Dimensionality of Input}:\\ 
-	When the input feature vectors are very big there could be problems in learning the function, even if not all features contribute significantly to the function. This happens because the data depends on too many variables and this could cause high variance. \\
-	To avoid this, it is important to reduce the number of features through manual removal or using feature selection algorithms. This usually improves the accuracy of the classifier.
+	\item \textbf{Dimensionality of Input} \cite{wiki:dim_red}:\\ 
+	When the input feature vectors are dimensionally very big there could be problems in learning the function, even if not all features contribute significantly to it. This happens because the data depends on too many variables and this could cause high variance. \\
+	To avoid this, it is important to reduce the number of features through manual removal or using feature selection algorithms such as Principal Component Analysis (PCA). This usually improves the accuracy of the classifier.
+	
 	\item \textbf{Overfitting and Underfitting} \cite{overfit}: \\	
 	Overfitting happens when the algorithm adapts too much on the training data and is no longer able to make accurate predictions on the test data (Fig. \ref{fig:underfitting}). This usually happens when there is an excessive number of parameters than what can be justified by the data \cite{camb_over}. 
 	
 	Underfitting is the opposite: a model is not able to correctly capture the structure of the data, for example when fitting non linear data with a linear model. \\
-	A common way to avoid overfitting is to resample the data using different techniques, commonly k-fold cross validation or leave-one-out. Other methods include feature removal, early stopping, regularization.
+	A common way to avoid overfitting is to resample the data using different techniques, commonly k-fold cross validation or leave-one-out. Other methods include feature removal, early stopping and regularization.
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.8\textwidth]{underfitting}
+		\includegraphics[width=1\textwidth]{underfitting}
 		\caption{Example of overfitting and underfitting \cite{underfitting}}
 		\label{fig:underfitting}
 	\end{figure}	
 	
-	% TODO: Write this better
 	\item \textbf{Bias-Variance Tradeoff} \cite{biasvar}: \\	
-	Suppose we have different (but equally good) training set: \\
+	Suppose we have many different (but equally good) training sets: \\
 	an algorithm is biased for input $x$ if, when trained on each of these data sets, it is consistently inaccurate at predicting the correct output for $x$. \\
 	A high bias indicates that the data points tend to be very close to the mean, and to each other.
 	
@@ -79,7 +78,7 @@ There are important considerations to make when using a supervised learning appr
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.75\textwidth]{biasvar}
+		\includegraphics[width=0.60\textwidth]{biasvar}
 		\caption{Example of Bias-Variance Tradeoff \cite{biasvarTradeoff}}
 		\label{fig:biasvar}
 	\end{figure}	
@@ -89,7 +88,7 @@ There are many algorithms used to perform supervised learning tasks, the most co
 
 \begin{itemize}[noitemsep, topsep = -5pt]
 	\item Linear Regression (\ref{regression})
-	\item Logistic Regression \ref{logreg}
+	\item Logistic Regression (\ref{logreg})
 	\item Naive Bayes
 	\item Linear Discriminant Analysis
 	\item Decision Trees
@@ -152,11 +151,11 @@ The classifier is the algorithm that implements the classification, or a functio
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.75\textwidth]{classification}
-	\caption{Example of data division by a Classification algorithm}
+	\caption{Example of data division by a classification algorithm}
 	\label{fig:classification}
 \end{figure}	
 
-Many classification algorithm, such as SVM (\ref{svm}), logistic regression \ref{logreg}, LDA (Linear Discriminant Analysis) or perceptron, can be described using a linear function assigning a score to each category c, by doing the dot product of the feature vector of an instance with a vector of weights, thus combining them. The predicted category will be the one with the highest score. This function is called linear predictor function and has this general formula:
+Many classification algorithm, such as SVM (\ref{svm}), logistic regression \ref{logreg}, LDA (Linear Discriminant Analysis) or perceptron, can be described using a linear function assigning a score to each category \textit{c}, by doing the dot product of the feature vector of an instance with a vector of weights, thus combining them. The predicted category will be the one with the highest score. This function is called linear predictor function and has this general formula:
 
 \begin{equation}
 score(X_i, c) = \beta_c \cdot X_i
