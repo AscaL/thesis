@@ -19,8 +19,9 @@ library(ResourceSelection)
 library(randomForest) # Random Forest
 # library(ranger) # Faster Random Forest
 library(nnet) # Neural Network
-library(keras) # NN + TensorFlow
+# library(keras) # NN + TensorFlow
 library(xgboost)
+library(factoextra)
 ```
 
 Loading the Data - lies
@@ -351,6 +352,23 @@ mean(rf.pred_all == ALL_test$truthful)
 # table(rf.pred_all_ranger, ALL_test$truthful)
 # mean(rf.pred_all_ranger == ALL_test$truthful)
 
+```
+
+PCA
+```{r}
+is.numeric(trainIntDF[,0:3])
+
+pca <- prcomp(trainIntDF[,0:17], scale. = TRUE, center = TRUE)
+summary(pca)
+
+
+plot(pca, type = "l")
+fviz_pca_ind(pca,
+             col.ind = "cos2", # Color by the quality of representation
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE     # Avoid text overlapping
+             )
+(pca2 <- prcomp(trainIntDF[,0:17], scale. = TRUE))
 ```
 
 SVM

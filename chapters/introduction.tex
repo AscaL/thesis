@@ -1,16 +1,16 @@
 In this chapter we give an overview of the work (Par. \ref{overview}). We start with giving some information about how people perform at detecting lies (Par. \ref{pplLieDet}). \\
 We then present a taxonomy of the current state of the art (Par. \ref{sota}) concerning lie detection with particular emphasis on computer vision. \\
-The last section is about the structure of the rest of this work, and our contribution to it (Par \ref{contrib}).
+The last section is about the structure of the rest of the thesis, and our contribution to it (Par. \ref{contrib}).
 
 \pagebreak
 
 \section{Overview of the work} \label{overview}
-Deception detection has always been a very interesting topic since it has numerous social and psychological implications in many different fields. In the past 40 years there has been a steady increase in researchers interested in studying deceptive behavior, first from a sociological and psychological point of view, and in more recent years from a technological standpoint, aided by the advance of machine learning techniques.
+Deception detection has always been a very interesting topic since it has numerous social and psychological implications in many different fields. In the past 40 years there has been a steady increase in researchers interested in studying deceptive behavior, first from a sociological and psychological point of view, and in more recent years from a technological standpoint, aided by the advance of machine learning techniques, especially in the field of Computer Vision, an interdisciplinary field that aims to simulate the human visual system to automatically comprehend images or videos.
 
-Our work aims to recognize whether a person is lying or telling the truth by performing a frame by frame analysis on a database of videos, through the OpenFace framework \cite{Baltru2018}, and extracting a subset of the different facial movements performed by the person in the video. After finishing the extraction, the data is submitted to analysis by using different statistical and machine learning techniques.
+Our work aims to recognize whether a person is lying or telling the truth by performing a frame by frame analysis on a database of videos with the goal of extracting a set of the different facial movements performed by the person in the video. After finishing the extraction, the data is submitted to analysis by using statistical and machine learning techniques.
 
-The dataset we are using was provided by Perez-Rosas et al. \cite{Perez-Rosas:2015:DDU:2818346.2820758} and is composed by 121 videos taken from real life trials (Par. \ref{rldb}).\\
-These 121 videos have been labeled by the authors with the help of experts to indicate the facial movement occurring in the video. Since those videos are taken from real life trials, the illumination, pose, audio and video features are not homogeneous and often substandard. Substantial work was done to eliminate the parts that are not relevant, and as result many video were trimmed or discarded.
+%todo: way too much stuff about db in intro wtf
+The dataset we are using was provided by Perez-Rosas et al. \cite{Perez-Rosas:2015:DDU:2818346.2820758} and is composed by 121 videos taken from real life trials (Par. \ref{rldb}). Since those videos are taken from real life trials, the illumination, pose, audio and video features are not homogeneous and often substandard. Substantial work was done to eliminate the parts that are not relevant, and as result many video were trimmed or discarded.
 
 From the remaining videos we have 58 different subjects, meaning that there are more videos of the same subject. This means that it is important to divide the training and test set to avoid just making the classifier "remember" the person. This was done by never having the same subject appear both in the training and test set. \\
 After trimming and dividing the videos, we split the data into training and test set based on the subject ID and extracted all the facial movements. Then we utilized machine learning and statistical techniques for classification, and achieved $x \%$ accuracy on the test set.
@@ -207,7 +207,7 @@ Su et al. \cite{SU201652} aim to test the validity of facial clues to deception 
 %TODO: review this
 Action Units (AUs) are defined as a contraction or relaxation of one or more muscles. They have been used in the Facial Action Coding System (FACS), a system developed initially by Hjorztsjö \cite{facsCH} and then improved by Freisen and Ekman \cite{facs1978}, that categorizes all the facial movements by their appearance on the face.
 
-Using FACS it's possible to code nearly any facial expression by deconstructing them into Action Units. For example the Duchenne smile (felt smile) is a combination of AU6 (orbicularis oculi, pars lateralis) and AU12 (zygomatic mayor) as we can see from fig. \ref{fig:duchenne}).
+Using FACS it's possible to code nearly any facial expression by deconstructing them into Action Units. For example the Duchenne smile (felt smile) is a combination of AU6 (orbicularis oculi, pars lateralis) and AU12 (zygomatic mayor) as we can see from fig. \ref{fig:duchenne}.
 
 \begin{figure}[H]
 	\centering
@@ -250,12 +250,20 @@ The performance of STM were compared to generic classifiers and cross-domain lea
 Many approaches to automatic facial AU detection fail to account for individual difference in morphology and behavior for the target person. This is a hard problem because it's difficult for classifiers to generalize to very different subjects, and training a person-specific classifier is neither feasible (very low training data) nor has particular theoretical interest. 
 
 \pagebreak
-\section{My Contributions} \label{contrib}
+\section{Contributions and Outline} \label{contrib}
+
+\subsection{Contribution}
 % TODO: CHANGE THE WORDS THIS IS TAKEN FROM LIN SU
-1) This thesis has set a precedent for future research on high-stakes deception detection using facial action units. As far as we know, there is no computer vision research that has testified the validity of facial action unit as indicators of high-stakes deception. As will be seen in Chapter X, our results are promising, implying the research potential of this topic in the future.
-2) The proposed method is at the forefront of analyzing facial expressions in unconstrained environments. Since the videos in our database were mostly collected from YouTube, certain uncontrollable factors add to the difficulty of their analysis. \\
-These totally unconstrained and spontaneous videos are subject to temporal variations in illumination, head pose and facial occlusion. However, in the current literature, little research has been conducted to address these issues with regard to facial expression analysis. Instead of seeking a solution to solve them, almost all of the studies to date have excluded certain data that were not ideal for the purpose of analysis. In comparison, the proposed method seeks to address the deception detection problem, but in the presence of exactly these factors.
+The human face holds many clues to recognize emotions and to discern truth and lies. Human emotions can be recognized mainly by the expressions we make when a situation arises, such as being scared or happy. Those expressions are translated into movements of the muscles of the face. Building on this idea, the objective of this thesis is to classify if a person is lying or telling the truth based on the action units (muscular movements of the face) extracted from a video. It is important that all the videos are taken from high stakes situations, specifically court trials, so that all the liars and truth tellers have a big incentive in lying or telling the truth, since the validity of many studies is questionable based on the fact that the emotions analyzed are posed (non spontaneous). As far as we know this is the first time using an SVM to classify between truth and lies in high stakes situations, using extracted action units.
 
-FUTUREU USE - app per telefono video -> result
+\subsection{Outline}
+%todo: rewrite kinda
+This thesis is composed by the following chapters:
 
-\pagebreak
+\begin{itemize}
+	\item \textbf{Chapter 2} is about Machine Learning. We will talk about classification, regression, supervised learning and some techniques such as Random Forest and SVM.
+	\item \textbf{Chapter 3} will describe the architecture of our work, explaining landmark detection, action unit intensity and presence estimation, and the process to discriminate between deception and honesty.
+	\item In \textbf{chapter 4} we discuss the dataset and explain the experimental procedure of training and testing a binary classifier for discerning truth and lies.
+	\item \textbf{Chapter 5} is where we discuss the results of this work.
+	\item In \textbf{chapter 6} we draw the conclusions, and future work is presented. 
+\end{itemize}

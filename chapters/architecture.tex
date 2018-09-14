@@ -1,9 +1,20 @@
 %todo: complete, this is what my program does
-In this chapter we will discuss the architecture of our framework and the tools used for this thesis in Deception Detection. We will introduce the OpenFace toolkit (\ref{OpenFace}), and describe landmark detection (\ref{landmark_det}), action unit recognition (\ref{au_det}), .
+In this chapter we will discuss the architecture of our framework and the tools used for this thesis in Deception Detection. We will introduce the OpenFace toolkit (\ref{OpenFace}), and describe landmark detection (\ref{landmark_det}), action unit recognition (\ref{au_det}) and the deception detection process (\ref{dec_det}).
 
 \section{General Architecture}
-%todo
-The general
+%todo with images
+The general idea of this thesis is to classify whether a person is telling the truth or lying, by analyzing the subject's facial movement extracted using an RGB camera. To achieve this it is fundamental that the subject's face results visible during the videos.
+
+We implemented this idea using a Support Vector Machine. 
+
+The architecture utilized is shown in fig \ref{fig:architecture} and is composed this way:
+
+\begin{itemize}
+	\item Gather an video of a person either lying or telling the truth.
+	\item Detect the face of the person in the video.
+	\item Detect the facial landmarks.
+	\item Ex
+\end{itemize}
 
 
 \pagebreak
@@ -32,12 +43,12 @@ This tool is open source and customizable in the way that all the SVM models and
 \end{figure}
 
 The first step in Action Unit identification is to detect the facial landmarks. To accomplish this a local detector called Convolutional Experts Network (CEN) (Fig. \ref{fig:CEN}) is utilized. \\
-CEN has the advantage of aggregating a neural architecture and patch experts (local detectors, they evaluate the probability of a landmark being aligned at a particular pixel location). CEN can learn different patch experts and adapt to diverse appearance models without explicit attribute labeling.
+CEN has the advantage of aggregating a neural architecture and patch experts (local detectors, they evaluate the probability of a landmark being aligned at a particular pixel location). CEN can learn different patch experts and adapt to diverse appearance models without explicitly labeling attributes.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.75\textwidth]{CEN}
-	\caption{Facial landmarks naturally cluster around appearance prototypes (facial hair, expressions, make-up etc). To model such appearance variations a Convolutional Experts Network (CEN) is used to bring together the advantages of neural architectures and mixtures of patch experts to model landmark alignment probability \cite{Baltru2017}.}
+	\caption{Facial landmarks naturally cluster around appearance prototypes (facial hair, expressions, make-up etc). To model such appearance variations a Convolutional Experts Network is used to merge the advantages of neural architectures and mixtures of patch experts, to model landmark alignment probability \cite{Baltru2017}.}
 	\label{fig:CEN}
 \end{figure}
 
@@ -46,7 +57,7 @@ OpenFace uses a Convolutional Experts Constrained Local Model (CE-CLM) \cite{Bal
 
 A Constrained Local Model is class of methods for locating sets of points (constrained by a statistical shape model) on a target image \cite{clm_cootes}.
 
-Generally the procedure is as follows:
+Generally the procedure is as follows (\ref{fig:CLM}):
 \begin{itemize}
 	\item Sample a region from the image around the current estimate, projecting it into a reference frame.
 	\item For each point, generate a "response image" giving a cost for having the point at each pixel.
@@ -148,7 +159,7 @@ DISFA (Denver Intensity of Spontaneuos Facial Action) Database is a non posed fa
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{DISFA_AU}
+	\includegraphics[width=0.6\textwidth]{DISFA_AU}
 	\caption{AUs coded in the DISFA database \cite{DISFA_AU}.}
 	\label{fig:DISFA_AU}
 \end{figure}
@@ -161,7 +172,7 @@ This allows to detect the following AUs (\ref{fig:all_AUs}):
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{all_aus}
+	\includegraphics[width=0.85\textwidth]{all_aus}
 	\caption{List of available AUs for prediction \cite{Baltru2018}.}
 	\label{fig:all_AUs}
 \end{figure}
@@ -220,7 +231,7 @@ In order to determine those points, the most stable CLNF detected landmarks on t
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.75\textwidth]{alignment_masking}
-	\caption{Stable points used for alignment to a common reference frame, followed by masking. \cite{Baltru2015}.}
+	\caption{Stable points used for alignment to a common reference frame, followed by masking \cite{Baltru2015}.}
 	\label{fig:alignment_masking}
 \end{figure}
 
@@ -247,15 +258,32 @@ Once the neutral descriptor is computed, it is subtracted from the feature descr
 %To help with the ease of computing the median, a histogram is kept for each element in the feature vector.
 
 \subsubsection{Classification and Regression}
+The next step is to extract Action Units from each frame of the video. Both intensity and presence are extracted.
+
 Action Units detection is performed through Support Vector Machines (SVM), and Action Unit intensity using Support Vector Regression (SVR), both using the liblinear implementation \cite{liblinear}. In both cases a linear kernel is utilized, as more complex kernels had no effect on performances and were quite slower to train.  
 
-Since the AU occurrences are not balanced by nature, it's highly important to balance the training data. To do this it was needed to under sample the negative AU samples from training data, thus getting to an equal number of positive and negative samples.
+Since the AU occurrences are not balanced by nature (for example AU28, blinking, is not very frequent if we analyze each frame of a video), it's highly important to balance the training data. To do this it was needed to undersample the negative AU samples from training data, thus getting to an equal number of positive and negative samples.
 
 \pagebreak
 
-\section{Deception Detection}
+\section{Deception Detection} \label{dec_det}
 %TODO: rewrite, tentative
-We perform deception detection using different machine learning techniques, such as svm and rf. 
+After a lot of testing with different techniques we decided to perform deception detection using an SVM, since it performed the best compared to other methods. 
+
+%todo: come prendiamo i dati, cosa facciamo... 
+\subsection{Data pre-processing}
+Before feeding the videos to the SVM for Action Units extraction we had to make sure the videos were in good enough condition to be processed. That is not given since all this videos come from real life trials and the recording conditions are not optimal.
+
+Being in an acceptable condition means that the face should be clearly visible, and the video has to have a the specific person visible and talking in \textit{most} of the video, and no other people on it, so to avoid training on different subjects of which we are not sure if they are lying or telling the truth.
+
+As a consequence many videos had to be cut or discarded to reach an acceptable level.
+
+After extracting Action Units intensity and presence from our video file dataset (\ref{rldb}) we put the data in a csv format to be able to pass them to the SVM. 
+
+The data are divided for both AUs intensity, ranging from $0$ to $1$, and AU presence, having the boolean value of either $0$ or $1$ if the AU was missing or present in the specific frame of the video.
+
+%todo: forse non e' utile qui ma in generale lo devo dire
+We organized the data in three sets, one concerning only AUs intensity, one with only AUs presence, and another one where we merged the previous ones.
 
 \subsection{SVM}
 %todo: svm personalizzato a quello che ho fatto
