@@ -46,7 +46,6 @@ The general steps to solve a supervised learning problem are (Fig. \ref{fig:sup_
 	\label{fig:sup_wf}
 \end{figure}
 
-% TODO: Write this better
 There are important considerations to make when using a supervised learning approach:
 \begin{itemize}
 	\item \textbf{Dimensionality of Input} \cite{wiki:dim_red}:\\ 
@@ -145,7 +144,8 @@ In machine learning, classification is the problem of identifying in which of a 
 Classification is considered an instance of supervised learning, based on instances where a training set is available. As for unsupervised learning, classification would be clustering since it groups data into categories based on similarity, but without knowing the label of the data.
 
 The observations, called features or explanatory variables, take different types based on the value. They can be categorical, numerical or ordinal, or be compared by similarity between previous observations using some kind of distance function.\\
-The observations representing the categories to be predicted are called explanatory variables (or regressors, or independent variables).\\
+The observations representing the categories to be predicted are called explanatory variables (or regressors, or independent variables).
+
 The classifier is the algorithm that implements the classification, or a function that maps input data to a category.
 
 \begin{figure}[H]
@@ -181,26 +181,27 @@ In regression analysis, it is also of interest to characterize the variation of 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{reg_plot}
+	\includegraphics[width=0.85\textwidth]{reg_plot}
 	\caption{Example of Regression Analysis}
 	\label{fig:reg_plot}
 \end{figure}	
 
 \subsubsection*{Regression Model} 
 A general regression model uses the following variables and parameters:
+\begin{itemize}[noitemsep]
+	\item The unknown parameters, $\beta$, that represents either a scalar or a vector.
+	\item The independent variables, $X$. 
+	\item The dependent variable, $Y$.
+\end{itemize}
 
-The unknown parameters, $\beta$, that represents either a scalar or a vector.\\
-The independent variables, $X$. \\
-The dependent variable, $Y$.
-
-A regression model relates $Y$ to a function of $X$ and $\beta$.
+A regression model relates $Y$ to a function of $X$ and $\beta$ \cite{wiki:reg_an}.
 \begin{equation}
-Y \approx f(X,\beta)
+	Y \approx f(X,\beta)
 \end{equation}
 
 This is usually formalized as
 \begin{equation}
-E(Y|X) = f(X,\beta)
+	E(Y|X) = f(X,\beta)
 \end{equation}
 
 %TODO: riguardare anche questo, troppo wiki
@@ -208,7 +209,7 @@ If $\beta$ is of length $k$ and the number of observed data points is enough ($N
 
 If this is the case, regression analysis provides the means to find a solution for unknown parameters of $\beta$ to, for example, apply the method of least squares.
 
-To apply regression the data must abide by some assumptions, generally:
+To apply regression the data must abide by some assumptions, generally \cite{wiki:lin_reg}:
 \begin{itemize}[noitemsep, topsep = -5pt]
 	\item The sample is representative of the population for the inference prediction.
 	\item The error is a random variable with a mean of zero.
@@ -223,13 +224,14 @@ Linear regression is the most basic case of Regression Analysis, and it is a use
 
 Linear regression is a linear approach to modeling the relationship between a dependent variable and one or more independent variables. The simplest case of linear regression (LR) is when there is only one independent variable, and is called simple linear regression \cite{wiki:lin_reg} and has this form:
 \begin{equation}
-y_i \approx \beta_0 + \beta_1x_i + \varepsilon_i
+	y_i \approx \beta_0 + \beta_1x_i + \varepsilon_i
 \end{equation}
+
 where $\varepsilon_i$ is the error for the i\textit{th} observation. The error is a catch-all for what we miss with this simple model, since it's very probable that the true relationship is not linear, and that there may be other variables that influence $y$ \cite{ISLR}.
 
 The point of LR is to estimate the $\beta$ coefficients to make predictions. To do so, we utilize of the training dataset to produce estimates $\widehat{\beta_0}$ and $\widehat{\beta_1}$ for the model coefficients. We can then make predictions by computing:
 \begin{equation}
-\widehat{y_i} \approx \widehat{\beta_0} + {\widehat{\beta_1}x_i}
+	\widehat{y_i} \approx \widehat{\beta_0} + {\widehat{\beta_1}x_i}
 \end{equation}
 
 $e_i = y_i - \widehat{y_i}$ is the difference between the true value and the prediction for an observation, and it is called residual (Fig. \ref{fig:reg_error}).
@@ -243,16 +245,16 @@ $e_i = y_i - \widehat{y_i}$ is the difference between the true value and the pre
 
 The most common method for estimation is called least squares. This method obtains parameter estimates that minimize the sum of squared residuals (SSR):
 \begin{equation}
-SSR=\sum _{i=1}^{n}e_{i}^{2}
+	SSR=\sum _{i=1}^{n}e_{i}^{2}
 \end{equation}
 
 The minimizers are
 \begin{equation}
-\widehat{\beta_{1}} = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{\sum(x_i - \bar{x})^2}
+	\widehat{\beta_{1}} = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{\sum(x_i - \bar{x})^2}
 \end{equation}
 
 \begin{equation}
-\widehat{\beta_{0}} = \bar{y} - \widehat{\beta_{1}} \bar {x}
+	\widehat{\beta_{0}} = \bar{y} - \widehat{\beta_{1}} \bar {x}
 \end{equation}
 
 where $\bar{x}$ and $\bar{y}$ are the mean of $x$ and $y$.
@@ -260,28 +262,29 @@ where $\bar{x}$ and $\bar{y}$ are the mean of $x$ and $y$.
 If we assume that the error term has constant variance, the estimate of the variance of the error is given by:
 
 \begin{equation}
-\widehat{\sigma}_{\varepsilon }^{2} = \frac{SSR}{n-2}
+	\widehat{\sigma}_{\varepsilon }^{2} = \frac{SSR}{n-2}
 \end{equation}
 
 And is called mean square error (MSE) of the regression. The denominator is the sample size reduced by the number of model parameters estimated from the same data, $(n-p)$ for $p$ regressors or  $(n-p-1)$ if an intercept is used \cite{MSE}. In the case of simple linear regression $p=1$, so the denominator is $n-2$.
 
 We can then estimate the standard errors for the parameters, that tell us the average amount that the estimate differs from the actual value.
 \begin{equation}
-{\widehat{\sigma}_{\beta _{1}} = {\widehat{\sigma}_{\varepsilon}{\sqrt{\frac{1}{\sum(x_{i} - {\bar {x}})^{2}}}}}}
+	{\widehat{\sigma}_{\beta _{1}} = {\widehat{\sigma}_{\varepsilon}{\sqrt{\frac{1}{\sum(x_{i} - {\bar {x}})^{2}}}}}}
 \end{equation}
 \begin{equation}
-{\widehat{\sigma}_{\beta _{0}} = {\widehat{\sigma}_{\varepsilon}{\sqrt{\frac{1}{n} + \frac{\bar{x}^2}{\sum(x_{i} - {\bar {x}})^{2}}}}}}
+	{\widehat{\sigma}_{\beta _{0}} = {\widehat{\sigma}_{\varepsilon}{\sqrt{\frac{1}{n} + \frac{\bar{x}^2}{\sum(x_{i} - {\bar {x}})^{2}}}}}}
 \end{equation}
 
 Standard errors can be used to compute confidence intervals. A 95\% confidence interval is defined as a range of values such that with 95\% probability, the range will contain the true unknown value of the parameter.
 
 The general multiple regression model, where there are $p$ independent variables, follows this formula:
 \begin{equation}
-y_{i}=\beta_{1}x_{i1} + \beta_{2}x_{i2} + \cdots + \beta_{p}x_{ip} + \varepsilon_{i}
+	y_{i}=\beta_{1}x_{i1} + \beta_{2}x_{i2} + \cdots + \beta_{p}x_{ip} + \varepsilon_{i}
 \end{equation}
+
 where $x_{ij}$ is the i-th observation on the j-th independent variable.
 
-\pagebreak
+\clearpage
 
 \section{Logistic Regression} \label{logreg}
 In regression analysis, logistic regression is a method for estimating the parameters of a logistic model. A logistic model is one where the log-odds of the probability of an event is a linear combination of independent or predictor variables. \\
@@ -364,7 +367,7 @@ Once the coefficient have been estimated is pretty simple to compute the probabi
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{RFClass}
+	\includegraphics[width=1\textwidth]{RFClass}
 	\caption{Example of Random Forest Classification \cite{medium:RF}}
 	\label{fig:RFClass}
 \end{figure}
@@ -374,7 +377,7 @@ Random forests are an ensemble learning method used mainly for classification an
 Random Forest (RF) is preferred to decision trees because decision trees suffer from high variance. By using tree bagging, which is a commonly used technique to reduce variance, we can correct decision trees' habit of overfitting to their training set \cite{ESL}.
 
 \subsubsection{Decision Trees}
-%TODO: check this par
+%TODO: check this par too much wiki maybe not clear
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.85\textwidth]{decTree}
@@ -382,10 +385,19 @@ Random Forest (RF) is preferred to decision trees because decision trees suffer 
 	\label{fig:decTree}
 \end{figure}
 
-Decision trees are a popular method for various machine learning tasks and can be used for either classification or regression. The aim of decision trees is to create a model that predicts the value of a target variable based on several input variables. \\
-Each node of the tree corresponds to one of the input variables. Each leaf represents a value of the target variable given the values of the input variables represented by the path from the root to the leaf \cite{wiki:DT}.
+Decision trees are a popular method for various machine learning tasks and can be used for either classification or regression.\\
+The aim of decision trees is to create a model that predicts the value of a target variable based on several input variables. 
 
-A decision tree is a simple representation for classifying examples. The arcs coming from a node labeled with an input feature are labeled with each of the possible values of the target or output feature or the arc leads to a subordinate decision node on a different input feature. Each leaf of the tree is labeled with a class or a probability distribution over the classes.
+Each node of the tree corresponds to one of the input variables. Each leaf represents a value of the target variable, given the values of the input variables represented by the path from the root to the leaf \cite{wiki:DT}.
+
+A decision tree is able to represent a classification problem:
+The arcs of a tree's node labeled with input features are labeled with the possible values for that feature, and they can lead to two options:
+\begin{itemize}[noitemsep]
+	\item A subordinate decision node, with different input features.
+	\item A leaf labeled with the resulting class (or a probability).
+\end{itemize}
+
+A tree can be learned by dividing the training set into subsets based on the values of the attributes. This is done recursively until a node has all the same value of the target variable, or splitting stopped aiding the predictions.
 
 Decision trees, however, are often inaccurate. Specifically, by growing trees very deep, they tend to learn highly irregular patterns by overfitting to the training set (i.e. have low bias, but very high variance). 
 
@@ -440,7 +452,7 @@ or by using the majority vote in case of classification.
 Additionally, an estimate of the uncertainty of the prediction can be made as the standard deviation of the predictions from all the individual regression trees on $x'$:
 
 \begin{equation}
-{\sigma ={\sqrt {\frac {\sum_{b=1}^{B}(f_{b}(x')-{\hat {f}})^{2}}{B-1}}}}
+	{\sigma ={\sqrt {\frac {\sum_{b=1}^{B}(f_{b}(x')-{\hat {f}})^{2}}{B-1}}}}
 \end{equation}
 
 The number of samples/trees, B, is a free parameter. Typically, a few hundred to several thousand trees are used, depending on the size and nature of the training set. \\
@@ -464,7 +476,7 @@ By forcing each split to consider only $m$ predictors, on average $(p - m)/p$ of
 
 \subsubsection{Out of bag Error}
 There is a very direct way to estimate the test error of a bagged model: \\
-On average, we use $2/3$ of the observations to fit a bagged tree. The remaining $1/3$ that are not utilized are called the out-of-bag (OOB) observations. 
+on average, we use $2/3$ of the observations to fit a bagged tree. The remaining $1/3$ that are not utilized are called the out-of-bag (OOB) observations. 
 
 We can predict the response for the i\textit{th} observation using each of the trees in which that observation was OOB. This will generate approximately $B/3$ predictions for the i\textit{th} observation.
 We can then average these predictions (or use majority voting for classification). 
@@ -653,8 +665,8 @@ All the observations that lie on the correct side of the margin do not affect th
 \subsection{Kernels}
 Sometimes data is not linearly separable (Fig. \ref{fig:svmnotsep}). When that happens, Support Vector Machines work by enlarging the feature space using specific function called kernels.
 
-The solution to equations \ref{eq:svm4}-\ref{eq:svm6} involves only the inner products of the observations, and not the observations themselves \cite{ISLR}.\\
-The inner product of two observations $x_i$ , $x_i'$ is given by:
+The solution to equations \ref{eq:svm4} - \ref{eq:svm6} involves only the inner products of the observations, and not the observations themselves \cite{ISLR}.\\
+The inner product of two observations $x_i$, $x_i'$ is given by:
 
 \begin{equation} \label{eq:svm9}
 \langle x_i, x_i' \rangle = \sum_{j=1}^{p} x_{ij}x_{i'j}
@@ -678,18 +690,18 @@ Where $K$ is a kernel function. A kernel function is used to quantify the simila
 For example a linear kernel is:
 
 \begin{equation} \label{eq:svm12}
-K(x_i, x_i') = \sum_{j=1}^{p} x_{ij}x_{i'j}
+	K(x_i, x_i') = \sum_{j=1}^{p} x_{ij}x_{i'j}
 \end{equation}
 
 or for a polynomial kernel of degree \textit{d}:
 
 \begin{equation} \label{eq:svm13}
-K(x_i, x_i') = (1 + \sum_{j=1}^{p} x_{ij}x_{i'j})^d
+	K(x_i, x_i') = (1 + \sum_{j=1}^{p} x_{ij}x_{i'j})^d
 \end{equation}
 
 or a radial kernel:
 \begin{equation} \label{eq:svm14}
-K(x_i, x_i') = \exp(-\gamma\sum_{j=1}^{p} (x_{ij}, x_{i'j})^2), \quad \gamma \ge 0
+	K(x_i, x_i') = \exp(-\gamma\sum_{j=1}^{p} (x_{ij}, x_{i'j})^2), \quad \gamma \ge 0
 \end{equation} 
 
 There are many more kernel functions that can be used based on the shape of data.
@@ -699,7 +711,7 @@ The advantage of using a kernel is first of all computational: by using a kernel
 Graphically, starting with a two dimensional non linearly separable data, this is what happens:
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{svm_notsep}
+	\includegraphics[width=0.75\textwidth]{svm_notsep}
 	\caption{Linearly non separable data \cite{kernel_trick}.}
 \end{figure} 
 

@@ -2,7 +2,7 @@
 In this chapter we will discuss the architecture of our framework and the tools used for this thesis in Deception Detection. We will introduce the OpenFace toolkit (\ref{OpenFace}), and describe landmark detection (\ref{landmark_det}), action unit recognition (\ref{au_det}) and the deception detection process (\ref{dec_det}).
 
 \section{General Architecture}
-%todo with images
+%todo with images + change title
 The general idea of this thesis is to classify whether a person is telling the truth or lying, by analyzing the subject's facial movement extracted using an RGB camera. To achieve this it is fundamental that the subject's face results visible during the videos.
 
 We implemented this idea using a Support Vector Machine. 
@@ -10,19 +10,18 @@ We implemented this idea using a Support Vector Machine.
 The architecture utilized is shown in fig \ref{fig:architecture} and is composed this way:
 
 \begin{itemize}
-	\item Gather an video of a person either lying or telling the truth.
-	\item Detect the face of the person in the video.
-	\item Detect the facial landmarks.
-	\item Ex
+	\item We gather a video of a person in a high stake situation.
+	\item Detect the face of the person in the video using Constrained Local Neural Field.
+	\item Detect the facial landmarks using Convolutional Experts Network.
+	\item Extract the appearance features in the form of Histogram of Oriented Gradients and perform dimensionality reduction and feature normalization through Principal Component Analysis.
+	\item Extract action unit presence and intensity from the video using a SVM.
+	\item Feed the extracted data to a SVM for classification.
 \end{itemize}
 
-
-\pagebreak
+\clearpage
 
 \section{OpenFace} \label{OpenFace}
-The OpenFace \cite{Baltru2018} toolkit is a tool for machine learning and computer vision researchers, created by Baltrusaitis et al., to support performing facial landmark detection, head pose estimation, action unit recognition and eye gaze estimation. \\
-%TODO: check this new addition
-This tool is open source and customizable in the way that all the SVM models and neural networks can be trained with new dataset, and the code is completely changeable and personalizable.
+The OpenFace \cite{Baltru2018} toolkit is a tool for machine learning and computer vision researchers, created by Baltrusaitis et al., to support performing facial landmark detection, head pose estimation, action unit recognition, feature extraction and eye gaze estimation. 
 
 \begin{figure}[H]
 	\centering
@@ -31,18 +30,16 @@ This tool is open source and customizable in the way that all the SVM models and
 	\label{fig:openface20_pipeline}
 \end{figure}
 
-\pagebreak
+%TODO: check this new addition
+This tool is customizable in the way that all the SVM models and neural networks can be retrained with new datasets, and the code is open source, so it can be changed to fit the needs of the experimenters.
+
+
+\clearpage
 
 \section{Landmark Detection} \label{landmark_det}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.75\textwidth]{land_det_ex}
-	\caption{Example of different facial landmarks detected in diverse conditions and viewing angles. \cite{Baltru2018}.}
-	\label{fig:land_det_ex}
-\end{figure}
+The first step in Action Unit identification is to detect the facial landmarks. To accomplish this a local detector called Convolutional Experts Network (CEN) (Fig. \ref{fig:CEN}) is utilized. 
 
-The first step in Action Unit identification is to detect the facial landmarks. To accomplish this a local detector called Convolutional Experts Network (CEN) (Fig. \ref{fig:CEN}) is utilized. \\
 CEN has the advantage of aggregating a neural architecture and patch experts (local detectors, they evaluate the probability of a landmark being aligned at a particular pixel location). CEN can learn different patch experts and adapt to diverse appearance models without explicitly labeling attributes.
 
 \begin{figure}[H]
@@ -57,8 +54,8 @@ OpenFace uses a Convolutional Experts Constrained Local Model (CE-CLM) \cite{Bal
 
 A Constrained Local Model is class of methods for locating sets of points (constrained by a statistical shape model) on a target image \cite{clm_cootes}.
 
-Generally the procedure is as follows (\ref{fig:CLM}):
-\begin{itemize}
+Generally the procedure is as follows (Fig. \ref{fig:CLM}):
+\begin{itemize}[noitemsep]
 	\item Sample a region from the image around the current estimate, projecting it into a reference frame.
 	\item For each point, generate a "response image" giving a cost for having the point at each pixel.
 	\item Search for a combination of points which optimizes the total cost, by manipulating the shape model parameters.
@@ -80,7 +77,7 @@ In the first step, the landmarks alignment is computed separately from the other
 In the second phase, all landmarks are considered together and for misaligned landmarks and irregular shapes their position is penalized, using a Point Distribution Model (PDM).
 
 \subsection{CEN}
-In the initial step, the objective is to generate a response map to localize the individual landmarks. This is achieved by assessing the landmark alignment probability at specific pixel locations. \\
+In the initial step, the objective is to generate a response map to localize the individual landmarks. This is performed by assessing the landmark alignment probability at specific pixel locations. \\
 CEN takes in input a Region of Interest (ROI) around the currently estimated position of a landmark, and outputs a response map that calculates the landmark alignment probability at each pixel location (Fig. \ref{fig:landmark_det}).
 
 \begin{figure}[H]
@@ -101,7 +98,7 @@ The Point Distribution Model is a used to represent the mean geometry of a shape
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{PDM}
+	\includegraphics[width=0.45\textwidth]{PDM}
 	\caption{PDM of a metacarpal. Dots mark the possible position of landmarks, and the line denote the mean shape \cite{PDM}.}
 	\label{fig:PDM}
 \end{figure}
@@ -122,7 +119,6 @@ Point distribution models rely on landmark points. The general PDM works this wa
 	\item By modifying the variable $\mathbf {b}$  an infinite number of shapes can be defined. $\mathbf {b}$ shouldn't generally be modified more than $\pm3\sigma$ \cite{wiki:PDM}.
 \end{enumerate}
 
-%todo: check if ok
 With the OpenFace framework Point Distribution Model \cite{PDM_RLMS} we model the location of facial feature points in the image, using non-rigid shape and rigid global transformation parameters.
 
 The application of PDM has two objectives:
@@ -133,11 +129,19 @@ The application of PDM has two objectives:
 \end{itemize}
 This has an effect in the final detected landmarks, where the irregular shapes are imposed a penalty.
 
-\pagebreak
+The results can be seen in the figure \ref{fig:land_det_ex} below for different images with different illuminations and angles. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\textwidth]{land_det_ex}
+	\caption{Example of different facial landmarks detected in diverse conditions and viewing angles. \cite{Baltru2018}.}
+	\label{fig:land_det_ex}
+\end{figure}
+
+\clearpage
 
 \section{Action Unit Detection} \label{au_det}
-%TODO: rewrite
-Action Unit (AU) detection plays a fundamental role in our work. We now describe the process used to detect the AUs through an SVM, starting with an overview of the utilized databases for AU detection.
+Action Unit (AU) detection plays a fundamental role in our work. We now describe the process used to detect the AUs through an SVM, starting with an overview of the datasets utilized for training the SVM in AUs detection.
 
 \begin{figure}[H]
 	\centering
@@ -146,29 +150,35 @@ Action Unit (AU) detection plays a fundamental role in our work. We now describe
 	\label{fig:AU_pipeline}
 \end{figure}
 
-\subsection{Datasets}
-There are three main dataset used for training the Action Unit detection system: DISFA \cite{DISFA}, BP4D-Spontaneous \cite{BP4D-Spontaneous} and SEMAINE \cite{SEMAINE}. These three datasets consist of videos of people subject to emotion inducing tasks.
+\subsection{Training Datasets}
+%todo: this part might not be necessary?
+There are four main dataset used for training the Action Unit detection system: DISFA \cite{DISFA}, BP4D-Spontaneous \cite{BP4D-Spontaneous}, SEMAINE \cite{SEMAINE} and CK+ \cite{CK+}. These four datasets consist of videos of people subject to emotion inducing tasks.
 
-The BP4D database of spontaneous facial expressions includes videos of 41 participants (23 women and 18 men, 21 for training and 20 for validating). The age ranged from 18 to 29; 11 were Asian, 6 African-American, 4 Hispanic, and 20 Euro-American. \\
+The \textbf{BP4D} database of spontaneous facial expressions includes videos of 41 participants (23 women and 18 men, 21 for training and 20 for validating). The age ranged from 18 to 29; 11 were Asian, 6 African-American, 4 Hispanic, and 20 Euro-American. \\
 Emotion inducing techniques were used to elicit an emotional response. Frame-level ground-truth for facial actions was obtained by using the Facial Action Coding System annotations, performed by trained professionals. \\
 Each participant in the database is associated with 8 tasks. For each task, there are both 3D and 2D videos and the metadata include annotations for 11 AUs for occurrence and 5 AUs for intensities.
 
-The FACS annotated SEMAINE subset contains recordings of 31 subjects (15 for training and 16 for validation). It consists of one minute long recordings, leading to 93k frames labeled for 5 AU occurrences.
-
-DISFA (Denver Intensity of Spontaneuos Facial Action) Database is a non posed facial expression database for automatic action unit detection. It contains videos of 27 participants (12 female, 15 males; 14 used for training and 13 for validation). It includes 4 minute-long videos of spontaneous facial expression, resulting in 130k frames annotated for 12 AUs (Fig. \ref{fig:DISFA_AU}), comprehensive of AUs intensity on a 0 to 5 scale.
+\textbf{DISFA} (Denver Intensity of Spontaneuos Facial Action) Database is a non posed facial expression database for automatic action unit detection. It contains videos of 27 participants (12 female, 15 males; 14 used for training and 13 for validation). It includes 4 minute-long videos of spontaneous facial expression, resulting in 130k frames annotated for 12 AUs (Fig. \ref{fig:DISFA_AU}), comprehensive of AUs intensity on a 0 to 5 scale.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{DISFA_AU}
+	\includegraphics[width=0.5\textwidth]{DISFA_AU}
 	\caption{AUs coded in the DISFA database \cite{DISFA_AU}.}
 	\label{fig:DISFA_AU}
 \end{figure}
 
-All of the datasets have three AUs in common (2, 12, and 17). \\
-SEMAINE and DISFA share AUs 2, 12, 17, 25. \\
-BP4D and DISFA share AUs 1, 2, 4, 6, 12, 15, 17. This allows for cross-dataset training.
+The FACS annotated \textbf{SEMAINE} subset contains recordings of 31 subjects (15 for training and 16 for validation). It consists of one minute long recordings, leading to 93k frames labeled for 5 AU occurrences.
 
-This allows to detect the following AUs (\ref{fig:all_AUs}):
+The \textbf{Cohn-Kanade} AU-Coded Facial Expression Database is utilized for research in facial image analysis. \\
+CK+, includes both posed and non-posed (spontaneous) expressions and additional types of metadata. Each posed expression is completely FACS coded, and emotion labels are part of the metadata. \\
+CK+ also provides baseline results for facial feature tracking, action unit and emotion recognition.
+
+BP4D, SEMAINE and DISFA have three AUs in common (2, 12, and 17). \\
+SEMAINE and DISFA share AUs 2, 12, 17, 25. \\
+BP4D and DISFA share AUs 1, 2, 4, 6, 12, 15, 17. \\
+This allows for cross-dataset training.
+
+By training on these dataset is possible to detect the following AUs (\ref{fig:all_AUs}):
 
 \begin{figure}[H]
 	\centering
@@ -177,21 +187,8 @@ This allows to detect the following AUs (\ref{fig:all_AUs}):
 	\label{fig:all_AUs}
 \end{figure}
 
-%todo: complete dataset description 
-Other dataset included in the study are:
-\begin{itemize}[noitemsep]
-	\item CK+ \cite{CK+}: \\
-	The Cohn-Kanade AU-Coded Facial Expression Database is utilized for research in facial image analysis. \\
-	CK+, includes both posed and non-posed (spontaneous) expressions and additional types of metadata. Each posed expression is completely FACS coded, and emotion labels are part of the metadata. \\
-	CK+ also provides baseline results for facial feature tracking and action unit and emotion recognition.
-	\item FERA 2011 \cite{FERA11}:
-	\item FERA 2015 \cite{FERA15}:
-	\item AVEC 2011 \cite{AVEC11}:
-\end{itemize}
-
-
 \subsection{Feature Extraction}
-There are two types of features that are used: appearance and geometry ones. To extract those features it's required to track certain landmarks on the face, and then continue this process by performing face alignment.
+There are two types of features that are used: appearance (Histogram of Oriented Gradients) and geometry (shape parameters and landmark locations) ones. To extract those features it's required to track certain landmarks on the face, and then continue this process by performing face alignment.
 
 \subsubsection{Face Tracking}
 %TODO: rewrite
@@ -215,7 +212,7 @@ These parameters can be modified to compute different versions of the model. The
 
 Where $x_i$ is the location of the i\textit{th} feature point in an image, $\overline{x_i}$ is the mean of the i\textit{th} element of the PDM, and $\phi_i$ is the i\textit{th} eigenvector that describes the variation of the feature point.
 
-In the Constrained Local Model we use the parameters from the face detection to estimate the maximum a posteriori probability \textit{p} of the face model.
+In the Constrained Local Model we use the parameters from face detection to estimate the maximum a posteriori probability \textit{p} of the face model.
 
 \subsubsection{Alignment and Masking}
 For the extracted face to be correctly analyzed, there needs to be a mapping to a common reference frame, and the changes resulting from scaling and in plane rotation needs to be removed. 
@@ -235,14 +232,15 @@ In order to determine those points, the most stable CLNF detected landmarks on t
 	\label{fig:alignment_masking}
 \end{figure}
 
-Masking, performed using a convex hull surrounding the feature points, is done to remove non face relevant information from the images.
+Masking, performed using a convex hull surrounding the feature points, is done to remove informations from the image that do not regard the face.
 
 \subsubsection{Appearance Features}
-After the face is aligned to the $112 \times 112$ image it's time to extract the appearance features. \\
-To get the appearance features, $12 \times 12$ block of 31 dimensional Histogram of Oriented Gradients (HOG) are extracted, giving a 4464 dimensional vector characterizing the face. The implementation that HoG utilized comes from dlib \cite{dlib}.
+After the face is aligned to a $112 \times 112$ image it's time to extract the appearance features. \\
+To get the appearance features, $12 \times 12$ block of 31 dimensional Histogram of Oriented Gradients (HOG) are extracted, giving a 4464 dimensional vector characterizing the face. The implementation for HoG comes from dlib \cite{dlib}.
 
 Once the feature vector is obtained, the next step is to reduce it's dimensionality. In order to do that Principal Component Analysis (PCA) is applied. \\
-To generalize the dimensionality reduction, the training was performed on the FERA 2015 \cite{FERA15}, CK+ \cite{CK+}, DISFA \cite{DISFA}, AVEC 2011 \cite{AVEC11} and FERA 2011 \cite{FERA11} datasets. By using PCA while sub-sampling from peak and neutral expressions and keeping 95\% of explained variability, the feature vector becomes of 1379 dimensions.
+To generalize the dimensionality reduction, the training was performed on the FERA 2015 \cite{FERA15}, CK+ \cite{CK+}, DISFA \cite{DISFA}, AVEC 2011 \cite{AVEC11} and FERA 2011 \cite{FERA11} datasets. \\
+By using PCA while sub-sampling from peak and neutral expressions and keeping 95\% of explained variability, the feature vector becomes of 1379 dimensions.
 
 \subsubsection{Geometry Features}
 %TODO: CHECK CLNF STUFF
@@ -264,23 +262,31 @@ Action Units detection is performed through Support Vector Machines (SVM), and A
 
 Since the AU occurrences are not balanced by nature (for example AU28, blinking, is not very frequent if we analyze each frame of a video), it's highly important to balance the training data. To do this it was needed to undersample the negative AU samples from training data, thus getting to an equal number of positive and negative samples.
 
-\pagebreak
+\clearpage
 
 \section{Deception Detection} \label{dec_det}
 %TODO: rewrite, tentative
-After a lot of testing with different techniques we decided to perform deception detection using an SVM, since it performed the best compared to other methods. 
+In this step we feed the extracted action units from the video to an SVM for classification.
+We use an SVM because after a lot of testing with different techniques that was the one that performed the best compared to others. 
 
 %todo: come prendiamo i dati, cosa facciamo... 
 \subsection{Data pre-processing}
 Before feeding the videos to the SVM for Action Units extraction we had to make sure the videos were in good enough condition to be processed. That is not given since all this videos come from real life trials and the recording conditions are not optimal.
 
-Being in an acceptable condition means that the face should be clearly visible, and the video has to have a the specific person visible and talking in \textit{most} of the video, and no other people on it, so to avoid training on different subjects of which we are not sure if they are lying or telling the truth.
+Being in an acceptable condition means that the face should be clearly visible, and the video has to have the specific person visible and talking in \textit{most} of the video, and no other people on it, so to avoid training on different subjects of which we are not sure if they are lying or telling the truth.
 
-As a consequence many videos had to be cut or discarded to reach an acceptable level.
+As a consequence many videos had to be cut, trimmed or discarded to reach an acceptable level.
 
-After extracting Action Units intensity and presence from our video file dataset (\ref{rldb}) we put the data in a csv format to be able to pass them to the SVM. 
+After extracting Action Units intensity and presence from our dataset of videos (\ref{rldb}) we put the data in a \textit{csv} format to be able to pass them to the SVM. 
 
-The data are divided for both AUs intensity, ranging from $0$ to $1$, and AU presence, having the boolean value of either $0$ or $1$ if the AU was missing or present in the specific frame of the video.
+The data are divided for both AUs intensity, ranging from $0$ to $5$, and AU presence, having the boolean value of either $0$ or $1$ if the AU was missing or present in the specific frame of the video.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{dataset_csv}
+	\caption{Example of input data in csv format.}
+	\label{fig:dataset_csv}
+\end{figure}
 
 %todo: forse non e' utile qui ma in generale lo devo dire
 We organized the data in three sets, one concerning only AUs intensity, one with only AUs presence, and another one where we merged the previous ones.
