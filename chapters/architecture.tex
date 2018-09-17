@@ -151,7 +151,7 @@ Action Unit (AU) detection plays a fundamental role in our work. We now describe
 \end{figure}
 
 \subsection{Training Datasets}
-%todo: this part might not be necessary?
+%todo: this part might not be necessary here? I could expand a lot on it in the experiments section
 There are four main dataset used for training the Action Unit detection system: DISFA \cite{DISFA}, BP4D-Spontaneous \cite{BP4D-Spontaneous}, SEMAINE \cite{SEMAINE} and CK+ \cite{CK+}. These four datasets consist of videos of people subject to emotion inducing tasks.
 
 The \textbf{BP4D} database of spontaneous facial expressions includes videos of 41 participants (23 women and 18 men, 21 for training and 20 for validating). The age ranged from 18 to 29; 11 were Asian, 6 African-American, 4 Hispanic, and 20 Euro-American. \\
@@ -287,6 +287,8 @@ The data are divided for both AUs intensity, ranging from $0$ to $5$, and AU pre
 	\caption{Example of input data in csv format.}
 	\label{fig:dataset_csv}
 \end{figure}
+
+The next step is to remove all the rows that have both no intensity and no presence for AUs, since those rows are most likely errors from the extraction, deriving from the poor quality of the videos.
 
 %todo: forse non e' utile qui ma in generale lo devo dire
 We organized the data in three sets, one concerning only AUs intensity, one with only AUs presence, and another one where we merged the previous ones.

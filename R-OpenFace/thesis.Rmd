@@ -24,106 +24,6 @@ library(xgboost)
 library(factoextra)
 ```
 
-Loading the Data - lies
-```{r}
-filenames_L_train <- list.files("./df/deceptive/train", pattern="*.csv", full.names=TRUE)
-filenames_L_test <- list.files("./df/deceptive/test", pattern="*.csv", full.names=TRUE)
-lies_train <- rbindlist(lapply(filenames_L_train, fread))
-lies_test <- rbindlist(lapply(filenames_L_test, fread))
-
-# Add "deceptive" to cols
-lies_test$truthful <- rep(0, nrow(lies_test))
-lies_test$truthful <- factor(lies_test$truthful)
-lies_train$truthful <- rep(0, nrow(lies_train))
-lies_train$truthful <- factor(lies_train$truthful)
-
-# Remove Useless Columns
-lies_train <- lies_train[,-c(1:5)]
-lies_test <- lies_test[,-c(1:5)]
-
-# Select Intensity Columns
-lint_train <- lies_train[,c(1:17, 36)]
-lint_test <- lies_test[,c(1:17, 36)]
-
-# Select Presence Columns
-plies_train <- lies_train[,-c(1:17)]
-plies_test <- lies_test[,-c(1:17)]
-```
-
-Loading the Data - truth
-```{r}
-filenames_T_train <- list.files("./df/truthful/train", pattern="*.csv", full.names=TRUE)
-filenames_T_test <- list.files("./df/truthful/test", pattern="*.csv", full.names=TRUE)
-truth_train <- rbindlist(lapply(filenames_T_train, fread))
-truth_test <- rbindlist(lapply(filenames_T_test, fread))
-
-# Add "truthful" to cols
-truth_test$truthful <- rep(1, nrow(truth_test))
-truth_test$truthful <- factor(truth_test$truthful)
-truth_train$truthful <- rep(1, nrow(truth_train))
-truth_train$truthful <- factor(truth_train$truthful)
-
-# Remove Useless Columns
-truth_train <- truth_train[,-c(1:5)]
-truth_test <- truth_test[,-c(1:5)]
-
-# Select Intensity Columns
-tint_train <- truth_train[,c(1:17, 36)]
-tint_test <- truth_test[,c(1:17, 36)]
-
-# Select Presence Columns
-ptruth_train <- truth_train[,-c(1:17)]
-ptruth_test <- truth_test[,-c(1:17)]
-```
-
-Create Train & Test set
-```{r}
-# Presence
-trainDF <- rbind(ptruth_train, plies_train)
-testDF <- rbind(ptruth_test, plies_test)
-
-# Intensity
-trainIntDF <- rbind(tint_train, lint_train)
-testIntDF  <- rbind(tint_test, lint_test)
-
-# Together
-ALL_train <- rbind(truth_train, lies_train)
-ALL_test <- rbind(truth_test, lies_test)
-
-head(ALL_train)
-
-# voglio levare le row in cui TUTTI i campi sono 0
-?subset
-
-hs <- subset(ALL_train, AU01_r != 0 && AU02_r != 0)
-hs <- subset(ALL_train, AU01_r != 0 & AU02_r != 0 & AU04_r != 0 & AU05_r != 0 & AU06_r != 0 & AU07_r != 0 & AU09_r != 0 & AU10_r != 0 & AU12_r != 0 & AU14_r != 0 & AU15_r != 0 & AU17_r != 0 & AU20_r != 0 & AU23_r != 0 & AU25_r != 0 & AU26_r != 0 & AU45_r != 0 & AU01_c != 0 & AU02_c != 0 & AU04_c != 0 & AU05_c != 0 & AU06_c != 0 & AU07_c != 0 & AU09_c != 0 & AU10_c != 0 & AU12_c != 0 & AU14_c != 0 & AU15_c != 0 & AU17_c != 0 & AU20_c != 0 & AU23_c != 0 & AU25_c != 0 & AU26_c != 0 & AU28_c != 0 & AU45_c != 0)
-head(hs)
-
-```
-
-
-OLD Train & Test Set
-```{r}
-# # merge train and test
-# DF <- rbind(truth, lies)
-# #write.csv2(DF, "./df/presence.csv", row.names = F)
-# splitIndex <- createDataPartition(DF[,truthful], p = .75, list = FALSE, times = 1)
-# trainDF <- DF[ splitIndex,]
-# testDF  <- DF[-splitIndex,]
-# 
-# DFint <- rbind(int_truth, int_lies)
-# #write.csv2(DFint, "./df/intensity.csv", row.names = F)
-# splitIndex <- createDataPartition(DFint[,truthful], p = .75, list = FALSE, times = 1)
-# trainIntDF <- DFint[ splitIndex,]
-# testIntDF  <- DFint[-splitIndex,]
-# 
-# ALL <- rbind(ALLT, ALLL)
-# #write.csv2(ALL, "./df/combined.csv", row.names = F)
-# splitIndex <- createDataPartition(ALL[,truthful], p = .70, list = FALSE, times = 1)
-# ALL_train <- ALL[ splitIndex,]
-# ALL_test  <- ALL[-splitIndex,]
-```
-
 Utils
 ```{r}
 makeAllCorrMatrix <- function(data) {
@@ -219,6 +119,105 @@ importanceRF <- function(rfmodel) {
 }
 ```
 
+Loading the Data - lies
+```{r}
+filenames_L_train <- list.files("./df/deceptive/train", pattern="*.csv", full.names=TRUE)
+filenames_L_test <- list.files("./df/deceptive/test", pattern="*.csv", full.names=TRUE)
+lies_train <- rbindlist(lapply(filenames_L_train, fread))
+lies_test <- rbindlist(lapply(filenames_L_test, fread))
+
+# Remove Useless Columns
+lies_train <- lies_train[,-c(1:5)]
+lies_test <- lies_test[,-c(1:5)]
+
+# remove all cols with all 0s
+lies_train <- lies_train[rowSums(lies_train) !=0, ]
+lies_test <- lies_test[rowSums(lies_test) !=0, ]
+
+# Add "deceptive" to cols
+lies_test$truthful <- rep(0, nrow(lies_test))
+lies_test$truthful <- factor(lies_test$truthful)
+lies_train$truthful <- rep(0, nrow(lies_train))
+lies_train$truthful <- factor(lies_train$truthful)
+
+# Select Intensity Columns
+lint_train <- lies_train[,c(1:17, 36)]
+lint_test <- lies_test[,c(1:17, 36)]
+
+# Select Presence Columns
+plies_train <- lies_train[,-c(1:17)]
+plies_test <- lies_test[,-c(1:17)]
+```
+
+Loading the Data - truth
+```{r}
+filenames_T_train <- list.files("./df/truthful/train", pattern="*.csv", full.names=TRUE)
+filenames_T_test <- list.files("./df/truthful/test", pattern="*.csv", full.names=TRUE)
+truth_train <- rbindlist(lapply(filenames_T_train, fread))
+truth_test <- rbindlist(lapply(filenames_T_test, fread))
+
+# Remove Useless Columns
+truth_train <- truth_train[,-c(1:5)]
+truth_test <- truth_test[,-c(1:5)]
+
+# remove all cols with all 0s
+truth_train <- truth_train[rowSums(truth_train) !=0, ]
+truth_test <- truth_test[rowSums(truth_test) !=0, ]
+
+# Add "truthful" to cols
+truth_test$truthful <- rep(1, nrow(truth_test))
+truth_test$truthful <- factor(truth_test$truthful)
+truth_train$truthful <- rep(1, nrow(truth_train))
+truth_train$truthful <- factor(truth_train$truthful)
+
+# Select Intensity Columns
+tint_train <- truth_train[,c(1:17, 36)]
+tint_test <- truth_test[,c(1:17, 36)]
+
+# Select Presence Columns
+ptruth_train <- truth_train[,-c(1:17)]
+ptruth_test <- truth_test[,-c(1:17)]
+```
+
+Create Train & Test set
+```{r}
+# Presence
+trainDF <- rbind(ptruth_train, plies_train)
+testDF <- rbind(ptruth_test, plies_test)
+
+# Intensity
+trainIntDF <- rbind(tint_train, lint_train)
+testIntDF  <- rbind(tint_test, lint_test)
+
+# Together
+ALL_train <- rbind(truth_train, lies_train)
+ALL_test <- rbind(truth_test, lies_test)
+```
+
+
+OLD Train & Test Set
+```{r}
+# # merge train and test
+# DF <- rbind(truth, lies)
+# #write.csv2(DF, "./df/presence.csv", row.names = F)
+# splitIndex <- createDataPartition(DF[,truthful], p = .75, list = FALSE, times = 1)
+# trainDF <- DF[ splitIndex,]
+# testDF  <- DF[-splitIndex,]
+# 
+# DFint <- rbind(int_truth, int_lies)
+# #write.csv2(DFint, "./df/intensity.csv", row.names = F)
+# splitIndex <- createDataPartition(DFint[,truthful], p = .75, list = FALSE, times = 1)
+# trainIntDF <- DFint[ splitIndex,]
+# testIntDF  <- DFint[-splitIndex,]
+# 
+# ALL <- rbind(ALLT, ALLL)
+# #write.csv2(ALL, "./df/combined.csv", row.names = F)
+# splitIndex <- createDataPartition(ALL[,truthful], p = .70, list = FALSE, times = 1)
+# ALL_train <- ALL[ splitIndex,]
+# ALL_test  <- ALL[-splitIndex,]
+```
+
+
 Correlation
 ```{r}
 makeAllCorrMatrix(truth_test)
@@ -261,7 +260,7 @@ GLM
 glm.model <- glm(truthful ~ . , family = binomial, data = trainDF)
 #summary(glm.model)
 glm.pred <- predict(glm.model, testDF[,-c("truthful")], type = "response")
-glm.predicted = rep(0, 15417)
+glm.predicted = rep(0, nrow(testDF))
 glm.predicted[glm.pred > .5] = 1
 table(glm.predicted, testDF$truthful)
 1 - mean(glm.predicted == testDF$truthful)
@@ -270,7 +269,7 @@ table(glm.predicted, testDF$truthful)
 glm.model_int <- glm(truthful ~ ., family = binomial, data = trainIntDF)
 #summary(glm.model_int)
 glm.pred_int <- predict(glm.model_int, testIntDF, type = "response")
-glm.predicted_int = rep(0, 15417)
+glm.predicted_int = rep(0, nrow(testIntDF))
 glm.predicted_int[glm.pred_int > .5] = 1
 table(glm.predicted_int, testIntDF$truthful)
 1 - mean(glm.predicted_int == testIntDF$truthful)
@@ -279,7 +278,7 @@ table(glm.predicted_int, testIntDF$truthful)
 glm.model_all <- glm(truthful ~ ., family = binomial, data = ALL_train)
 #summary(glm.model_all)
 glm.pred_all <- predict(glm.model_all, ALL_test, type = "response")
-glm.predicted_all = rep(0, 15417)
+glm.predicted_all = rep(0, nrow(ALL_test))
 glm.predicted_all[glm.pred_all > .5] = 1
 table(glm.predicted_all, ALL_test$truthful)
 1 - mean(glm.predicted_all == ALL_test$truthful)
