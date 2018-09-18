@@ -41,11 +41,35 @@ The original dataset consists of 121 videos, 61 of which are deceptive and 60 tr
 The average length of the videos is 28.0 seconds. The average video length for deceptive videos is 27.7 seconds, while the one for truthful videos is 28.3 seconds. \\
 The data consists of 58 total subject, 22 females and 36 males, with ages between 16 and 60 years.
 
+This dataset was annotated following the MUMIN coding scheme for hand movement and facial displays. While annotating, the annotators were able to chose only one label per gesture, for every clip.
+
+Fig. \ref{fig:rldb_distrib} shows the frequency counts associated with the gestures considered during the annotation.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{rldb_distrib}
+	\caption{Examples of images from the dataset videos. \cite{Perez-Rosas:2015:DDU:2818346.2820758}.}
+	\label{fig:rldb_distrib}
+\end{figure}
+
 %TODO: modification made by me to the DB 
 %TODO: rewrite tentative atm
 
-We modified this database to reduce the amount of videos where the face was hard to see, that had multiple subjects, or where the subjects were not visible while speaking.
-Also we performed a division of subjects "by hand" to train the classifiers in a way that it wouldn't "remember" the person, since we have many videos with the same subject. In fact, the same person never appears both in the training and in the test set.
+We modified this database in the following way:
+\begin{itemize}
+	\item We cut or removed videos where the where the face was covered, hidden or in very difficult to see.
+	\item We also cut parts of video that had multiple subjects in the scene because Action Unit extraction works on one person only.
+	\item Since it is necessary to see the person to perform AU extraction, we also avoided some videos in which the subject was not visible while talking (the interlocutor was shown).
+\end{itemize}
+
+We also performed a division of subjects in the training and test set "by hand" to train the classifiers in a way that it wouldn't adapt the specific people, since there are many videos with the same subject. In fact, the same person never appears both in the training and in the test set.
+
+\clearpage
+
+\section{Data Comparison}
+The first thing I did was to compare the extracted truthful and deceptive AUs occurrences from the training set:
+
+
 
 \clearpage
 

@@ -22,6 +22,7 @@ library(nnet) # Neural Network
 # library(keras) # NN + TensorFlow
 library(xgboost)
 library(factoextra)
+library(mlbench)
 ```
 
 Utils
@@ -195,6 +196,11 @@ ALL_test <- rbind(truth_test, lies_test)
 ```
 
 
+```{r}
+
+```
+
+
 OLD Train & Test Set
 ```{r}
 # # merge train and test
@@ -233,26 +239,89 @@ makeAllCorrMatrix(lint_train)
 
 Plots
 ```{r}
-ggplot(data = train, aes(x = AU_TRAIN, y = TRUTH_TRAIN, fill = TRUTH_TRAIN)) +
-  geom_bar(stat = "identity", color = "black") +
-  geom_text(aes(label = TRUTH_TRAIN), vjust = -0.5, size = 3.5) +
+# Crate Lies/Truth for Counts
+lies_tot <- rbind(plies_train, plies_test)
+truth_tot <- rbind(ptruth_test, ptruth_train)
+
+# Lies
+lies <- round(colSums(lies_tot[,-c("truthful")]/nrow(lies_tot)), 3)
+lies <- enframe(lies, name = "au", value = "lies_occ")
+lies <- data.frame(lies)
+
+plies <- round(colSums(plies_train[,-c("truthful")]/nrow(plies_train)), 3)
+plies <- enframe(plies, name = "au", value = "lies_occ")
+plies <- data.frame(plies)
+
+# Truths
+truth <- round(colSums(truth_tot[,-c("truthful")]/nrow(lies_tot)), 3)
+truth <- enframe(truth, name = "au", value = "truth_occ")
+truth <- data.frame(truth)
+
+ptruth <- round(colSums(ptruth_train[,-c("truthful")]/nrow(ptruth_train)), 3)
+ptruth <- enframe(ptruth, name = "au", value = "truth_occ")
+ptruth <- data.frame(ptruth)
+
+# Merged
+tl <- merge(lies, truth, by="au")
+tl <- melt(tl, value.name = "occ")
+
+ptl <- merge(plies, ptruth, by="au")
+ptl <- melt(ptl, value.name = "occ")
+
+# Occurences of AUs in lying train + test
+ggplot(data = lies, aes(x = au, y = lies_occ)) +
+  geom_bar(stat = "identity", color = "black", fill = "steelblue") +
+  geom_text(aes(label = lies_occ), vjust = -0.5, size = 3.5) +
   theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
 
-ggplot(data = train, aes(x = AU_TRAIN, y = LIE_TRAIN, fill = LIE_TRAIN)) +
-  geom_bar(stat = "identity", color = "black") +
-  geom_text(aes(label = LIE_TRAIN), vjust = -0.5, size = 3.5) +
+# Occurences of AUs in truth train + test
+ggplot(data = truth, aes(x = au, y = truth_occ)) +
+  geom_bar(stat = "identity", color = "black", fill = "darkgreen") +
+  geom_text(aes(label = truth_occ), vjust = -0.5, size = 3.5) +
   theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
 
-ggplot(data = test, aes(x = AU_TEST, y = TRUTH_TEST, fill = TRUTH_TEST)) +
-  geom_bar(stat = "identity", color = "black") +
-  geom_text(aes(label = TRUTH_TEST), vjust = -0.5, size = 3.5) +
+# Occurences of AUs compared train + test
+ggplot(data = tl, aes(x = au, y = occ, fill = variable)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.5), width = 0.5) +
+  scale_fill_manual(values = c("purple", "orange")) +
   theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
 
-ggplot(data = test, aes(x = AU_TEST, y = LIE_TEST, fill = LIE_TEST)) +
-  geom_bar(stat = "identity", color = "black") +
-  geom_text(aes(label = LIE_TEST), vjust = -0.5, size = 3.5) +
+# Occurences of AUs in lying train 
+ggplot(data = plies, aes(x = au, y = lies_occ)) +
+  geom_bar(stat = "identity", color = "black", fill = "steelblue") +
+  geom_text(aes(label = lies_occ), vjust = -0.5, size = 3.5) +
   theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
+
+# Occurences of AUs in truth train 
+ggplot(data = ptruth, aes(x = au, y = truth_occ)) +
+  geom_bar(stat = "identity", color = "black", fill = "darkgreen") +
+  geom_text(aes(label = truth_occ), vjust = -0.5, size = 3.5) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
+
+# Occurences of AUs compared train 
+ggplot(data = ptl, aes(x = au, y = occ, fill = variable)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.5), width = 0.5) +
+  scale_fill_manual(values = c("purple", "orange")) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
+
+
 ```
+
+Feature Selection
+```{r}
+correlationMatrix <- cor(ALL_train[,-c("truthful")])
+print(correlationMatrix)
+highlyCorrelated <- findCorrelation(correlationMatrix, cutoff=0.5)
+print(highlyCorrelated)
+
+control <- trainControl(method="repeatedcv", number=10, repeats=3)
+model <- train(truthful~., data=ALL_train, method="lvq", preProcess="scale", trControl=control)
+importance <- varImp(model, scale=FALSE)
+print(importance)
+plot(importance)
+
+```
+
 
 GLM
 ```{r}
