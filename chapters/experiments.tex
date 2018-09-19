@@ -64,18 +64,56 @@ We modified this database in the following way:
 
 We also performed a division of subjects in the training and test set "by hand" to train the classifiers in a way that it wouldn't adapt the specific people, since there are many videos with the same subject. In fact, the same person never appears both in the training and in the test set.
 
-\clearpage
-
-\section{Data Comparison}
-The first thing I did was to compare the extracted truthful and deceptive AUs occurrences from the training set:
-
-
+%todo: stats of db, #of frames ecc
 
 \clearpage
 
-\section{Random Forest}
+\section{Data Analysis}
 
-\section{GLM}
+\subsection{Data Comparison}
+The first thing I did was to compare the extracted deceptive (Fig \ref{fig:au_occ_dec}) and truthful (Fig. \ref{fig:au_occ_truth}) AUs occurrences (presence, not intensity) from the training set, which is shown in Fig. \ref{fig:au_occ_comp}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{images/au_occ_dec}
+	\caption{Average AU Occurrences for the deceptive training set.}
+	\label{fig:au_occ_dec}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{images/au_occ_truth}
+	\caption{Average AU Occurrences for the truthful training set.}
+	\label{fig:au_occ_truth}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{images/au_occ_comp}
+	\caption{Comparison of AU Occurrences for the training set.}
+	\label{fig:au_occ_comp}
+\end{figure}
+
+This comparison shows interesting differences for AU04 (Brow Lowerer), AU05 (Upper Lid Raiser), AU10 (Upper Lip Raiser), AU12 (Lip Corner Puller) and AU14 (Dimpler). %"suggesting there could be a pattern"?
+
+\subsection{Correlation}
+Variables correlation is shown in figure \ref{fig:correlation_matrix}:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{images/correlation_matrix}
+	\caption{Correlation between variables for both presence and intensity in the training set.}
+	\label{fig:correlation_matrix}
+\end{figure}
+
+%todo: positive corr with, neg corr with...
+which shows some significant correlation between AUs 04, 10, 12
+
+\subsection{GLM}
+
+\subsection{Random Forest}
+
+
 
 \section{LDA}
 
