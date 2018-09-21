@@ -234,6 +234,7 @@ corrplot(
   cl.ratio = 0.2, cl.align = "r", tl.srt = 360, tl.col = "black", tl.cex = 0.65
 )
 
+highlyCorrelated <- findCorrelation(correlation, cutoff=0.5, names = T, exact = T)
 
 # makeAllCorrMatrix(truth_test[,-c("truthful")])
 # makeAllCorrMatrix(trainDF[,-c("truthful")])
@@ -340,27 +341,27 @@ plot(importance)
 GLM
 ```{r}
 # Presence
-glm.model <- glm(truthful ~ . , family = binomial, data = trainDF)
-#summary(glm.model)
-glm.pred <- predict(glm.model, testDF[,-c("truthful")], type = "response")
-glm.predicted = rep(0, nrow(testDF))
-glm.predicted[glm.pred > .5] = 1
-table(glm.predicted, testDF$truthful)
-1 - mean(glm.predicted == testDF$truthful)
+# glm.model <- glm(truthful ~ . , family = binomial, data = trainDF)
+# #summary(glm.model)
+# glm.pred <- predict(glm.model, testDF[,-c("truthful")], type = "response")
+# glm.predicted = rep(0, nrow(testDF))
+# glm.predicted[glm.pred > .5] = 1
+# table(glm.predicted, testDF$truthful)
+# 1 - mean(glm.predicted == testDF$truthful)
 
-# Intensity
-glm.model_int <- glm(truthful ~ ., family = binomial, data = trainIntDF)
-#summary(glm.model_int)
-glm.pred_int <- predict(glm.model_int, testIntDF, type = "response")
-glm.predicted_int = rep(0, nrow(testIntDF))
-glm.predicted_int[glm.pred_int > .5] = 1
-table(glm.predicted_int, testIntDF$truthful)
-1 - mean(glm.predicted_int == testIntDF$truthful)
+# # Intensity
+# glm.model_int <- glm(truthful ~ ., family = binomial, data = trainIntDF)
+# #summary(glm.model_int)
+# glm.pred_int <- predict(glm.model_int, testIntDF, type = "response")
+# glm.predicted_int = rep(0, nrow(testIntDF))
+# glm.predicted_int[glm.pred_int > .5] = 1
+# table(glm.predicted_int, testIntDF$truthful)
+# 1 - mean(glm.predicted_int == testIntDF$truthful)
 
 # Merged
 glm.model_all <- glm(truthful ~ ., family = binomial, data = ALL_train)
 #summary(glm.model_all)
-glm.pred_all <- predict(glm.model_all, ALL_test, type = "response")
+glm.pred_all <- predict(glm.model_all, ALL_test[,-c("truthful")], type = "response")
 glm.predicted_all = rep(0, nrow(ALL_test))
 glm.predicted_all[glm.pred_all > .5] = 1
 table(glm.predicted_all, ALL_test$truthful)
@@ -370,18 +371,18 @@ table(glm.predicted_all, ALL_test$truthful)
 LDA
 ```{r}
 # Presence
-lda.model <- lda(truthful ~ ., trainDF)
-lda.pred <- predict(lda.model, testDF)
-ct <- table(testDF$truthful, lda.pred$class)
-diag(prop.table(ct, 1))
-sum(diag(prop.table(ct)))
+# lda.model <- lda(truthful ~ ., trainDF)
+# lda.pred <- predict(lda.model, testDF)
+# ct <- table(testDF$truthful, lda.pred$class)
+# diag(prop.table(ct, 1))
+# sum(diag(prop.table(ct)))
 
 # Intensity
-lda.model_int <- lda(truthful ~ ., trainIntDF)
-lda.pred_int <- predict(lda.model_int, testIntDF)
-ct_int <- table(testIntDF$truthful, lda.pred_int$class)
-diag(prop.table(ct_int, 1))
-sum(diag(prop.table(ct_int)))
+# lda.model_int <- lda(truthful ~ ., trainIntDF)
+# lda.pred_int <- predict(lda.model_int, testIntDF)
+# ct_int <- table(testIntDF$truthful, lda.pred_int$class)
+# diag(prop.table(ct_int, 1))
+# sum(diag(prop.table(ct_int)))
 
 # Merged
 lda.model_all <- lda(truthful ~ ., ALL_train)
@@ -394,16 +395,16 @@ sum(diag(prop.table(ct_all)))
 QDA 
 ```{r}
 # Presence
-qda.model <- qda(truthful ~ ., data = trainDF)
-qda.class=predict(qda.model, testDF)$class
-table(qda.class, testDF$truthful)
-mean(qda.class == testDF$truthful)
+# qda.model <- qda(truthful ~ ., data = trainDF)
+# qda.class=predict(qda.model, testDF)$class
+# table(qda.class, testDF$truthful)
+# mean(qda.class == testDF$truthful)
 
-# Intentsity
-qda.model_int <- qda(truthful ~ ., data = trainIntDF)
-qda.class_int <- predict(qda.model_int ,testIntDF)$class
-table(qda.class_int, testIntDF$truthful)
-mean(qda.class_int == testIntDF$truthful)
+# # Intentsity
+# qda.model_int <- qda(truthful ~ ., data = trainIntDF)
+# qda.class_int <- predict(qda.model_int ,testIntDF)$class
+# table(qda.class_int, testIntDF$truthful)
+# mean(qda.class_int == testIntDF$truthful)
 
 # Merged
 qda.model_all <- qda(truthful ~ ., data = ALL_train)
@@ -414,21 +415,21 @@ mean(qda.class_all == ALL_test$truthful)
 
 Random Forests
 ```{r}
-# Presence
-rf.model <- randomForest(truthful ~ ., data = trainDF, ntree = 250)
-print(rf.model)
-importanceRF(rf.model)
-rf.pred <- predict(rf.model, testDF)
-table(rf.pred, testDF$truthful)
-mean(rf.pred == testDF$truthful)
+# # Presence
+# rf.model <- randomForest(truthful ~ ., data = trainDF, ntree = 250)
+# print(rf.model)
+# importanceRF(rf.model)
+# rf.pred <- predict(rf.model, testDF)
+# table(rf.pred, testDF$truthful)
+# mean(rf.pred == testDF$truthful)
 
-# Intensity
-rf.model_int <- randomForest(truthful ~ ., data = trainIntDF, ntree = 250)
-print(rf.model_int)
-importanceRF(rf.model_int)
-rf.pred_int <- predict(rf.model_int, testIntDF)
-table(rf.pred_int, testIntDF$truthful)
-mean(rf.pred_int == testIntDF$truthful)
+# # Intensity
+# rf.model_int <- randomForest(truthful ~ ., data = trainIntDF, ntree = 250)
+# print(rf.model_int)
+# importanceRF(rf.model_int)
+# rf.pred_int <- predict(rf.model_int, testIntDF)
+# table(rf.pred_int, testIntDF$truthful)
+# mean(rf.pred_int == testIntDF$truthful)
 
 # Merged
 rf.model_all <- randomForest(truthful ~ ., data = ALL_train, ntree = 250)
@@ -508,7 +509,7 @@ mean(svm.pred_int_rb == testIntDF$truthful)
 # Total
 
 ## Linear
-svm.model_lin_all <- svm(truthful ~ . , data = ALL_train, type = "C-classification", kernel = "linear", cost = 10, scale = FALSE)
+svm.model_lin_all <- svm(truthful ~ . , data = ALL_train, type = "C-classification", kernel = "linear", cost = 1, scale = FALSE)
 svm.pred_lin_all <- predict(svm.model_lin_all, ALL_test)
 summary(svm.model_lin_all)
 table(svm.pred_lin_all, ALL_test$truthful)

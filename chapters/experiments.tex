@@ -62,6 +62,22 @@ We modified this database in the following way:
 	\item Since it is necessary to see the person to perform AU extraction, we also avoided some videos in which the subject was not visible while talking (the interlocutor was shown).
 \end{itemize}
 
+With deceptive videos going from \#1 to \#61 and truthful videos going from \#1 to \#60 we cut and removed the following videos from the original dataset, since they showed signs of the problems just described:
+
+\begin{itemize}
+	\item \textbf{Deceptive}:
+	\begin{itemize}
+		\item CUT: Video numbers 46, 47, 48, 49, 52, 54, 56.
+		\item REMOVED: Video numbers 50, 53,  55.
+	\end{itemize}
+	\item \textbf{Truthful}:
+	\begin{itemize}
+		\item CUT: Video number 7, 28, 43.
+		\item REMOVED: Video numbers 12, 31. 
+	\end{itemize}
+\end{itemize}
+
+
 We also performed a division of subjects in the training and test set "by hand" to train the classifiers in a way that it wouldn't adapt the specific people, since there are many videos with the same subject. In fact, the same person never appears both in the training and in the test set.
 
 %todo: stats of db, #of frames ecc
@@ -94,10 +110,10 @@ The first thing I did was to compare the extracted deceptive (Fig \ref{fig:au_oc
 	\label{fig:au_occ_comp}
 \end{figure}
 
-This comparison shows interesting differences for AU04 (Brow Lowerer), AU05 (Upper Lid Raiser), AU10 (Upper Lip Raiser), AU12 (Lip Corner Puller) and AU14 (Dimpler). %"suggesting there could be a pattern"?
+This comparison shows interesting differences between truthful and deceptive occurrences for AU04 (Brow Lowerer), AU05 (Upper Lid Raiser), AU10 (Upper Lip Raiser), AU12 (Lip Corner Puller) and AU14 (Dimpler). %"suggesting there could be a pattern"?
 
 \subsection{Correlation}
-Variables correlation is shown in figure \ref{fig:correlation_matrix}:
+Variables correlation is shown in figure \ref{fig:correlation_matrix}. When the AUs label ends with "\_r" it indicate intensity and "\_c" means presence.
 
 \begin{figure}[H]
 	\centering
@@ -107,9 +123,13 @@ Variables correlation is shown in figure \ref{fig:correlation_matrix}:
 \end{figure}
 
 %todo: positive corr with, neg corr with...
-which shows some significant correlation between AUs 04, 10, 12
+which shows some obvious correlations between presence and intensity of the same AU, and significant correlation between AU10\_r, AU12\_r, AU12\_c, AU07\_r, AU17\_r, AU06\_r, AU04\_c, AU02\_r, AU01\_r, AU25\_r, AU45\_c.
 
 \subsection{GLM}
+Another quick experiment I made was with the Generalized Linear Model in R, which translates into Logistic Regression (Par. \ref{logreg}), at least to have an idea of the resulting p-values and variable ranking.
+
+
+
 
 \subsection{Random Forest}
 
@@ -120,5 +140,3 @@ which shows some significant correlation between AUs 04, 10, 12
 \section{QDA}
 
 \section{SVM}
-
-\section{Correlations} ?
