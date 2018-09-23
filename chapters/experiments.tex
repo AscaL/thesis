@@ -7,12 +7,16 @@ To realize this work we used the following tools and libraries:
 	\item OpenFace: the library to train the models for face detection, landmark detection, feature extraction and action unit recognition.
 	\item R + R-Studio: the environment where I implemented the code, with some important libraries, such as:
 	\begin{itemize}
-		\item e1071: library for SVM classification.
-		\item Tidyverse: General library for %todo
+		\item e1071: library for SVM classification (implementation of libsvm).
 		\item Random Forest: library to perform Random Forest and calculate variable importance.
 		\item Corrplot: library for calculating and visualizing correlations.
 	\end{itemize}
 \end{itemize}
+
+The experiments were conducted on two systems, Windows and Mac OS, with the following specs:\\
+The windows machine has 8GB of RAM, i5 processor, and 4096MB ATI AMD Radeon R9. \\
+The Mac has 4gb RAM, i5 processor, and an intel integrated GPU.\\
+SVM training took about one hour on either machine.
 
 \clearpage
 
@@ -35,7 +39,8 @@ The videos are of trial recordings where the defendant or witness in the video c
 There are three outcomes for the trials that were considered to label the videos as deceptive or truthful: guilty, non-guilty, and exoneration. \\
 For the guilty verdicts the deceptive clips are taken from the defendant in the trial, while the truthful clips are gathered from the witnesses. There are also instances where the deceptive videos are of suspects denying a committed crime, and truthful ones are from the same person answering questions that where verified by the police as truthful.
 
-In regards to the witnesses, if the testimony is verified by a police officer they are labeled as true. \\ Testimonies that help the guilty party are labeled as false. Exoneration (reversal of the sentence) testimonies are regarded as truthful.
+In regards to the witnesses, if the testimony is verified by a police officer they are labeled as true. \\ 
+Testimonies that help the guilty party are labeled as false. Exoneration (reversal of the sentence) testimonies are regarded as truthful.
 
 The original dataset consists of 121 videos, 61 of which are deceptive and 60 truthful. \\
 The average length of the videos is 28.0 seconds. The average video length for deceptive videos is 27.7 seconds, while the one for truthful videos is 28.3 seconds. \\
@@ -78,16 +83,20 @@ With deceptive videos going from \#1 to \#61 and truthful videos going from \#1 
 \end{itemize}
 
 
-We also performed a division of subjects in the training and test set "by hand" to train the classifiers in a way that it wouldn't adapt the specific people, since there are many videos with the same subject. In fact, the same person never appears both in the training and in the test set.
+We also performed a division of subjects in the training and test set "by hand", splitting data to around 75\% for the training set and 25\% for the test set, to train the classifiers in a way that it wouldn't adapt the specific people since there are many videos with the same subject. In fact, the same person never appears both in the training and in the test set.
 
+The training set consists of 72451 observations of 36 variables, and the test set is 14198 observations.
 %todo: stats of db, #of frames ecc
 
 \clearpage
 
 \section{Data Analysis}
+In the following sections we describe the methods used to analyze the data and the machine learning techniques to classify them.
+
+
 
 \subsection{Data Comparison}
-The first thing I did was to compare the extracted deceptive (Fig \ref{fig:au_occ_dec}) and truthful (Fig. \ref{fig:au_occ_truth}) AUs occurrences (presence, not intensity) from the training set, which is shown in Fig. \ref{fig:au_occ_comp}.
+The first thing I did, after cleaning the data, was to compare the extracted deceptive (Fig \ref{fig:au_occ_dec}) and truthful (Fig. \ref{fig:au_occ_truth}) AUs occurrences (only for presence, not intensity) from the training set, which is shown in Fig. \ref{fig:au_occ_comp}.
 
 \begin{figure}[H]
 	\centering
@@ -126,17 +135,41 @@ Variables correlation is shown in figure \ref{fig:correlation_matrix}. When the 
 which shows some obvious correlations between presence and intensity of the same AU, and significant correlation between AU10\_r, AU12\_r, AU12\_c, AU07\_r, AU17\_r, AU06\_r, AU04\_c, AU02\_r, AU01\_r, AU25\_r, AU45\_c.
 
 \subsection{GLM}
-Another quick experiment I made was with the Generalized Linear Model in R, which translates into Logistic Regression (Par. \ref{logreg}), at least to have an idea of the resulting p-values and variable ranking.
+Another quick experiment I made was with the Generalized Linear Model in R, which translates into Logistic Regression (Par. \ref{logreg}), at least to have an idea of the resulting p-values, as seen in fig. \ref{fig:pval}:
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/pval}
+	\caption{p-values from GLM for each AU (intensity and presence).}
+	\label{fig:pval}
+\end{figure}
 
+As we can see AU01\_r (Inner Brow Raiser), AU23\_r (Lip Tightener), and AU17\_c (Chin Raiser) are not significant and that's an indication that we could remove them from the dataset.
 
+%todo: should i say this?
+The results for classifying data with GLM is ~55\% accuracy on the test set, which is not great. 
 
 \subsection{Random Forest}
+I've decided to use Random Forest (par. \ref{random_forest}) to estimate variable importance, shown in fig. \ref{fig:varimp}.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{images/varimp}
+	\caption{Variable Importance extracted from classifying data with Random Forest.}
+	\label{fig:varimp}
+\end{figure}
 
+The number of grown trees are 200 as going further did not increase the prediction accuracy at all.
+
+Fig. \ref{fig:varimp} shows that the intensity of AUs 04, 06, 07, 10, 12 and 14 are the most significant, while the sole presence of an AU is not particularly significant, beside for AUs 04, 05 and 14.
+
+As we can see AUs that have low p-values in GLM have also low importance in Random Forest.
+
+Classifying with Random Forest gave me 58,42\% accuracy on the test set, which is better than GLM but it is still not good enough to be significant.
 
 \section{LDA}
 
 \section{QDA}
 
 \section{SVM}
+

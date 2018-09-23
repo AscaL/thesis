@@ -137,10 +137,13 @@ lies_train <- lies_train[rowSums(lies_train) !=0, ]
 lies_test <- lies_test[rowSums(lies_test) !=0, ]
 
 # Add "deceptive" to cols
-lies_test$truthful <- rep(0, nrow(lies_test))
+lies_test$truthful <- rep(F, nrow(lies_test))
 lies_test$truthful <- factor(lies_test$truthful)
-lies_train$truthful <- rep(0, nrow(lies_train))
+lies_train$truthful <- rep(F, nrow(lies_train))
 lies_train$truthful <- factor(lies_train$truthful)
+
+is.factor(lies_test$AU01_c)
+lies_test$AU01_c <- factor(lies_test$AU01_c)
 
 # Select Intensity Columns
 lint_train <- lies_train[,c(1:17, 36)]
@@ -148,7 +151,9 @@ lint_test <- lies_test[,c(1:17, 36)]
 
 # Select Presence Columns
 plies_train <- lies_train[,-c(1:17)]
+plies_train <- plies_train %>% mutate_if(is.numeric,as.factor)
 plies_test <- lies_test[,-c(1:17)]
+plies_test <- plies_test %>% mutate_if(is.numeric,as.factor)
 ```
 
 Loading the Data - truth
@@ -167,9 +172,9 @@ truth_train <- truth_train[rowSums(truth_train) !=0, ]
 truth_test <- truth_test[rowSums(truth_test) !=0, ]
 
 # Add "truthful" to cols
-truth_test$truthful <- rep(1, nrow(truth_test))
+truth_test$truthful <- rep(T, nrow(truth_test))
 truth_test$truthful <- factor(truth_test$truthful)
-truth_train$truthful <- rep(1, nrow(truth_train))
+truth_train$truthful <- rep(T, nrow(truth_train))
 truth_train$truthful <- factor(truth_train$truthful)
 
 # Select Intensity Columns
@@ -178,7 +183,9 @@ tint_test <- truth_test[,c(1:17, 36)]
 
 # Select Presence Columns
 ptruth_train <- truth_train[,-c(1:17)]
+ptruth_train <- ptruth_train %>% mutate_if(is.numeric,as.factor)
 ptruth_test <- truth_test[,-c(1:17)]
+ptruth_test <- ptruth_test %>% mutate_if(is.numeric,as.factor)
 ```
 
 Create Train & Test set
@@ -194,6 +201,11 @@ testIntDF  <- rbind(tint_test, lint_test)
 # Together
 ALL_train <- rbind(truth_train, lies_train)
 ALL_test <- rbind(truth_test, lies_test)
+
+# Validation
+# splitIndex <- createDataPartition(ALL_train[,truthful], p = .75, list = FALSE, times = 1)
+# valid <- ALL_train[-splitIndex,]
+# ALL_train <- ALL_train[splitIndex,]
 ```
 
 
@@ -234,17 +246,7 @@ corrplot(
   cl.ratio = 0.2, cl.align = "r", tl.srt = 360, tl.col = "black", tl.cex = 0.65
 )
 
-highlyCorrelated <- findCorrelation(correlation, cutoff=0.5, names = T, exact = T)
-
-# makeAllCorrMatrix(truth_test[,-c("truthful")])
-# makeAllCorrMatrix(trainDF[,-c("truthful")])
-# makeAllCorrMatrix(truth_train)
-# makeAllCorrMatrix(tint_test[,-c("truthful")])
-# makeAllCorrMatrix(tint_train[,-c("truthful")])
-# makeAllCorrMatrix(lies_test[,-c("truthful")])
-# makeAllCorrMatrix(lies_train[,-c("truthful")])
-# makeAllCorrMatrix(lint_test[,-c("truthful")])
-# makeAllCorrMatrix(lint_train[,-c("truthful")])
+(highlyCorrelated <- findCorrelation(correlation, cutoff=0.5, names = T, exact = T))
 ```
 
 Plots
@@ -278,40 +280,40 @@ tl <- melt(tl, value.name = "occ")
 ptl <- merge(plies, ptruth, by="au")
 ptl <- melt(ptl, value.name = "occ")
 
-# Occurences of AUs in lying train + test
-ggplot(data = lies, aes(x = au, y = lies_occ)) +
-  geom_bar(stat = "identity", color = "black", fill = "steelblue") +
-  geom_text(aes(label = lies_occ), vjust = -0.5, size = 3.5) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 0.5))+
-  labs(title = "Average AU Occurrences for deceptive training set") + xlab("# of AU") + ylab("Avg. occurence of AU")
+# # Occurences of AUs in lying train + test
+# ggplot(data = lies, aes(x = au, y = lies_occ)) +
+#   geom_bar(stat = "identity", color = "black", fill = "steelblue") +
+#   geom_text(aes(label = lies_occ), vjust = -0.5, size = 3.5) +
+#   theme(axis.text.x = element_text(angle = 90, hjust = 0.5))+
+#   labs(title = "Average AU Occurrences for deceptive training set") + xlab("# of AU") + ylab("Avg. occurence of AU")
+# 
+# # Occurences of AUs in truth train + test
+# ggplot(data = truth, aes(x = au, y = truth_occ)) +
+#   geom_bar(stat = "identity", color = "black", fill = "darkgreen") +
+#   geom_text(aes(label = truth_occ), vjust = -0.5, size = 3.5) +
+#   theme(axis.text.x = element_text(angle = 90, hjust = 0.5))+
+#   labs(title = "Average AU Occurrences for truthful training set") + xlab("# of AU") + ylab("Avg. occurence of AU")
+# 
+# # Occurences of AUs compared train + test
+# ggplot(data = tl, aes(x = au, y = occ, fill = variable)) +
+#   geom_bar(stat = "identity", position = position_dodge(width = 0.5), width = 0.5) +
+#   scale_fill_manual(values = c("purple", "orange")) +
+#   theme(axis.text.x = element_text(angle = 90, hjust = 0.5))+
+#   labs(title = "Compared Average AU Occurrences for training set") + xlab("# of AU") + ylab("Avg. occurence of AU")
 
-# Occurences of AUs in truth train + test
-ggplot(data = truth, aes(x = au, y = truth_occ)) +
-  geom_bar(stat = "identity", color = "black", fill = "darkgreen") +
-  geom_text(aes(label = truth_occ), vjust = -0.5, size = 3.5) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 0.5))+
-  labs(title = "Average AU Occurrences for truthful training set") + xlab("# of AU") + ylab("Avg. occurence of AU")
-
-# Occurences of AUs compared train + test
-ggplot(data = tl, aes(x = au, y = occ, fill = variable)) +
-  geom_bar(stat = "identity", position = position_dodge(width = 0.5), width = 0.5) +
-  scale_fill_manual(values = c("purple", "orange")) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 0.5))+
-  labs(title = "Compared Average AU Occurrences for training set") + xlab("# of AU") + ylab("Avg. occurence of AU")
-
-# Occurences of AUs in lying train 
-ggplot(data = plies, aes(x = au, y = lies_occ)) +
-  geom_bar(stat = "identity", color = "black", fill = "steelblue") +
-  geom_text(aes(label = lies_occ), vjust = -0.5, size = 3.5) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 0.5))+
-  labs(title = "Average AU Occurrences for deceptive training set") + xlab("# of AU") + ylab("Avg. occurence of AU")
-
-# Occurences of AUs in truth train 
-ggplot(data = ptruth, aes(x = au, y = truth_occ)) +
-  geom_bar(stat = "identity", color = "black", fill = "darkgreen") +
-  geom_text(aes(label = truth_occ), vjust = -0.5, size = 3.5) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 0.5)) +
-  labs(title = "Average AU Occurrences for truthful training set") + xlab("# of AU") + ylab("Avg. occurence of AU")
+# # Occurences of AUs in lying train 
+# ggplot(data = plies, aes(x = au, y = lies_occ)) +
+#   geom_bar(stat = "identity", color = "black", fill = "steelblue") +
+#   geom_text(aes(label = lies_occ), vjust = -0.5, size = 3.5) +
+#   theme(axis.text.x = element_text(angle = 90, hjust = 0.5))+
+#   labs(title = "Average AU Occurrences for deceptive training set") + xlab("# of AU") + ylab("Avg. occurence of AU")
+# 
+# # Occurences of AUs in truth train 
+# ggplot(data = ptruth, aes(x = au, y = truth_occ)) +
+#   geom_bar(stat = "identity", color = "black", fill = "darkgreen") +
+#   geom_text(aes(label = truth_occ), vjust = -0.5, size = 3.5) +
+#   theme(axis.text.x = element_text(angle = 90, hjust = 0.5)) +
+#   labs(title = "Average AU Occurrences for truthful training set") + xlab("# of AU") + ylab("Avg. occurence of AU")
 
 # Occurences of AUs compared train 
 ggplot(data = ptl, aes(x = au, y = occ, fill = variable)) +
@@ -360,12 +362,17 @@ GLM
 
 # Merged
 glm.model_all <- glm(truthful ~ ., family = binomial, data = ALL_train)
-#summary(glm.model_all)
+summary(glm.model_all)
 glm.pred_all <- predict(glm.model_all, ALL_test[,-c("truthful")], type = "response")
 glm.predicted_all = rep(0, nrow(ALL_test))
 glm.predicted_all[glm.pred_all > .5] = 1
 table(glm.predicted_all, ALL_test$truthful)
 1 - mean(glm.predicted_all == ALL_test$truthful)
+
+# coef(summary(glm.model_all))[,4]
+# x <- coef(summary(glm.model_all))[,c('Pr(>|z|)')]
+# x
+# as.matrix(x)
 ```
 
 LDA
@@ -432,10 +439,11 @@ Random Forests
 # mean(rf.pred_int == testIntDF$truthful)
 
 # Merged
+?randomForest
 rf.model_all <- randomForest(truthful ~ ., data = ALL_train, ntree = 250)
 print(rf.model_all)
 importanceRF(rf.model_all)
-rf.pred_all <- predict(rf.model_all, ALL_test)
+rf.pred_all <- predict(rf.model_all, ALL_test[,-c("truthful")])
 table(rf.pred_all, ALL_test$truthful)
 mean(rf.pred_all == ALL_test$truthful)
 
@@ -473,38 +481,68 @@ SVM
 # svm.tuning = tune(svm, truthful ~ ., data=trainDF, kernel = "linear", ranges = list(cost=c(0.001, 0.01, 0.1, 1, 5, 10, 100)))
 # obj <- tune.svm(truthful ~ ., data = trainDF, gamma = 2^(-1:1), cost = 2^(2:8), kernel = "radial")
 
-## Linear
-svm.model_lin <- svm(truthful ~ . , data = trainDF, type = "C-classification", kernel = "linear", cost = 10, scale = FALSE)
-svm.pred_lin <- predict(svm.model_lin, testDF)
-summary(svm.model_lin)
-table(svm.pred_lin, testDF$truthful)
-mean(svm.pred_lin == testDF$truthful)
-
-## Radial Basis
-svm.model_rb <- svm(truthful ~ . , data = trainDF, type = "C-classification", kernel = "radial")
-svm.pred_rb <- predict(svm.model_rb, testDF)
-summary(svm.model_rb)
-table(svm.pred_rb, testDF$truthful)
-mean(svm.pred_rb == testDF$truthful)
-
 #trctrl <- trainControl(method = "repeatedcv", number = 10, repeats = 3)
 #svm_Linear <- train(truthful ~., data = trainDF, method = "svmLinear", trControl=trctrl, preProcess = c("center", "scale"), tuneLength = 10)
 
-# Intensity
+# KNN
+repeats = 3
+numbers = 10
+tunel = 10
+
+set.seed(1234)
+x = trainControl(method = "repeatedcv",
+                 number = numbers,
+                 repeats = repeats,
+                 classProbs = TRUE,
+                 summaryFunction = twoClassSummary)
+
+
+model1 <- train(truthful ~ . , data = ALL_train, method = "knn",
+               preProcess = c("center","scale"),
+               trControl = x,
+               metric = "ROC",
+               tuneLength = tunel)
+
+####
+
+tuned_parameters_lin <- tune.svm(truthful ~ ., data = ALL_train, cost = 10^(-3:1), kernel = "linear")
+tuned_parameters_rad <- tune.svm(truthful ~ ., data = ALL_train, gamma = 10^(-5:-1), cost = 10^(-3:1), kernel = "radial")
+tuned_parameters_poly <- tune.svm(truthful ~ ., data = ALL_train, gamma = 10^(-5:-1), cost = 10^(-3:1), kernel = "poly")
+tuned_parameters_sig <- tune.svm(truthful ~ ., data = ALL_train, gamma = 10^(-5:-1), cost = 10^(-3:1), kernel = "sigmoid")
+?svm
+
+
 
 ## Linear
-svm.model_int_lin <- svm(truthful ~ . , data = trainIntDF, type = "C-classification", kernel = "linear", cost = 10, scale = FALSE)
-svm.pred_int_lin <- predict(svm.model_int_lin, testIntDF)
-ssummary(svm.model_int_lin)
-table(svm.pred_int_lin, testIntDF$truthful)
-mean(svm.pred_int_lin == testIntDF$truthful)
+# svm.model_lin <- svm(truthful ~ . , data = trainDF, type = "C-classification", kernel = "linear", cost = 10, scale = FALSE)
+# svm.pred_lin <- predict(svm.model_lin, testDF)
+# summary(svm.model_lin)
+# table(svm.pred_lin, testDF$truthful)
+# mean(svm.pred_lin == testDF$truthful)
+# 
+# ## Radial Basis
+# svm.model_rb <- svm(truthful ~ . , data = trainDF, type = "C-classification", kernel = "radial")
+# svm.pred_rb <- predict(svm.model_rb, testDF)
+# summary(svm.model_rb)
+# table(svm.pred_rb, testDF$truthful)
+# mean(svm.pred_rb == testDF$truthful)
 
-## Radial Basis
-svm.model_int_rb <- svm(truthful ~ . , data = trainIntDF, type = "C-classification", kernel = "radial")
-svm.pred_int_rb <- predict(svm.model_int_rb, testIntDF)
-summary(svm.model_int_rb)
-table(svm.pred_int_rb, testIntDF$truthful)
-mean(svm.pred_int_rb == testIntDF$truthful)
+
+# Intensity
+
+# ## Linear
+# svm.model_int_lin <- svm(truthful ~ . , data = trainIntDF, type = "C-classification", kernel = "linear", cost = 10, scale = FALSE)
+# svm.pred_int_lin <- predict(svm.model_int_lin, testIntDF)
+# ssummary(svm.model_int_lin)
+# table(svm.pred_int_lin, testIntDF$truthful)
+# mean(svm.pred_int_lin == testIntDF$truthful)
+# 
+# ## Radial Basis
+# svm.model_int_rb <- svm(truthful ~ . , data = trainIntDF, type = "C-classification", kernel = "radial")
+# svm.pred_int_rb <- predict(svm.model_int_rb, testIntDF)
+# summary(svm.model_int_rb)
+# table(svm.pred_int_rb, testIntDF$truthful)
+# mean(svm.pred_int_rb == testIntDF$truthful)
 
 # Total
 
