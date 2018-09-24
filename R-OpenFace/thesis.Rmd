@@ -21,6 +21,12 @@ library(nnet) # Neural Network
 library(mlbench)
 library(RColorBrewer)
 library(magrittr)
+library(pROC)
+library(doSNOW)
+library(doParallel)
+library(parallelSVM)
+library(devtools) # github install
+library(ggbiplot) # PCA plotting
 ```
 
 Utils
@@ -333,21 +339,6 @@ ggplot(data = ptl, aes(x = au, y = occ, fill = variable)) +
 
 ```
 
-Feature Selection
-```{r}
-correlationMatrix <- cor(ALL_train[,-c("truthful")])
-highlyCorrelated <- findCorrelation(correlationMatrix, cutoff=0.5)
-print(highlyCorrelated)
-
-control <- trainControl(method="repeatedcv", number=10, repeats=3)
-model <- train(truthful~., data=ALL_train, method="lvq", preProcess="scale", trControl=control)
-importance <- varImp(model, scale=FALSE)
-print(importance)
-plot(importance)
-
-```
-
-
 GLM
 ```{r}
 # Presence
@@ -376,6 +367,8 @@ glm.predicted_all = rep(F, nrow(ALL_test))
 glm.predicted_all[glm.pred_all > .5] = T
 table(glm.predicted_all, ALL_test$truthful)
 1 - mean(glm.predicted_all == ALL_test$truthful)
+
+v = (varImp(glm.model_all))
 
 # coef(summary(glm.model_all))[,4]
 # x <- coef(summary(glm.model_all))[,c('Pr(>|z|)')]
@@ -464,19 +457,10 @@ mean(rf.pred_all == ALL_test$truthful)
 
 PCA
 ```{r}
-is.numeric(trainIntDF[,0:3])
+# devtools::install_github("richardjtelford/ggbiplot", ref = "experimental")
 
 pca <- prcomp(trainIntDF[,0:17], scale. = TRUE, center = TRUE)
 summary(pca)
-
-
-plot(pca, type = "l")
-fviz_pca_ind(pca,
-             col.ind = "cos2", # Color by the quality of representation
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = TRUE     # Avoid text overlapping
-             )
-(pca2 <- prcomp(trainIntDF[,0:17], scale. = TRUE))
 ```
 
 SVM
@@ -553,8 +537,13 @@ tuned_parameters_sig <- tune.svm(truthful ~ ., data = ALL_train, gamma = 10^(-5:
 
 # Total
 
+cl <- makeCluster(detectCores())
+registerDoSNOW(cl)
+
 ## Linear
-svm.model_lin_all <- svm(truthful ~ . , data = ALL_train, type = "C-classification", kernel = "linear", cost = 1, scale = FALSE)
+
+# G = 0.03, C = 1 --> 0.5673334
+svm.model_lin_all <- parallelSVM(truthful ~ . , data = ALL_train, numberCores = detectCores(), type = "C-classification", kernel = "linear", cost = 1, gamma = 0.04, scale = FALSE)
 svm.pred_lin_all <- predict(svm.model_lin_all, ALL_test[,-c(36)])
 summary(svm.model_lin_all)
 table(svm.pred_lin_all, ALL_test$truthful)

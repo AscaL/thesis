@@ -1,5 +1,4 @@
-%TODO: add more tecniques
-In this chapter we will give a brief introduction of Machine Learning (\ref{ml}), explaining Classification (\ref{classification}), Regression (\ref{regression}) and Supervised learning (\ref{supervised}), proceeding then to explain different techniques such as SVM (\ref{svm}), which is the most important technique used for this thesis, Random Forests \ref{random_forest} and [].
+In this chapter we will give a brief introduction of Machine Learning (\ref{ml}), explaining Classification (\ref{classification}), Regression (\ref{regression}) and Supervised learning (\ref{supervised}), proceeding then to explain different techniques such as Random Forests \ref{random_forest} and SVM (\ref{svm}), which is the most important technique used for this thesis.
 
 \section{Machine Learning Introduction} \label{ml}
 
@@ -96,15 +95,13 @@ There are many algorithms used to perform supervised learning tasks, the most co
 	\item Support Vector Machines (\ref{svm})
 \end{itemize}
 
-% TODO: Should i write how sup learning works? (from wiki section)
-
 \subsection{Unsupervised Learning} \label{unsupervised}
 Unsupervised learning is the subfield of Machine Learning tasked with inferring a function from the analysis of unlabeled (not classified) data. Being unclassified there is also a difficulty in evaluating the accuracy of the model.\\
 Usually items are grouped by some measure of similarity, like for example in k-means clustering (Fig. \ref{fig:clustering}).
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{clustering}
+	\includegraphics[width=0.95\textwidth]{clustering}
 	\caption{Example of Unclustered and Clustered data \cite{kmeans}}
 	\label{fig:clustering}
 \end{figure}	
@@ -297,7 +294,7 @@ The model itself simply calculates the probability of output in terms of input, 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{exam_pass_logistic_curve}
+	\includegraphics[width=0.85\textwidth]{exam_pass_logistic_curve}
 	\caption{Graph of a logistic regression curve showing probability of passing an exam versus hours studying \cite{wiki:logisticreg}}
 	\label{fig:logistic_exam}
 \end{figure}
@@ -370,7 +367,7 @@ Random Forest (RF) is preferred to decision trees because decision trees suffer 
 %TODO: check this par too much wiki maybe not clear
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.85\textwidth]{decTree}
+	\includegraphics[width=1\textwidth]{decTree}
 	\caption{Example of a Decision Tree \cite{KDNrf}}
 	\label{fig:decTree}
 \end{figure}
@@ -405,7 +402,7 @@ Instead we utilize \textit{bagging}: we can take repeated samples from the train
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{bagging}
+	\includegraphics[width=0.85\textwidth]{bagging}
 	\caption{Bagging Example \cite{bagging}}
 	\label{fig:bagging}
 \end{figure}
@@ -433,7 +430,7 @@ or by using the majority vote in case of classification.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{baggingDT}
+	\includegraphics[width=1\textwidth]{baggingDT}
 	\caption{Bagging leads to different decision trees \cite{baggingDT}}
 	\label{fig:baggingDT}
 \end{figure}
@@ -486,7 +483,7 @@ The importance is given by doing the average of the difference between the OOB e
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{RF_imp}
+	\includegraphics[width=1\textwidth]{RF_imp}
 	\caption{Example of variable importance found with Random Forest \cite{rf_imp}.}
 	\label{fig:RF_imp}
 \end{figure}

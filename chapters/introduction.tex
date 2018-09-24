@@ -1,28 +1,24 @@
-In this chapter we give an overview of the work (Par. \ref{overview}). We start with giving some information about how people perform at detecting lies (Par. \ref{pplLieDet}). \\
+In this chapter we give an overview of the work (Par. \ref{overview}). We start examining how people perform at detecting lies in order to have a comparison with methods other methods (Par. \ref{pplLieDet}). \\
 We then present a taxonomy of the current state of the art (Par. \ref{sota}) concerning lie detection with particular emphasis on computer vision. \\
-The last section is about the structure of the rest of the thesis, and our contribution to it (Par. \ref{contrib}).
-
-\pagebreak
+The last section is about the structure of the rest of the thesis, and our contribution to the field of deception detection (Par. \ref{contrib}).
 
 \section{Overview of the work} \label{overview}
 Deception detection has always been a very interesting topic since it has numerous social and psychological implications in many different fields. In the past 40 years there has been a steady increase in researchers interested in studying deceptive behavior, first from a sociological and psychological point of view, and in more recent years from a technological standpoint, aided by the advance of machine learning techniques, especially in the field of Computer Vision, an interdisciplinary field that aims to simulate the human visual system to automatically comprehend images or videos.
 
 Our work aims to recognize whether a person is lying or telling the truth by performing a frame by frame analysis on a database of videos with the goal of extracting a set of the different facial movements performed by the person in the video. After finishing the extraction, the data is submitted to analysis by using statistical and machine learning techniques.
 
-%todo: way too much stuff about db in intro wtf
-The dataset we are using was provided by Perez-Rosas et al. \cite{Perez-Rosas:2015:DDU:2818346.2820758} and is composed by 121 videos taken from real life trials (Par. \ref{rldb}). Since those videos are taken from real life events, the illumination, pose, audio and video features are not homogeneous and often substandard. Substantial work was done to eliminate the parts that are not relevant, and as result many video were trimmed or discarded.
+The dataset we are using was provided by Perez-Rosas et al. \cite{Perez-Rosas:2015:DDU:2818346.2820758} and is composed by 121 videos taken from real life trials (Par. \ref{rldb}). Since those videos are taken from real life events, the illumination, pose, audio and video features are not homogeneous and often substandard. Substantial work was done to eliminate the parts that are not relevant, and as result many videos were trimmed or discarded.
 
-From the remaining videos we have 58 different subjects, meaning that there are more videos of the same subject. This means that it is important to divide the training and test set to avoid just making the classifier "remember" the person. This was done by never having the same subject appear both in the training and test set. \\
-After trimming and dividing the videos, we split the data into training and test set based on the subject ID and extracted all the facial movements. Then we utilized machine learning and statistical techniques for classification, and achieved $x \%$ accuracy on the test set.
+After trimming and cleaning the videos, we split the data into two sets based on the subject ID and extracted all the facial movements. Then we utilized machine learning and statistical techniques to understand if the person in the video was lying based on the results of analyzing each frame.
 
-%todo: maybe in the result part?
-The result of this work, especially when improved by having a better and larger training dataset, can be useful in different situations, even though it is important to remember that privacy is a real concern, and with this kind of applications it should never be underestimated.\\
-We think the result of this work can be used to aid in airport security, work interview, and many kind of social interactions. It could be eventually used by the public to review a speech of a political candidate or by the police force as an aid to interrogation. Another use can be in trials where people life are at stake and discerning a true or false testimony might be vital. We really hope this work proves to be socially useful.
+The result of this work, especially when improved by having a better and larger dataset, can be useful in different situations, even though it is important to remember that privacy is a real concern, and with this kind of applications it should never be underestimated.
 
-\pagebreak
+Some of the applications of this work can include airport security, work interviews, and possibly many kinds of social interactions. It could be eventually used by the public to review a speech of a political candidate or by the police force as an aid to interrogation. Another use can be in trials where people lives are at stake and discerning a true or false testimony might be vital. We really hope this work proves to be socially useful.
+
+\clearpage
 
 \section{People Lie Detection} \label{pplLieDet}
-It's very rare for people to be able to consistently discern between lies and truths, even though we hear lies regularly in the course of our lives. In fact most untrained people perform like chance (~50\%) when tasked with detecting lies \cite{Porter2012SecretsAL}, and considering that the ordinary person lies at least twice a day on average \cite{LyingEverydayLife}, and that in this digital age the amount of lies told daily are increasing \cite{DigitalDeception} due to on-line communication making us feel more protected and confident in our deceptions, the problem of detecting lies is an important one and we think it deserves a good deal of research effort. 
+It's very rare for people to be able to consistently discern between lies and truths, even though we hear lies regularly in the course of our lives. In fact most untrained people perform like chance (50\%) when tasked with detecting lies \cite{Porter2012SecretsAL}, and considering that the ordinary person lies at least twice a day on average \cite{LyingEverydayLife}, and that in this digital age the amount of lies told daily are increasing \cite{DigitalDeception} due to on-line communication making us feel more protected and confident in our deceptions, the problem of detecting lies is an important one and we think it deserves a good deal of research effort. 
 
 People's difficulty in detecting lies stem from the lack of objectivity. We are biased by so many factors and skilled deceivers can take advantage of that. \\
 An important reason is that people generally think it is easy to spot liars, underestimating the effort it takes by having too much confidence on their own judgment and capabilities, and by believing in gut feelings instead of empirical clues \cite{VrijDLD}. 
@@ -37,19 +33,19 @@ Police officers and other trained officials seems to perform better than the ave
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{Ppl_lie_accuracy}
+	\includegraphics[width=0.75\textwidth]{Ppl_lie_accuracy}
 	\caption{Performance on deceit detection by human observers \cite{SU201652}.}
 \end{figure}
  
-\pagebreak
+\clearpage
 
 % also talk about non-contact
 \section{State of the Art} \label{sota}
-How are lies detected? At the moment there are a lot of different instruments and technologies to detect lies, ranging from analyzing psychological features, to using the polygraph or thermal cameras and machine learning approaches.
+How are lies detected? At the moment there are a lot of different instruments and technologies to attempt to detect deceit, ranging from analyzing psychological features, to using the polygraph or thermal cameras and machine learning approaches.
 
 In computer vision specifically, lie detection is a somewhat new field of research, and as such it's done using many different techniques, employing not only RGB cameras but also physical sensors and thermal cameras and using voice, gaze, action and body analysis tools, all of this often aided by machine learning techniques, and by combining many of these modalities together to achieve better results.
 
-We now proceed to describe the state of the art, based on the latest researches done in the field, with focus on computer vision:
+We now proceed to describe the state of the art, based on the latest researches done in the field, with specific focus on computer vision:
 
 \subsection{Speech}
 Speech is one of the many methods that can be used to recognize if a person is lying. In fact, the speech signal contains linguistic, expressive, organic and biological data \cite{norena}.
@@ -72,6 +68,8 @@ In \cite{relidss} the authors created a new database by making 40 candidates try
 After acquiring the data, an SVM classifier was trained to classify new data, obtaining an accuracy of Lie and Truth detection from speech audio respectively of 88.23\% and 84.52\%.
 
 In \cite{Mihalcea:2013:ADD:2522848.2522888} Perez et al. utilize a dataset of 140 videos created by users who uploaded either truthful or deceptive statements. They collected the transcriptions from the videos both manually and via automatic speech recognition software. By using a bag-of-words representation of the transcripts they build a vocabulary, and to classify the data they employ a SVM and Naive Bayes classifier, achieving 73\% accuracy.
+
+\clearpage
  
 \subsection{Eyes}
 Using the eyes to detect lies is one of the most studied approaches, as the eyes hold a significant amount of information regarding our thinking and emotional state \cite{FUKUDA2001239} (Fig \ref{fig:eye-lies}). We will focus our description on the Computer Vision approaches.
@@ -113,7 +111,7 @@ Eleven males of age between 20 and 27 took part in the study. The gathered data 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{EEG}
+	\includegraphics[width=0.75\textwidth]{EEG}
 	\caption{EEG of P300 waves image on channels Fz, Cz, and Pz}
 	\label{fig:EEG}
 \end{figure}
@@ -129,7 +127,7 @@ In most of the experiments with fMRI and lie detection, candidates are instructe
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{fMRI}
+	\includegraphics[width=0.55\textwidth]{fMRI}
 	\caption{fMRI image with yellow areas showing increased activity compared with a control condition  \cite{WikifMRI}}
 	\label{fig:fMRI}
 \end{figure}
@@ -141,7 +139,7 @@ In thermal imaging, thermal features are extracted from the face using a high de
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{thermal}
+	\includegraphics[width=1\textwidth]{thermal}
 	\caption{Examples of thermal images during (a) questioning and (b) answering \cite{6967765}}
 \end{figure}
 
@@ -173,7 +171,7 @@ In \cite{Perez-Rosas:2015:DDU:2818346.2820758} Perez et al. utilize real life tr
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{non_verbal_perez}
+	\includegraphics[width=0.9\textwidth]{non_verbal_perez}
 	\caption{Distribution of non-verbal features for deceptive and truthful groups \cite{Perez-Rosas:2015:DDU:2818346.2820758}.}
 \end{figure}
 

@@ -3,9 +3,9 @@ In this chapter we will discuss the architecture of our framework and the tools 
 
 \section{General Architecture}
 %todo with images + change title
-The general idea of this thesis is to classify whether a person is telling the truth or lying, by analyzing the subject's facial movement extracted using an RGB camera. To achieve this it is fundamental that the subject's face results visible during the videos.
+The general idea of this thesis is to classify whether a person is telling the truth or lying, by analyzing the subject's facial movement, extracted using an RGB camera, during a video. To achieve this it is fundamental that the subject's face results visible during the videos.
 
-We implemented this idea using a Support Vector Machine. 
+We implemented this idea using a Support Vector Machine classifier. 
 
 The architecture utilized is shown in fig \ref{fig:architecture} and is composed this way:
 
@@ -14,8 +14,8 @@ The architecture utilized is shown in fig \ref{fig:architecture} and is composed
 	\item Detect the face of the person in the video using Constrained Local Neural Field.
 	\item Detect the facial landmarks using Convolutional Experts Network.
 	\item Extract the appearance features in the form of Histogram of Oriented Gradients and perform dimensionality reduction and feature normalization through Principal Component Analysis.
-	\item Extract action unit presence and intensity from the video using a SVM.
-	\item Feed the extracted data to a SVM for classification.
+	\item Extract action unit presence and intensity from the videos using a SVM.
+	\item Feed the extracted data to train an SVM for classification on a test set.
 \end{itemize}
 
 \clearpage
@@ -31,7 +31,7 @@ The OpenFace \cite{Baltru2018} toolkit is a tool for machine learning and comput
 \end{figure}
 
 %TODO: check this new addition
-This tool is customizable in the way that all the SVM models and neural networks can be retrained with new datasets, and the code is open source, so it can be changed to fit the needs of the experimenters.
+This tool is customizable in the way that all the SVM models and neural networks can be trained with new datasets, and the code is open source, so it can be changed to fit the needs of the experimenters.
 
 
 \clearpage
@@ -266,7 +266,7 @@ Since the AU occurrences are not balanced by nature (for example AU28, blinking,
 
 \section{Deception Detection} \label{dec_det}
 %TODO: rewrite, tentative
-In this step we feed the extracted action units from the video to an SVM for classification.
+In this step we feed the extracted action units from the videos to an SVM for classification.
 We use an SVM because after a lot of testing with different techniques that was the one that performed the best compared to others. 
 
 %todo: come prendiamo i dati, cosa facciamo... 

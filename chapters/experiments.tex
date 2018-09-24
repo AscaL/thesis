@@ -1,5 +1,5 @@
 %TODO: obviously rewrite this
-In this section I will describe the stack used for this thesis and the experiments done to achieve our results: I will start by reviewing the configurations and libraries utilized (par. \ref{bb}), the database used to acquire training and test set (Par. \ref{rldb}), all the analysis done on the data (par. \ref{data_an}), and finally the results (par. \ref{res}).
+In this section I will describe the stack used for this thesis and the experiments done to achieve our results: I will start by reviewing the configurations and libraries utilized (par. \ref{bb}), the database used to acquire training and test set (Par. \ref{rldb}), all the analysis done on the data (par. \ref{data_an}), and finally we discuss the results (par. \ref{results}).
 
 \section{Building Blocks} \label{bb}
 To realize this work we used the following tools and libraries:
@@ -181,4 +181,10 @@ To approach classification with an SVM we tried both a linear and radial kernel.
 %todo: specify how much is C and gamma
 The cost $c$ and $\gamma$ parameter were found using a tuning function that perform a grid search over the combinations of cost and gamma for both kind of kernels.
 
-The results for classifying with a linear kernel are 66,34\% accuracy on the test set, which is a good starting result, while a radial kernel performs worse at around 61\% accuracy.
+The results for classifying with a linear kernel are 66,34\% accuracy on the test set, which is a good starting result, while the radial kernel performed worse at around 61\% accuracy.
+
+\clearpage
+
+%todo: do this
+\section{Results} \label{results}
+Thanks to the Support Vector Machine we were able to classify deceptive and truthful videos with an accuracy of \%.
