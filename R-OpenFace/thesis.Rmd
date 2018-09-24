@@ -17,13 +17,10 @@ library(corrplot)
 library(e1071)
 library(ResourceSelection)
 library(randomForest) # Random Forest
-# library(ranger) # Faster Random Forest
 library(nnet) # Neural Network
-# library(keras) # NN + TensorFlow
-library(xgboost)
-library(factoextra)
 library(mlbench)
 library(RColorBrewer)
+library(magrittr)
 ```
 
 Utils
@@ -142,18 +139,21 @@ lies_test$truthful <- factor(lies_test$truthful)
 lies_train$truthful <- rep(F, nrow(lies_train))
 lies_train$truthful <- factor(lies_train$truthful)
 
-is.factor(lies_test$AU01_c)
-lies_test$AU01_c <- factor(lies_test$AU01_c)
-
 # Select Intensity Columns
 lint_train <- lies_train[,c(1:17, 36)]
 lint_test <- lies_test[,c(1:17, 36)]
 
 # Select Presence Columns
 plies_train <- lies_train[,-c(1:17)]
-plies_train <- plies_train %>% mutate_if(is.numeric,as.factor)
+# plies_train <- plies_train %>% mutate_if(is.numeric,as.factor)
 plies_test <- lies_test[,-c(1:17)]
-plies_test <- plies_test %>% mutate_if(is.numeric,as.factor)
+# plies_test <- plies_test %>% mutate_if(is.numeric,as.factor)
+
+cols <- dput(names(lies_train[,-c(1:17, 36)]))
+lies_train %<>% mutate_at(cols, funs(factor(.)))
+
+cols <- dput(names(lies_test[,-c(1:17, 36)]))
+lies_test %<>% mutate_at(cols, funs(factor(.)))
 ```
 
 Loading the Data - truth
@@ -183,9 +183,15 @@ tint_test <- truth_test[,c(1:17, 36)]
 
 # Select Presence Columns
 ptruth_train <- truth_train[,-c(1:17)]
-ptruth_train <- ptruth_train %>% mutate_if(is.numeric,as.factor)
+# ptruth_train <- ptruth_train %>% mutate_if(is.numeric,as.factor)
 ptruth_test <- truth_test[,-c(1:17)]
-ptruth_test <- ptruth_test %>% mutate_if(is.numeric,as.factor)
+# ptruth_test <- ptruth_test %>% mutate_if(is.numeric,as.factor)
+
+cols <- dput(names(truth_train[,-c(1:17, 36)]))
+truth_train %<>% mutate_at(cols, funs(factor(.)))
+
+cols <- dput(names(truth_test[,-c(1:17, 36)]))
+truth_test %<>% mutate_at(cols, funs(factor(.)))
 ```
 
 Create Train & Test set
@@ -234,7 +240,9 @@ OLD Train & Test Set
 
 Correlation
 ```{r}
-correlation <- cor(ALL_train[,-c("truthful")])
+correlation <- cor(trainIntDF[,-c("truthful")])
+
+# ALL_train[, -c("truthful")]
 rcorrelation <- rcorr(as.matrix(correlation))
 
 corrplot(
@@ -243,10 +251,10 @@ corrplot(
   type = "lower",
   order = "FPC",
   col = brewer.pal(n = 8, name = "RdBu"),
-  cl.ratio = 0.2, cl.align = "r", tl.srt = 360, tl.col = "black", tl.cex = 0.65
+  cl.ratio = 0.2, cl.align = "r", tl.srt = 25, tl.col = "black", tl.cex = 0.65
 )
 
-(highlyCorrelated <- findCorrelation(correlation, cutoff=0.5, names = T, exact = T))
+(highlyCorrelated <- findCorrelation(correlation, cutoff=0.75, names = T, exact = T))
 ```
 
 Plots
@@ -363,9 +371,9 @@ GLM
 # Merged
 glm.model_all <- glm(truthful ~ ., family = binomial, data = ALL_train)
 summary(glm.model_all)
-glm.pred_all <- predict(glm.model_all, ALL_test[,-c("truthful")], type = "response")
-glm.predicted_all = rep(0, nrow(ALL_test))
-glm.predicted_all[glm.pred_all > .5] = 1
+glm.pred_all <- predict(glm.model_all, ALL_test[,-c(36)], type = "response")
+glm.predicted_all = rep(F, nrow(ALL_test))
+glm.predicted_all[glm.pred_all > .5] = T
 table(glm.predicted_all, ALL_test$truthful)
 1 - mean(glm.predicted_all == ALL_test$truthful)
 
@@ -439,11 +447,10 @@ Random Forests
 # mean(rf.pred_int == testIntDF$truthful)
 
 # Merged
-?randomForest
 rf.model_all <- randomForest(truthful ~ ., data = ALL_train, ntree = 250)
 print(rf.model_all)
 importanceRF(rf.model_all)
-rf.pred_all <- predict(rf.model_all, ALL_test[,-c("truthful")])
+rf.pred_all <- predict(rf.model_all, ALL_test[,-c(36)])
 table(rf.pred_all, ALL_test$truthful)
 mean(rf.pred_all == ALL_test$truthful)
 
@@ -548,14 +555,14 @@ tuned_parameters_sig <- tune.svm(truthful ~ ., data = ALL_train, gamma = 10^(-5:
 
 ## Linear
 svm.model_lin_all <- svm(truthful ~ . , data = ALL_train, type = "C-classification", kernel = "linear", cost = 1, scale = FALSE)
-svm.pred_lin_all <- predict(svm.model_lin_all, ALL_test)
+svm.pred_lin_all <- predict(svm.model_lin_all, ALL_test[,-c(36)])
 summary(svm.model_lin_all)
 table(svm.pred_lin_all, ALL_test$truthful)
 mean(svm.pred_lin_all == ALL_test$truthful)
 
 ## Radial Basis
-svm.model_rb_all <- svm(truthful ~ . , data = ALL_train, type = "C-classification", kernel = "radial")
-svm.pred_rb_all <- predict(svm.model_rb_all, ALL_test)
+svm.model_rb_all <- svm(truthful ~ . , data = ALL_train, type = "C-classification", kernel = "radial", cost = 100, gamma = 0.01, cross = 5)
+svm.pred_rb_all <- predict(svm.model_rb_all, ALL_test[,-c(36)])
 summary(svm.model_rb_all)
 table(svm.pred_rb_all, ALL_test$truthful)
 mean(svm.pred_rb_all == ALL_test$truthful)

@@ -1,7 +1,7 @@
 %TODO: obviously rewrite this
-In this section I will describe the stack used for this thesis and the experiments done to achieve our results: I will start by reviewing the database (Par. \ref{rldb}), the configuration and parameters, the experiments results, and finally the conclusion.
+In this section I will describe the stack used for this thesis and the experiments done to achieve our results: I will start by reviewing the configurations and libraries utilized (par. \ref{bb}), the database used to acquire training and test set (Par. \ref{rldb}), all the analysis done on the data (par. \ref{data_an}), and finally the results (par. \ref{res}).
 
-\section{Building Blocks}
+\section{Building Blocks} \label{bb}
 To realize this work we used the following tools and libraries:
 \begin{itemize}
 	\item OpenFace: the library to train the models for face detection, landmark detection, feature extraction and action unit recognition.
@@ -16,7 +16,7 @@ To realize this work we used the following tools and libraries:
 The experiments were conducted on two systems, Windows and Mac OS, with the following specs:\\
 The windows machine has 8GB of RAM, i5 processor, and 4096MB ATI AMD Radeon R9. \\
 The Mac has 4gb RAM, i5 processor, and an intel integrated GPU.\\
-SVM training took about one hour on either machine.
+SVM training took about one hour on both machines.
 
 \clearpage
 
@@ -53,6 +53,7 @@ Fig. \ref{fig:rldb_distrib} shows the frequency counts associated with the gestu
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{rldb_distrib}
+	%todo: change caption
 	\caption{Examples of images from the dataset videos. \cite{Perez-Rosas:2015:DDU:2818346.2820758}.}
 	\label{fig:rldb_distrib}
 \end{figure}
@@ -90,12 +91,11 @@ The training set consists of 72451 observations of 36 variables, and the test se
 
 \clearpage
 
-\section{Data Analysis}
-In the following sections we describe the methods used to analyze the data and the machine learning techniques to classify them.
+\section{Data Analysis} \label{data_an}
+In the following sections we describe the methods used to analyze the data and the machine learning techniques to classify them. \\
+We start with comparing the occurrences for deceptive and truthful videos on the training set (par. \ref{data_comp}), then look at the correlation between variables (par. \ref{corr}), then we explain how we used GLM (par. \ref{GLM}), Random Forest (par. \ref{rf}) and Support Vector Machines (par. \ref{SVM})
 
-
-
-\subsection{Data Comparison}
+\subsection{Data Comparison} \label{data_comp}
 The first thing I did, after cleaning the data, was to compare the extracted deceptive (Fig \ref{fig:au_occ_dec}) and truthful (Fig. \ref{fig:au_occ_truth}) AUs occurrences (only for presence, not intensity) from the training set, which is shown in Fig. \ref{fig:au_occ_comp}.
 
 \begin{figure}[H]
@@ -104,6 +104,8 @@ The first thing I did, after cleaning the data, was to compare the extracted dec
 	\caption{Average AU Occurrences for the deceptive training set.}
 	\label{fig:au_occ_dec}
 \end{figure}
+
+\clearpage
 
 \begin{figure}[H]
 	\centering
@@ -121,7 +123,7 @@ The first thing I did, after cleaning the data, was to compare the extracted dec
 
 This comparison shows interesting differences between truthful and deceptive occurrences for AU04 (Brow Lowerer), AU05 (Upper Lid Raiser), AU10 (Upper Lip Raiser), AU12 (Lip Corner Puller) and AU14 (Dimpler). %"suggesting there could be a pattern"?
 
-\subsection{Correlation}
+\subsection{Correlation} \label{corr}
 Variables correlation is shown in figure \ref{fig:correlation_matrix}. When the AUs label ends with "\_r" it indicate intensity and "\_c" means presence.
 
 \begin{figure}[H]
@@ -134,7 +136,9 @@ Variables correlation is shown in figure \ref{fig:correlation_matrix}. When the 
 %todo: positive corr with, neg corr with...
 which shows some obvious correlations between presence and intensity of the same AU, and significant correlation between AU10\_r, AU12\_r, AU12\_c, AU07\_r, AU17\_r, AU06\_r, AU04\_c, AU02\_r, AU01\_r, AU25\_r, AU45\_c.
 
-\subsection{GLM}
+\clearpage
+
+\subsection{GLM} \label{GLM}
 Another quick experiment I made was with the Generalized Linear Model in R, which translates into Logistic Regression (Par. \ref{logreg}), at least to have an idea of the resulting p-values, as seen in fig. \ref{fig:pval}:
 
 \begin{figure}[H]
@@ -147,9 +151,11 @@ Another quick experiment I made was with the Generalized Linear Model in R, whic
 As we can see AU01\_r (Inner Brow Raiser), AU23\_r (Lip Tightener), and AU17\_c (Chin Raiser) are not significant and that's an indication that we could remove them from the dataset.
 
 %todo: should i say this?
-The results for classifying data with GLM is ~55\% accuracy on the test set, which is not great. 
+The results for classifying data with GLM is 54.86\% accuracy on the test set, which is a little better than chance but not great. 
 
-\subsection{Random Forest}
+\clearpage
+
+\subsection{Random Forest} \label{rf}
 I've decided to use Random Forest (par. \ref{random_forest}) to estimate variable importance, shown in fig. \ref{fig:varimp}.
 
 \begin{figure}[H]
@@ -167,9 +173,12 @@ As we can see AUs that have low p-values in GLM have also low importance in Rand
 
 Classifying with Random Forest gave me 58,42\% accuracy on the test set, which is better than GLM but it is still not good enough to be significant.
 
-\section{LDA}
+\clearpage
 
-\section{QDA}
+\subsection{SVM} \label{SVM}
+To approach classification with an SVM we tried both a linear and radial kernel.
 
-\section{SVM}
+%todo: specify how much is C and gamma
+The cost $c$ and $\gamma$ parameter were found using a tuning function that perform a grid search over the combinations of cost and gamma for both kind of kernels.
 
+The results for classifying with a linear kernel are 66,34\% accuracy on the test set, which is a good starting result, while a radial kernel performs worse at around 61\% accuracy.
