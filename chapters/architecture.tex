@@ -1,5 +1,5 @@
 %todo: complete, this is what my program does
-In this chapter we will discuss the architecture of our framework and the tools used for this thesis in Deception Detection. We will introduce the OpenFace toolkit (\ref{OpenFace}), and describe landmark detection (\ref{landmark_det}), action unit recognition (\ref{au_det}) and the deception detection process (\ref{dec_det}).
+In this chapter we will discuss the architecture of our framework and the tools used for this thesis in Deception Detection. We will first explain the general architecture to perform deception detection, then we will introduce the OpenFace toolkit (\ref{OpenFace}), and describe landmark detection (\ref{landmark_det}), action unit recognition (\ref{au_det}) and the deception detection process (\ref{dec_det}).
 
 \section{General Architecture}
 %todo with images + change title
@@ -87,7 +87,6 @@ CEN takes in input a Region of Interest (ROI) around the currently estimated pos
 	\label{fig:landmark_det}
 \end{figure}
 
-%TODO: to specific?
 In order to do all this, the ROI is initially passed in a Contrast Normalizing Convolution layer to perform z-score normalization and to calculate the correlation between input and kernel. The output is then convolved in another layer of ReLU neurons (convolution is an operation on two functions to produce a third function that expresses how the shape of one is modified by the other).
 
 The last neural layer before the response map is the Mixture of Expert Layer (ME-layer), and it can model the alignment probability using a combination of patch experts (local detectors) that are able to represent different landmarks appearance prototypes by outputting individual votes on alignment through a sigmoid function. The response maps from all the local detectors are then combined in the last layer, giving the final alignment probability.
@@ -288,7 +287,7 @@ The data are divided for both AUs intensity, ranging from $0$ to $5$, and AU pre
 	\label{fig:dataset_csv}
 \end{figure}
 
-The next step is to remove all the rows that have both no intensity and no presence for AUs, since those rows are most likely errors from the extraction, deriving from the poor quality of the videos.
+The next step is to remove all the rows that have both no intensity and no presence for AUs, since those rows are most likely errors from the extraction, deriving from the poor quality of the videos, or from the face not being recognized in some frames.
 
 %todo: forse non e' utile qui ma in generale lo devo dire
 We organized the data in three sets, one concerning only AUs intensity, one with only AUs presence, and another one where we merged the previous ones together, in order to better analyze the data and understand it's structure.

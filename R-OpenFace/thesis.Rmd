@@ -27,6 +27,7 @@ library(doParallel)
 library(parallelSVM)
 library(devtools) # github install
 library(ggbiplot) # PCA plotting
+set.seed(123)
 ```
 
 Utils
@@ -539,11 +540,12 @@ tuned_parameters_sig <- tune.svm(truthful ~ ., data = ALL_train, gamma = 10^(-5:
 
 cl <- makeCluster(detectCores())
 registerDoSNOW(cl)
+?svm
 
 ## Linear
 
-# G = 0.03, C = 1 --> 0.5673334
-svm.model_lin_all <- parallelSVM(truthful ~ . , data = ALL_train, numberCores = detectCores(), type = "C-classification", kernel = "linear", cost = 1, gamma = 0.04, scale = FALSE)
+# G = 0.04, C = 1 --> 0.5699394
+svm.model_lin_all <- parallelSVM(truthful ~ . , data = ALL_train, numberCores = detectCores(), type = "C-classification", kernel = "sigmoid", cost = 100, gamma = 0.01, scale = FALSE)
 svm.pred_lin_all <- predict(svm.model_lin_all, ALL_test[,-c(36)])
 summary(svm.model_lin_all)
 table(svm.pred_lin_all, ALL_test$truthful)
@@ -555,6 +557,27 @@ svm.pred_rb_all <- predict(svm.model_rb_all, ALL_test[,-c(36)])
 summary(svm.model_rb_all)
 table(svm.pred_rb_all, ALL_test$truthful)
 mean(svm.pred_rb_all == ALL_test$truthful)
+
+## Sigmoid
+
+# G = 0.001, C = 10 --> 0.5731793
+# G = 0.001, C = 2.5 --> 0.5845894
+# 0.001, 3, 0.5757853
+# 0.001, 3, 0.5786026
+svm.model_sig_all <- parallelSVM(truthful ~ . , data = ALL_train, numberCores = detectCores(), type = "C-classification", kernel = "sigmoid", cost = 2, gamma = 0.001, scale = FALSE)
+svm.pred_sig_all <- predict(svm.model_sig_all, ALL_test[,-c(36)])
+summary(svm.model_sig_all)
+table(svm.pred_sig_all, ALL_test$truthful)
+mean(svm.pred_sig_all == ALL_test$truthful)
+
+
+
+
+
+
+
+
+
 
 ```
 

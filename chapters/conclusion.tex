@@ -6,7 +6,9 @@
 %These totally unconstrained and spontaneous videos are subject to temporal variations in illumination, head pose and facial occlusion.
 
 \section{Final Considerations}
-In this thesis we presented a way to discriminate between lies and truths, based on AUs extraction from videos and SVM classification.
+In this thesis we presented a way to discriminate between lies and truths, based on the extraction of AUs presence and intensity from videos, through an SVM classifier.
+
+The applications for a system that can accurately detect detection are numerous and space in a lot of fields: from airport security to job interviews.
 
 
 %todo: privacy concerns?
@@ -18,6 +20,6 @@ Some possible developments to be applied to this thesis are:
 \begin{itemize}
 	\item One of the difficulties of this kind of studies is the lack of a big dataset for high stake deception. It would be beneficial to gather such dataset to improve the results, bettering also the quality of the videos.
 	\item Extend AUs extraction to more than one person in the scene. It would be interesting to consider direct interaction with questions and responses. 
-	\item Using temporal information for each video to capture the beginning and the end of the interaction. The lie does not necessarely appear in \textit{all} the video, but probably just at some point, even though the majority of the statements are either deceptive or truthful. We were thinking about LSTM to observe the temporality.
-	\item More modules to consider other than the face. We could consider the body, and analyze the voice and speech patterns to extract information from the subject.
+	\item Using temporal information for each video to capture the beginning and the end of the interaction. The lie does not necessarily appear in \textit{all} the video, but probably just at some point, even though the majority of the statements are either deceptive or truthful. We were thinking about LSTM to observe the temporality.
+	\item More modules to consider other than the face. For example we could consider the body, and analyze the voice and speech patterns to extract information from the subject.
 \end{itemize}
