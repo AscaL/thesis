@@ -673,15 +673,14 @@ Every time we compute the inner product (\ref{eq:svm9}) in equation \ref{eq:svm1
 K(x_i, x_i')
 \end{equation}
 
-Where $K$ is a kernel function. A kernel function is used to quantify the similarity between two observations. \\
-For example a linear kernel is:
+Where $K$ is a kernel function. A kernel function is used to quantify the similarity between two observations. 
 
+For example a linear kernel of \textit{p} features is:
 \begin{equation} \label{eq:svm12}
 	K(x_i, x_i') = \sum_{j=1}^{p} x_{ij}x_{i'j}
 \end{equation}
 
 or for a polynomial kernel of degree \textit{d}:
-
 \begin{equation} \label{eq:svm13}
 	K(x_i, x_i') = (1 + \sum_{j=1}^{p} x_{ij}x_{i'j})^d
 \end{equation}
@@ -691,7 +690,23 @@ or a radial kernel:
 	K(x_i, x_i') = \exp(-\gamma\sum_{j=1}^{p} (x_{ij}, x_{i'j})^2), \quad \gamma \ge 0
 \end{equation} 
 
-There are many more kernel functions that can be used based on the shape of data.
+%todo: add sigmoid kernel
+another example is the sigmoid kernel:
+\begin{equation} \label{eq:svm15}
+	K(x_i, x_i') = \exp(-\gamma\sum_{j=1}^{p} (x_{ij}, x_{i'j})^2), \quad \gamma \ge 0
+\end{equation}
+
+We can visualize some of these kernels in fig. \ref{fig:kernels}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{kernels}
+	\caption{Visualization of different kinds of kernels \cite{kernels}.}
+	\label{fig:kernels}
+\end{figure} 
+%todo: https://gist.github.com/WittmannF/60680723ed8dd0cb993051a7448f7805
+
+
+There are many more kernel functions that can be used based on the shape of the data.
 
 The advantage of using a kernel is first of all computational: by using a kernel we just need to compute $K(x_i, x_i')$ for all $n \choose 2$ distinct pairs ($i, i'$).
 

@@ -476,32 +476,11 @@ SVM
 #trctrl <- trainControl(method = "repeatedcv", number = 10, repeats = 3)
 #svm_Linear <- train(truthful ~., data = trainDF, method = "svmLinear", trControl=trctrl, preProcess = c("center", "scale"), tuneLength = 10)
 
-# KNN
-repeats = 3
-numbers = 10
-tunel = 10
-
-set.seed(1234)
-x = trainControl(method = "repeatedcv",
-                 number = numbers,
-                 repeats = repeats,
-                 classProbs = TRUE,
-                 summaryFunction = twoClassSummary)
-
-
-model1 <- train(truthful ~ . , data = ALL_train, method = "knn",
-               preProcess = c("center","scale"),
-               trControl = x,
-               metric = "ROC",
-               tuneLength = tunel)
-
-####
-
-tuned_parameters_lin <- tune.svm(truthful ~ ., data = ALL_train, cost = 10^(-3:1), kernel = "linear")
-tuned_parameters_rad <- tune.svm(truthful ~ ., data = ALL_train, gamma = 10^(-5:-1), cost = 10^(-3:1), kernel = "radial")
-tuned_parameters_poly <- tune.svm(truthful ~ ., data = ALL_train, gamma = 10^(-5:-1), cost = 10^(-3:1), kernel = "poly")
-tuned_parameters_sig <- tune.svm(truthful ~ ., data = ALL_train, gamma = 10^(-5:-1), cost = 10^(-3:1), kernel = "sigmoid")
-?svm
+# tuned_parameters_lin <- tune.svm(truthful ~ ., data = ALL_train, cost = 10^(-3:1), kernel = "linear")
+# tuned_parameters_rad <- tune.svm(truthful ~ ., data = ALL_train, gamma = 10^(-5:-1), cost = 10^(-3:1), kernel = "radial")
+# tuned_parameters_poly <- tune.svm(truthful ~ ., data = ALL_train, gamma = 10^(-5:-1), cost = 10^(-3:1), kernel = "poly")
+# tuned_parameters_sig <- tune.svm(truthful ~ ., data = ALL_train, gamma = 10^(-5:-1), cost = 10^(-3:1), kernel = "sigmoid")
+# ?svm
 
 
 
@@ -540,7 +519,6 @@ tuned_parameters_sig <- tune.svm(truthful ~ ., data = ALL_train, gamma = 10^(-5:
 
 cl <- makeCluster(detectCores())
 registerDoSNOW(cl)
-?svm
 
 ## Linear
 
@@ -564,22 +542,20 @@ mean(svm.pred_rb_all == ALL_test$truthful)
 # G = 0.001, C = 2.5 --> 0.5845894
 # 0.001, 3, 0.5757853
 # 0.001, 3, 0.5786026
-svm.model_sig_all <- parallelSVM(truthful ~ . , data = ALL_train, numberCores = detectCores(), type = "C-classification", kernel = "sigmoid", cost = 2, gamma = 0.001, scale = FALSE)
+# 0,003, 3, 0.5814199
+# 0.003, 2.5, 0.5838851
+# 0.001, 3, 0.5864206
+
+
+svm.model_sig_all <- parallelSVM(truthful ~ . , data = ALL_train, numberCores = detectCores(), type = "C-classification", kernel = "sigmoid", cost = 3, gamma = 0.001, scale = FALSE)
 svm.pred_sig_all <- predict(svm.model_sig_all, ALL_test[,-c(36)])
 summary(svm.model_sig_all)
 table(svm.pred_sig_all, ALL_test$truthful)
 mean(svm.pred_sig_all == ALL_test$truthful)
 
 
-
-
-
-
-
-
-
-
 ```
+
 
 NN
 ```{r}
