@@ -179,16 +179,34 @@ Classifying with Random Forest gave me 58,42\% accuracy on the test set, which i
 To approach classification with an SVM we tried both linear, radial and sigmoid kernel.
 
 %todo: specify how much is C and gamma
-The cost $c$ and $\gamma$ parameter were found using a tuning function that performs a grid search over the combinations of cost and gamma for all kinds of kernels, and then by empirically changing the values to see if better results could be achieved. $\gamma$ varied from $10^{-5}$ to $10^{-1}$ and \textit{c} from $10^{-3}$ to $10^2$. 
+The cost $c$ and $\gamma$ parameter were found using a tuning function that performs a grid search over the combinations of cost and gamma for all the kinds of kernels we used, and then by empirically changing the values to see if better results could be achieved. 
 
-After the grid search I did some experimental changes and found that the best parameters fo were $C = 1$ and $\gamma = 0.04$
+In the tuning function $\gamma$ varied from $10^{-5}$ to $10^{-1}$ and \textit{c} from $10^{-3}$ to $10^2$. 
+
+After the grid search I did some experimental changes and found empirically that the best parameters for the linear kernel were $C = 1$ and $\gamma = 0.04$
 
 The results for classifying with a linear kernel are 67\% accuracy on the test set (to be precise 66.99394), which is a good starting result, while the radial kernel performed worse at around 61\% accuracy.
 
-The best scoring kernel was actually the sigmoid kernel, giving us 68,64206\% accuracy when predicting the test set.
+The best scoring kernel was actually the sigmoid kernel, giving us 68,64206\% accuracy when predicting the test set, by setting $\gamma  = 0.001$ and $C = 3$.
 
 \clearpage
 
 %todo: do this
 \section{Results} \label{results}
-Using Support Vector Machine we were able to classify deceptive and truthful videos with an accuracy of 67\%.
+Using Support Vector Machine we were able to classify deceptive and truthful videos with an accuracy of 68,64\%.
+
+The table below shows a comparison of the results obtained using different machine learning algorithms, and different kernels for SVM.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|l|}
+		\hline
+		\textbf{Algorithm}  & \textbf{Accuracy} \\ \hline
+		Logistic Regression & 54.86             \\ \hline
+		Random Forest       & 58,42             \\ \hline
+		SVM - Radial        & 61,56             \\ \hline
+		SVM - Linear        & 66,99             \\ \hline
+		SVM - Sigmoid       & 68,64             \\ \hline
+	\end{tabular}
+	\caption{My caption}
+\end{table}
