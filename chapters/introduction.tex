@@ -1,15 +1,15 @@
-In this chapter we give an overview of the work (Par. \ref{overview}). We start examining how people perform at detecting lies in order to have a comparison with methods other methods (Par. \ref{pplLieDet}). \\
+In this chapter we give an overview of the work (Par. \ref{overview}). We start examining how people perform at detecting lies in order to have a comparison with other methods (Par. \ref{pplLieDet}). \\
 We then present a taxonomy of the current state of the art (Par. \ref{sota}) concerning lie detection with particular emphasis on computer vision. \\
 The last section is about the structure of the rest of the thesis, and our contribution to the field of deception detection (Par. \ref{contrib}).
 
 \section{Overview of the work} \label{overview}
 Deception detection has always been a very interesting topic since it has numerous social and psychological implications in many different fields. In the past 40 years there has been a steady increase in researchers interested in studying deceptive behavior, first from a sociological and psychological point of view, and in more recent years from a technological standpoint, aided by the advance of machine learning techniques, especially in the field of Computer Vision, an interdisciplinary field that aims to simulate the human visual system to automatically comprehend images or videos.
 
-Our work aims to recognize whether a person is lying or telling the truth by performing a frame by frame analysis on a database of videos with the goal of extracting a set of the different facial movements performed by the person in the video. After finishing the extraction, the data is submitted to analysis by using statistical and machine learning techniques.
+Our work aims to recognize whether a person is lying or telling the truth by performing a frame by frame analysis on a database of videos, with the goal of extracting a set of the different facial movements performed by the person in the video. After finishing the extraction, the data is submitted to analysis by using statistical and machine learning techniques.
 
-The dataset we are using was provided by Perez-Rosas et al. \cite{Perez-Rosas:2015:DDU:2818346.2820758} and is composed by 121 videos taken from real life trials (Par. \ref{rldb}). Since those videos are taken from real life events, the illumination, pose, audio and video features are not homogeneous and often substandard. Substantial work was done to eliminate the parts that are not relevant, and as result many videos were trimmed or discarded.
+The dataset we are using was provided by Perez-Rosas et al. \cite{Perez-Rosas:2015:DDU:2818346.2820758} and is composed by 121 videos taken from real life trials and uploaded on YouYube (Par. \ref{rldb}). Since those videos are taken from real life events, the illumination, pose, audio and video features are not homogeneous and often substandard. Substantial work was done to eliminate the parts that are not relevant, and as result many videos were trimmed or discarded.
 
-After trimming and cleaning the videos, we split the data into two sets based on the subject ID and extracted all the facial movements. Then we utilized machine learning and statistical techniques to understand if the person in the video was lying based on the results of analyzing each frame.
+After trimming and cleaning the videos, we split the data into two sets (train and test) based on the subject ID and extracted all the facial movements. Then we utilized machine learning and statistical approaches to understand if the person in the video was lying, based on the results of analyzing each frame.
 
 The result of this work, especially when improved by having a better and larger dataset, can be useful in different situations, even though it is important to remember that privacy is a real concern, and with this kind of applications it should never be underestimated.
 
