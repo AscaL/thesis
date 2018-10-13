@@ -1,4 +1,4 @@
-In this chapter we will give a brief introduction of Machine Learning (\ref{ml}), explaining Classification (\ref{classification}), Regression (\ref{regression}) and Supervised learning (\ref{supervised}), proceeding then to explain different techniques such as Random Forests \ref{random_forest} and SVM (\ref{svm}), which is the most important technique used for this thesis.
+In this chapter we will give a brief introduction of Machine Learning (\ref{ml}), explaining Classification (\ref{classification}), Regression (\ref{regression}) and Supervised learning (\ref{supervised}), proceeding then to explain different techniques such as Random Forests (\ref{random_forest}) and SVM (\ref{svm}), which is the most important technique used for this thesis.
 
 \section{Machine Learning Introduction} \label{ml}
 
@@ -12,18 +12,24 @@ Machine Learning is a subfield of Artificial Intelligence that uses statistical 
 
 The applications for machine learning are huge and diverse, and range from character recognition to email filtering, with lots of applications in computer vision, such as image recognition and classification.
 
-Machine learning also focuses on making prediction on data, by utilizing techniques taken from statistics  mathematical optimization. This has many applications, ranging from health care by predicting risk factors for diseases or gaining insights for prevention, to sports or politics where actual results can be predicted.
+Machine learning also focuses on making prediction on data, by utilizing techniques taken from statistics and mathematical optimization. This has many applications, ranging from health care by predicting risk factors for diseases or gaining insights for prevention, to sports or politics where actual results of games or elections can be predicted.
 
 The field of machine learning is subdivided in two broad categories (Fig. \ref{fig:ml_mldiv}), supervised learning (\ref{supervised}) and unsupervised learning (\ref{unsupervised}) based on whether the data is labeled or not.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{ml_mldiv}
+	\includegraphics[width=1\textwidth]{ml_mldiv}
 	\caption{Machine Learning Subfields \cite{ml_mldiv}}
 	\label{fig:ml_mldiv}
 \end{figure}
 
-Another classification is based on the kind of output that the users wish to obtain, mainly Classification (\ref{classification}), Regression (\ref{regression}) or Clustering.
+%todo: write better i think
+Another subdivision of machine learning is based on the kind of output that the users wish to obtain, and the categories are:
+\begin{enumerate}[noitemsep]
+	\item \textbf{Classification} (\ref{classification}) for predicting a discrete class label for a new example data.
+	\item \textbf{Regression} (\ref{regression}) to predict a continuous quantity.
+	\item \textbf{Clustering} to group similar but unlabeled data.
+\end{enumerate}
 
 \subsection{Supervised Learning} \label{supervised}
 When using supervised learning we want to learn a function that maps an input to an output, based on example input-output pairs \cite{ai_sup}. \\
@@ -35,7 +41,7 @@ The general steps to solve a supervised learning problem are (Fig. \ref{fig:sup_
 	\item Gathering a training set.
 	\item Model the training set to be fed as input to the algorithm by choosing which features to use and how to represent the data.
 	\item Choose what kind of algorithm can best train the model.
-	\item Run the algorithm and evaluate the resulting accuracy on the test set 
+	\item Run the algorithm and evaluate the resulting accuracy on the test set.
 \end{enumerate}
 
 \begin{figure}[H]
@@ -47,6 +53,23 @@ The general steps to solve a supervised learning problem are (Fig. \ref{fig:sup_
 
 There are important considerations to make when using a supervised learning approach:
 \begin{itemize}
+	\item \textbf{Bias-Variance Tradeoff} \cite{biasvar}: \\	
+	Suppose we have many different (but equally good) training sets: \\
+	an algorithm is biased for input $x$ if, when trained on each of these data sets, it is consistently inaccurate at predicting the correct output for $x$. \\
+	A high bias indicates that the data points tend to be very close to the mean, and to each other.
+	
+	A learning algorithm has high variance for a particular input $x$ if it predicts output values that are correct on average but inconsistent when trained on different training sets. \\
+	Basically, a high variance indicates that the data points are very spread out from the mean, and from one another (Fig. \ref{fig:biasvar}).
+	
+	The prediction error of a classifier is related to the sum of bias and variance, so generally there is a tradeoff between them. Low bias means that it fits the new data well, but if the bias is too low it will fit each training set differently and so result in high variance.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.75\textwidth]{biasvar}
+		\caption{Example of Bias-Variance Tradeoff \cite{biasvarTradeoff}}
+		\label{fig:biasvar}
+	\end{figure}	
+
 	\item \textbf{Dimensionality of Input} \cite{wiki:dim_red}:\\ 
 	When the input feature vectors are dimensionally very big there could be problems in learning the function, even if not all features contribute significantly to it. This happens because the data depends on too many variables and this could cause high variance. \\
 	To avoid this, it is important to reduce the number of features through manual removal or using feature selection algorithms such as Principal Component Analysis (PCA). This usually improves the accuracy of the classifier.
@@ -62,24 +85,7 @@ There are important considerations to make when using a supervised learning appr
 		\includegraphics[width=1\textwidth]{underfitting}
 		\caption{Example of overfitting and underfitting \cite{underfitting}}
 		\label{fig:underfitting}
-	\end{figure}	
-	
-	\item \textbf{Bias-Variance Tradeoff} \cite{biasvar}: \\	
-	Suppose we have many different (but equally good) training sets: \\
-	an algorithm is biased for input $x$ if, when trained on each of these data sets, it is consistently inaccurate at predicting the correct output for $x$. \\
-	A high bias indicates that the data points tend to be very close to the mean, and to each other.
-	
-	A learning algorithm has high variance for a particular input $x$ if it predicts output values that are correct on average but inconsistent when trained on different training sets. \\
-	Basically, a high variance indicates that the data points are very spread out from the mean, and from one another (Fig. \ref{fig:biasvar}).
-	
-	The prediction error of a classifier is related to the sum of bias and variance, so generally there is a tradeoff between them. Low bias means that it fits the new data well, but if the bias is too low it will fit each training set differently and so result in high variance.
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.60\textwidth]{biasvar}
-		\caption{Example of Bias-Variance Tradeoff \cite{biasvarTradeoff}}
-		\label{fig:biasvar}
-	\end{figure}	
+	\end{figure}
 \end{itemize}
 
 There are many algorithms used to perform supervised learning tasks, the most commonly used are:
@@ -101,7 +107,7 @@ Usually items are grouped by some measure of similarity, like for example in k-m
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.95\textwidth]{clustering}
+	\includegraphics[width=1\textwidth]{clustering}
 	\caption{Example of Unclustered and Clustered data \cite{kmeans}}
 	\label{fig:clustering}
 \end{figure}	
@@ -136,7 +142,7 @@ These are the most widely used unsupervised learning algorithms:
 \end{itemize}
 
 \subsection{Classification} \label{classification}
-In machine learning, classification is the problem of identifying in which of a set of categories a new observation belongs, based on a training set of data containing observations whose category is known in advance. A common example is classifying an email as spam or not \cite{wiki:classification}.
+In machine learning, classification is the problem of identifying in which of a set of categories a new observation belongs, based on a training set of data containing observations whose category is known in advance. A common example could be classifying an email as spam or not \cite{wiki:classification}.
 
 Classification is considered an instance of supervised learning, based on instances where a training set is available. As for unsupervised learning, classification would be clustering since it groups data into categories based on similarity, but without knowing the label of the data.
 
@@ -226,7 +232,7 @@ Linear regression is a linear approach to modeling the relationship between a de
 
 where $\varepsilon_i$ is the error for the i\textit{th} observation. The error is a catch-all for what we miss with this simple model, since it's very probable that the true relationship is not linear, and that there may be other variables that influence $y$ \cite{ISLR}.
 
-The point of LR is to estimate the $\beta$ coefficients to make predictions. To do so, we utilize of the training dataset to produce estimates $\widehat{\beta_0}$ and $\widehat{\beta_1}$ for the model coefficients. We can then make predictions by computing:
+The aim of LR is to estimate the $\beta$ coefficients to make predictions. To do so, we utilize of the training dataset to produce estimates $\widehat{\beta_0}$ and $\widehat{\beta_1}$ for the model coefficients. We can then make predictions by computing:
 \begin{equation}
 	\widehat{y_i} \approx \widehat{\beta_0} + {\widehat{\beta_1}x_i}
 \end{equation}
@@ -285,11 +291,11 @@ where $x_{ij}$ is the i-th observation on the j-th independent variable.
 
 \section{Logistic Regression} \label{logreg}
 In regression analysis, logistic regression is a method for estimating the parameters of a logistic model. A logistic model is one where the log-odds of the probability of an event is a linear combination of independent or predictor variables. \\
-The two possible dependent variable values are often labeled as "0" and "1", "true" or "false", "pass" or "fail" etc, and they represent binary outcomes (Fig. \ref{fig:logistic_exam}). \\
+The two possible dependent variable's values are often labeled as "0" and "1", "true" or "false", "pass" or "fail" etc, and they represent binary outcomes (Fig. \ref{fig:logistic_exam}). \\
 It's possible to generalize the binary logistic regression model to more than two levels (outcomes) of the dependent variable \cite{wiki:logisticreg}.
 
 The binary logistic model works by estimating the probability of a binary response based on one or more predictor variables.\\
-With logistic regression is possible to say how much that the presence of a risk factor increases the odds of a given outcome. \\
+By using logistic regression is possible to say how much that the presence of a risk factor increases the odds of a given outcome. \\
 The model itself simply calculates the probability of output in terms of input, and it is not specifically a classifier, but it can be used to classify data by choosing a threshold value, for example if the probability is $\ge 50\%$ the class is "1" otherwise is "0".
 
 \begin{figure}[H]
@@ -340,7 +346,7 @@ This can be achieved by using the likelihood function:
 \end{equation} 
 
 The estimates $\hat{\beta_{0}}$ and $\hat{\beta_{1}}$ are chosen to maximize this likelihood function.\\
-Maximum likelihood is a very general approach that is used to fit many of the non-linear models. For example in linear regression (Ch. \ref{lin_reg}), the least squares approach is a special case of maximum likelihood.
+Maximum likelihood is a very general approach that is used to fit many of the non-linear models. For example in linear regression (par. \ref{lin_reg}), the least squares approach is a special case of maximum likelihood.
 
 Once the coefficient have been estimated is pretty simple to compute the probability:
 \begin{equation}
@@ -384,7 +390,7 @@ The arcs of a tree's node labeled with input features are labeled with the possi
 	\item A leaf labeled with the resulting class (or a probability).
 \end{itemize}
 
-A tree can be learned by dividing the training set into subsets based on the values of the attributes. This is done recursively until a node has all the same value of the target variable, or splitting stopped aiding the predictions.
+A tree can be learned by dividing the training set into subsets based on the values of the attributes. This is done recursively until a node has all the same value of the target variable, or when splitting stopped aiding the prediction's result.
 
 Decision trees, however, are often inaccurate. Specifically, by growing trees very deep, they tend to learn highly irregular patterns by overfitting to the training set (i.e. have low bias, but very high variance). 
 
@@ -395,14 +401,14 @@ This comes at the expense of a small increase in the bias and some loss of inter
 Given a set of $n$ independent observations $X_1, \dots, X_n$, each with variance $\sigma^2$, the variance of the mean $\overline{X}$ of the observations is given by $\sigma^2/n$. \\
 This means that averaging a set of observations reduces the variance. So to reduce the variance we can take many training sets from the population, build a prediction model using each training set, and average the resulting predictions. 
 
-Basically we could calculate $\hat{f}^1(x), \hat{f}^2(x), \dots, \hat{f}^B(x)$ using B separate training sets, and average them in order to obtain a single model with low-variance \cite{ISLR}.
+Basically we could calculate $\hat{f}^1(x), \hat{f}^2(x), \dots, \hat{f}^B(x)$ using B separate training sets, and then average them in order to obtain a single model with lower variance \cite{ISLR}.
 
 This solution is not practical since we normally lack more than one training set. \\
 Instead we utilize \textit{bagging}: we can take repeated samples from the training set in order to generate B different bootstrapped training sets. We then train our method on the b\textit{th} bootstrapped training set, and then average the resulting predictions.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.85\textwidth]{bagging}
+	\includegraphics[width=1\textwidth]{bagging}
 	\caption{Bagging Example \cite{bagging}}
 	\label{fig:bagging}
 \end{figure}
@@ -410,7 +416,7 @@ Instead we utilize \textit{bagging}: we can take repeated samples from the train
 To apply bagging to regression trees specifically, we simply construct B regression trees using B bootstrapped training sets, and average the resulting predictions. These trees are grown deep, and are not pruned. Hence each individual tree has high variance, but low bias. Averaging these B trees reduces the variance \cite{ISLR}.
 
 If we are using Random Forests for classification (like in this thesis), the simplest approach is the following: \\
-Given test observation, we record the class predicted by each of the $B$ trees, and take a majority vote: the final prediction is the most frequent class among the $B$ predictions.
+Given a test observation, we record the class predicted by each of the $B$ trees, and take a majority vote: the final prediction is the most frequent class among the $B$ predictions.
 
 More formally, given a training set $X = x_1, \dots, x_n$ with responses $Y = y_1, \dots, y_n$, bagging $B$ times selects a random sample with replacement of the training set and fits trees to these samples \cite{wiki:randomforest}:
 
@@ -443,7 +449,7 @@ Additionally, an estimate of the uncertainty of the prediction can be made as th
 \end{equation}
 
 The number of samples/trees, B, is a free parameter. Typically, a few hundred to several thousand trees are used, depending on the size and nature of the training set. \\
-An optimal number of trees B can be found using cross-validation, or by observing the out-of-bag error: the mean prediction error on each training sample $x_i$, using only the trees that did not have $x_i$ in their bootstrap sample. \\
+An optimal number of trees B can be found using cross-validation, or by observing the out-of-bag error (\ref{oob}): the mean prediction error on each training sample $x_i$, using only the trees that did not have $x_i$ in their bootstrap sample. \\
 The training and test error tend to level off after some number of trees have been fit \cite{ISLR}.
 
 \subsubsection{From Bagging to Random Forests}
@@ -461,7 +467,7 @@ By forcing each split to consider only $m$ predictors, on average $(p - m)/p$ of
 	\label{fig:RF}
 \end{figure}
 
-\subsubsection{Out of bag Error}
+\subsubsection{Out of bag Error} \label{oob}
 There is a very direct way to estimate the test error of a bagged model: \\
 on average, we use $2/3$ of the observations to fit a bagged tree. The remaining $1/3$ that are not utilized are called the out-of-bag (OOB) observations. 
 

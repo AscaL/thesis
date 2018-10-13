@@ -26,7 +26,7 @@ An important reason is that people generally think it is easy to spot liars, und
 In a study by Baker et al.  \cite{EmotionallyIntelligent} 116 participants were asked to judge 20 videos of people pleading for the safe return of missing family members, half of which were lies where the pleader was the one responsible for the disappearance of the victim. The participants provided confidence ratings, the cues they utilized to make their judgment, and their emotional response to each video.\\
 Weirdly, emotionally intelligent people perform worse at deception detection. This is due to their greater sympathetic feelings towards others (enhanced gullibility) that can often cloud their judgment.
 
-In \cite{BondDePauloAccuracy} De Paulo et al. analyze the accuracy of deception judgments from a collection of 206 documents and 24.483 judges. They found that people can differentiate lies and truths with an accuracy of 54\%, with a lie detection accuracy of 47\% and a truth detection accuracy of 61\%. Interestingly, their findings reveal that is easier for people to discriminate lies from the audio cues rather than the visual ones.
+In \cite{BondDePauloAccuracy} De Paulo et al. analyze the accuracy of deception judgments from a collection of 206 documents and 24.483 judges. They found that people can differentiate lies and truths with an accuracy of 54\%, with a lie detection accuracy of 47\% and a truth detection accuracy of 61\%. Interestingly, their findings reveal that is easier for people to discriminate between lies and truths from the audio cues rather than the visual ones.
 
 In another study \cite{HartwigGranhag} 192 students obtained an accuracy of 55.2\% on lie detection, with 61\% accuracy for guilty suspects and 49\% for innocent ones.\\
 Police officers and other trained officials seems to perform better than the average person at detecting lies  \cite{VrijPoliceDetect}, obtaining around 70\% accuracy for distinguishing both lies and truths correctly, supporting the hypothesis that training and practice can make us better at spotting liars.
@@ -43,7 +43,7 @@ Police officers and other trained officials seems to perform better than the ave
 \section{State of the Art} \label{sota}
 How are lies detected? At the moment there are a lot of different instruments and technologies to attempt to detect deceit, ranging from analyzing psychological features, to using the polygraph or thermal cameras and machine learning approaches.
 
-In computer vision specifically, lie detection is a somewhat new field of research, and as such it's done using many different techniques, employing not only RGB cameras but also physical sensors and thermal cameras and using voice, gaze, action and body analysis tools, all of this often aided by machine learning techniques, and by combining many of these modalities together to achieve better results.
+In computer vision specifically, lie detection is a somewhat new field of research, and as such it's done using many different approaches, employing not only RGB cameras but also physical sensors and thermal cameras, and using voice, gaze, action and body analysis tools, all of this often aided by machine learning techniques, and by combining many of these modalities together to achieve better results.
 
 We now proceed to describe the state of the art, based on the latest researches done in the field, with specific focus on computer vision:
 
@@ -65,14 +65,14 @@ In sound processing, the mel-frequency cepstrum (MFC, Fig. \ref{fig:MFCC}) is a 
 \end{figure}
 
 In \cite{relidss} the authors created a new database by making 40 candidates try to deceive them while telling truthful or deceptive statements for about one to two minutes each. From this experiment they extracted MFCC and pitch, so that they could process them through Matlab's Voice Box. \\
-After acquiring the data, an SVM classifier was trained to classify new data, obtaining an accuracy of Lie and Truth detection from speech audio respectively of 88.23\% and 84.52\%.
+After acquiring the data, an SVM classifier was trained to classify new data, obtaining an accuracy of lie and truth detection from speech audio respectively of 88.23\% and 84.52\%.
 
-In \cite{Mihalcea:2013:ADD:2522848.2522888} Perez et al. utilize a dataset of 140 videos created by users who uploaded either truthful or deceptive statements. They collected the transcriptions from the videos both manually and via automatic speech recognition software. By using a bag-of-words representation of the transcripts they build a vocabulary, and to classify the data they employ a SVM and Naive Bayes classifier, achieving 73\% accuracy.
+In \cite{Mihalcea:2013:ADD:2522848.2522888} Perez et al. utilize a dataset of 140 videos created by users who uploaded either truthful or deceptive statements. They collected the transcriptions from the videos both manually and via automatic speech recognition software. By using a bag-of-words representation of the transcripts they build a vocabulary, and to classify the data they employed an SVM and Naive Bayes classifier, achieving 73\% accuracy.
 
 \clearpage
  
 \subsection{Eyes}
-Using the eyes to detect lies is one of the most studied approaches, as the eyes hold a significant amount of information regarding our thinking and emotional state \cite{FUKUDA2001239} (Fig \ref{fig:eye-lies}). We will focus our description on the Computer Vision approaches.
+Using the eyes to detect lies is one of the most studied approaches, as the eyes hold a significant amount of information regarding our thinking and emotional state \cite{FUKUDA2001239} (Fig \ref{fig:eye-lies}). We will focus our description on the Computer Vision approaches rather then psychological ones.
 
 % TODO: this pic has nothing to do with what is written here
 \begin{figure}[H]
@@ -82,16 +82,16 @@ Using the eyes to detect lies is one of the most studied approaches, as the eyes
 	\label{fig:eye-lies}
 \end{figure}
 
-An important advantage of using the eyes as a vehicle for deception detection is that it is possible to generate a non invasive approach while analyzing the eyes, meaning that subjects do not need to willingly participate or even know if they are being examined or not (the moral matter should be considered in another setting), and there could be no need to have huge and expensive machinery, like for example the polygraph or a fMRI machine.
+An important advantage of using the eyes as a vehicle for deception detection is that it is possible to generate a non invasive approach while analyzing them, meaning that subjects do not need to willingly participate or even know if they are being examined or not (the moral matter should be considered in another setting), and there could be no need to have huge and expensive machinery, like for example the polygraph or a fMRI machine (par. \ref{neuro}).
 
-Cognitive load, which is set to increase while lying, is one of the most significant factor for deception detection and can be analyzed through the eyes. Important are also the blink rate, gaze aversion and pupil dilation.
+Cognitive load, which is set to increase while lying, is one of the most significant factor for deception detection and can be analyzed through the eyes. Important factors are also blink rate, gaze aversion and pupil dilation.
 
-In \cite{8125844} the authors utilize high speed cameras to record and analyze blink count and blink duration of 50 subjects while asking 10 control questions, to see if there is a variation in them while the subject is being questioned. The authors analyzed the resulting images frame by frame and based on the facial landmarks around the eye they recognize AU45, the action unit for blinking. The results shows that both blink duration and count are increased while lying.
+In \cite{8125844} the authors utilize high speed cameras to record and analyze blink count and blink duration of 50 subjects while asking 10 control questions, to see if there is a variation in them while the subject is being questioned. The authors analyzed the resulting images frame by frame and based on the facial landmarks around the eye they recognize AU45, the action unit (muscle movement) associated blinking. The results shows that both blink duration and count are increased while lying.
 
-In another study, Leal and Vrij \cite{Leal2008} asked 26 people, 13 liars and 13 truth tellers, to lie or tell the truth in a target period, while having a baseline from two preceding periods. The eye blinks during the target and baseline periods and directly after the target period (target offset period) were recorded.\\
+In another study, Leal and Vrij \cite{Leal2008} gathered 26 people, 13 liars and 13 truth tellers, to ask them to lie or tell the truth in a target period, while having a baseline from two preceding periods. The eye blinks during the target and baseline periods and directly after the target period (target offset period) were recorded.\\
 Compared to the baseline periods, lying subjects show a decrease in eye blinks during the target period and an increase in eye blinks during the target offset period. This means that there is a decrease in eye blinks while lying and an increase just after lying. This pattern resulted very different for truth tellers, showing that there is a significant difference in eye blink behavior between truthfulness and deception.
 
-Singh et al. in \cite{7324092} show that while lying there is an increase in cognitive load and a significant decrease in eye blinks, directly followed by an increase in blink rate as soon as the cognitive demand ceases, after telling the lie. A threshold is set by the authors for this study, either at 26 blinks per minute or it is calculated personally using the average blink rate from a blink detection algorithm. Blink detection is done through MATLAB using the HAAR Cascade algorithm.
+Singh et al. in \cite{7324092} show that while lying there is an increase in cognitive load and a significant decrease in eye blinks, directly followed by an increase in blink rate as soon as the cognitive demand ceases, after telling the lie. A threshold is set by the authors for this study, either at 26 blinks per minute or it is calculated ad personam using the average blink rate from a blink detection algorithm. Blink detection is done through MATLAB using the HAAR Cascade algorithm.
 
 Lim et al. study eye gaze \cite{Lim:2013:LTE:2535948.2535954} to investigate the relation with lie detection. The result supports the theory that an increase in cognitive load leads to a decrement in the number of eye movements while lying.
 
@@ -101,12 +101,12 @@ The remainder of the conversation is then broken into pieces and each piece is t
 In \cite{7165946} Proudfoot et al., using latent growth curve modeling, research how the pupil diameter changes over the course of an interaction with a deception detection system. The assumption is that anxiety changes the pupil diameter. The subjects are presented with crime-relevant target items (possibly incriminating) and non relevant items. \\
 The results indicate that the trends in the changes are indicative of deception during the interaction: pupil diameter is initially bigger for guilty subjects relative to innocent ones. Also the pupil diameter of the participants decreased between subsequent sections of the test, specifically the magnitude of the decrease was greater for guilty subjects who did not see incriminating items.
 
-\subsection{Neuroscience}
-Electroencephalogram (EEG) and functional Magnetic Resonance Imaging (fMRI) have been employed for lie detection with good results for a long time, but at the cost of invasiveness, since both methods require big machinery, a suitable environment, and a subject willing to participate.
+\subsection{Neuroscience} \label{neuro}
+Electroencephalogram (EEG) and functional Magnetic Resonance Imaging (fMRI) have been employed for lie detection with decent results for a long time, but at the cost of invasiveness, since both methods require big machinery, a suitable environment, and subjects willing to participate by having electrodes and other monitoring tools attached to their head and body.
 
 EEG is a monitoring method that records brain activities based on its potential.
 
-In \cite{7440177} Simbolon et al, use Event Related Potentials (ERP) to measure brain response directly from thought or perception. Among the many types of signals that constitute the ERP signal, P300 (Fig. \ref{fig:EEG}) is the most critical for lie detection, as it appears as a response to meaningful rare stimuli (called odd ball stimuli). \\
+In \cite{7440177} Simbolon et al, the authors use Event Related Potentials (ERP) to measure brain response directly from thought or perception. Among the many types of signals that constitute the ERP signal, P300 (Fig. \ref{fig:EEG}) is the most critical for lie detection, as it appears as a response to meaningful rare stimuli (called odd ball stimuli). \\
 Eleven males of age between 20 and 27 took part in the study. The gathered data were then divided into training and test sets to produce different models. The highest accuracy of 70.83\% was reached by a SVM classifier in detecting lying subjects.
 
 \begin{figure}[H]
@@ -116,10 +116,10 @@ Eleven males of age between 20 and 27 took part in the study. The gathered data 
 	\label{fig:EEG}
 \end{figure}
 
-In \cite{Lai2017} twenty people of ages between 22 and 24 years old were subject to a card test using an EEG machine. EEG signals were collected using electrodes attached to the subject’s head. The authors used the EEG signals to identify useful frequency bands and to measure lying state based on spectral analysis, with the use of fuzzy reasoning, obtaining 89.5\% detection accuracy.
+In the study performed in \cite{Lai2017} twenty people of ages between 22 and 24 years old were subject to a card test using an EEG machine. EEG signals were collected using electrodes attached to the subject’s head. The authors used the EEG signals to identify useful frequency bands and to measure the lying state based on spectral analysis, with the use of fuzzy reasoning, obtaining 89.5\% detection accuracy.
 
-Arasteh et al. \cite{7511728} utilize an alternative approach to the polygraph, the P300 Guilty Knowledge Test (GTK). GTK is based on the amplitude of P300 ERP wave as an index for the subject's recognition of concealed information. The Guilty Knowledge Test works on the assumption that among many similar unfamiliar topics, the recognition of familiar ones will be followed by a different response. \\
-62 subjects were part of this experiment and participated in a mock crime followed by the P300 GTK. The authors used empirical mode decomposition (EMD) to extract features from the EEG signal and modeled them trough matlab. A genetic algorithm was then utilized for the feature selection and to handle the dimensionality increase of this approach. The classification accuracy of guilty and innocent subjects was 92.73\%.
+Arasteh et al. \cite{7511728} utilize an alternative approach to the polygraph, the P300 Guilty Knowledge Test (GTK). GTK is based on the amplitudes of the P300 ERP wave as an index for the subject's recognition of concealed information. The Guilty Knowledge Test works on the assumption that among many similar unfamiliar topics, the recognition of familiar ones will be followed by a different response. \\
+62 subjects were part of this experiment and participated in a mock crime followed by the P300 Guilty Knowledge Test. The authors used empirical mode decomposition (EMD) to extract features from the EEG signal and modeled them trough matlab. A genetic algorithm was then utilized for the feature selection and to handle the dimensionality increase of this approach. The classification accuracy of guilty and innocent subjects was 92.73\%.
 
 Another neuro-scientific approach to lie detection is functional Magnetic Resonance Imaging (fMRI). fMRI measures brain activity by detecting changes associated with blood flow (Fig. \ref{fig:fMRI}). This technique relies on the fact that cerebral blood flow and neuronal activation are coupled. When an area of the brain is in use, blood flow to that region also increases \cite{WikifMRI}.
 
@@ -146,9 +146,8 @@ In thermal imaging, thermal features are extracted from the face using a high de
 According to a recent study \cite{Abouelenien:2015:TAD:2823465.2823470} examining 30 subjects, the most relevant zones for deception detection, seen by utilizing thermal equipment, and located in the facial area are the forehead and periorbital regions. \\
 In this study the subjects were registered with a thermal camera for one minute to extract the baseline features, and after that the interviewers asked a series of questions. A thermal map was created from the registrations using the Hue Saturation Value to differentiate between lies and truths.
 
-In \cite{Rajoub} the authors set up an experiment to collect 492 responses from 25 participants, using a deception scenario requiring the subjects to learn a story, provided by the authors, and practice their stories before hand by giving them sample questions, so that the cognitive load would increase when receiving new and unseen questions during the interview.
-
-At the beginning of the interview four baseline questions were asked to register the initial thermal state of the subjects, and then a series of questions were asked, with answers both present and missing from the provided story. After extracting the periorbital region's thermal variation, a k-nearest neighbor classifier was used, with an 87\% accuracy in predicting lies or truths.
+In \cite{Rajoub} the authors set up an experiment to collect 492 responses from 25 participants, using a deception scenario requiring the subjects to learn a story, provided by the authors, and practice their stories before an interview by giving them sample questions, so that the cognitive load would increase when receiving new and unseen questions during the interview process.\\ 
+At the beginning of the interview four baseline questions were asked to register the initial thermal state of the subjects, and then a series of questions were proposed, with answers both present and missing from the previously provided story. After extracting the periorbital region's thermal variation, a k-nearest neighbor classifier was used, with an 87\% accuracy in predicting lies or truths.
 
 In \cite{6967765} data are gathered non-intrusively from the nostril and periorbital regions using two dimensional far infrared cameras. The study lasted for two years and covered 18 tests subjects involved in real crime cases. The temperature is extracted and converted in change in blood flow velocity, and a signature of the respiration pattern is determined in terms of the ratio of the measured maximum and minimum temperatures in the nostril area. The classification rate for this study is 88.5\%.
 
@@ -156,15 +155,17 @@ In \cite{6967765} data are gathered non-intrusively from the nostril and periorb
 After seeing all these different techniques to detect lies, it's only natural for researchers to try and fuse or aggregate some of them to see if it's possible to achieve better results \cite{Abouelenien:2014:DDU:2663204.2663229}.
 
 In \cite{Abouelenien:2016:ATV:2910674.2910682} Abouelenien et al. collect data from a dataset of 30 subjects to examine thermal and visual clues of deception. Their aim is to identify the regions that offer higher capability of detecting deceit. \\
-The method employed uses the CERT (Computer Expression Recognition Toolbox) to detect facial expression and encodes them through Action Units, a way to codify almost any kind of muscle movements on the face. \\
-To extract thermal features they create a thermal map using gray-scale and Hue Saturation Value. They also calculated normalized blinking rates and the mean head orientation angle along the entire length of the response. In addiction over 60 physiological features are extracted and stored with the use of sensors and other RGB cameras. The experimental results show that the non-contact feature fusion model outperforms traditional physiological measurements, and that the forehead region is one of the most promising areas to gather information for deception detection using thermal imaging.
+The method employed uses the CERT (Computer Expression Recognition Toolbox) to detect facial expression and encodes them through Action Units (explained in greater detail in par. \ref{au}), a way to codify almost any kind of muscle movements on the face. \\
+To extract thermal features they create a thermal map using gray-scale and Hue Saturation Value. They also calculated normalized blinking rates and the mean head orientation angle. In addition, over 60 physiological features are extracted and stored with the use of other sensors and RGB cameras. \\
+The experimental results show that the non-contact feature fusion model outperforms traditional physiological measurements, and that the forehead region is one of the most promising areas to gather information for deception detection using thermal imaging.
 
-In a following paper \cite{7782429} Abouelenien et al. explore a multimodal deception detection approach comprised of physiological, linguistic, and thermal features on a new dataset of 149 recordings. They set out to determine which is the most discriminative region of the face to differentiate between truth and lies based on thermal imaging, and perform feature analysis using a decision tree model. The results show that the forehead could be a better indicator of deceit than the periorbital area. The physiological features did not contribute very much, while the linguistic feature played a critical role, where self-referencing and exaggeration words where big indicators of deceit. The overall accuracy of the system is ~70\%.
+In a following paper \cite{7782429} Abouelenien et al. explore a multimodal deception detection approach comprised of physiological, linguistic, and thermal features on a new dataset of 149 recordings. They set out to determine which is the most discriminative region of the face to differentiate between truth and lies based on thermal imaging, and perform feature analysis using a decision tree model. The results show that the forehead could be a better indicator of deceit than the periorbital area. The physiological features did not contribute very much, while the linguistic feature played a critical role, where self-referencing and exaggeration words where the majors indicators of deceit. The overall accuracy of the system is 70\%.
 
 Another example of multimodal detection is found in \cite{DBLP:journals/corr/abs-1712-04415} where Wu et al. develop a framework to automatically detect deception in videos of trials. They utilize three modalities: vision, audio and text. For vision, they employ various classifiers trained on low level video features to predict human micro-expressions, and to successively predict deception. Interestingly, IDT (Improved Dense Trajectory) features, often used to recognize actions in videos, are good predictors of deceptive behavior. \\
 The authors decided to fuse the score of the classifiers on IDT and micro-expressions to boost the performance. Regarding text, the transcript of the considered videos are analyzed, but the performance increase is very marginal. \\
 For speech, they integrated the vision side with Mel Frequency Cepstral Coefficient (MFCC) features analysis from the audio, boosting the performances significantly, reaching an AUC of 0.877. 
 
+%todo: is this useless?
 Noje et al. \cite{7367432} set up a study with ten subjects to observe the potential of head movements in lie detection. They built an application to detect head movement and position by performing a frame to frame analysis on a video stream. A correlation was made between head movement/position and the identification of lies. The results of the study are not concluding as this data can't be utilized without being incorporated with other modalities such as voice, gaze, words, expressions et cetera.
 
 In \cite{Perez-Rosas:2015:DDU:2818346.2820758} Perez et al. utilize real life trial videos to identify deception, employing a model that extracts features from both linguistic and gesture modalities. The verbal features consist of unigrams and bigrams derived from the bag-of-words representation of the video transcripts, while gesture features are taken from the annotations performed using the MUMIN coding scheme, where each feature indicates the presence of a gesture only if it's present in the majority of the video. Using Decision Trees and Random Forest classifiers they achieve between 60\% and 75\% accuracy.
@@ -178,7 +179,7 @@ In \cite{Perez-Rosas:2015:DDU:2818346.2820758} Perez et al. utilize real life tr
 \subsection{Facial Expression and Micro-Expressions}
 Facial Expressions are one of the main methods that we use to express our emotions, and are developed since the first months of our life to help us communicate our feelings to others. But what happens when we want to hide our emotions instead? 
 
-Facial micro-expressions are very fast (1/2 to 1/25 of a second) and involuntary expressions that come up on the human face when we are trying to suppress or hide an emotion, and are very difficult to control using just one's willpower \cite{EkmanER}.
+Facial micro-expressions are very fast (from 1/2 to 1/25 of a second) and involuntary expressions that come up on the human face when we are trying to suppress or hide an emotion, and are very difficult to control using just one's willpower \cite{EkmanER}.
 
 \begin{figure}[H]
 	\centering
@@ -186,13 +187,13 @@ Facial micro-expressions are very fast (1/2 to 1/25 of a second) and involuntary
 	\caption{Six basic Facial Expressions in adults and children \cite{baby_fe}.}
 \end{figure}
 
-Studying and classifying micro-expression is very valuable and has many applications, especially in psychology and forensic sciences, but it is a hard feat as the duration is very short and the intensity is low.\\ 
+Studying and classifying micro-expression is very valuable and has many applications, especially in psychology and forensic sciences, but it is a hard feat as the duration is very short and the intensity is generally very low low.\\ 
 Micro-expressions have been studied since 1966 to recognize and distinguish real or fake emotions, initially by Haggard and Isaacs \cite{Haggard}, and three years later by Ekman and Frisen \cite{EkmanLeakage}.
 
-Substantial work on Micro-Expressions has been done by Pfister, Li et al. In \cite{pfister2011micro} they collaborated with psychologists to design an induced emotion suppression experiment. The data was collected with a high speed camera to be able to register the micro expressions of the subjects. A Temporal interpolation model was used to counter the shortness of the video length, while multiple kernel learning, random forest and SVM were used to classify micro expressions reaching an accuracy of 71.4\%.
+Substantial work on Micro-Expressions has been done in recent years by Pfister, Li et al. In \cite{pfister2011micro} they collaborated with psychologists to design an induced emotion suppression experiment. The data was collected with a high speed camera to be able to register the micro expressions of the subjects. A Temporal interpolation model was used to counter the shortness of the video length, while multiple kernel learning, random forest and SVM were used to classify micro expressions reaching an accuracy of 71.4\%.
 
 The lack of a big and well formed database was one of the biggest hindrance to their research. To solve this problem in \cite{xli2012spontaneous} they reveal a new dataset, the Spontaneous Micro-expression Database (SMIC), which includes 164 micro-expression video clips taken from a group of 20 participants.\\
-They used two high speed cameras to record the face of the subjects while they were watching a selection of videos that induced strong emotional response, and they had to try and suppress those emotions. After the video the subjects had to answer about the emotions they felt while watching it. The data were then segmented and labeled by two annotators.
+They used two high speed cameras to record the face of the subjects while they were watching a selection of videos that induced strong emotional responses, and they had to try and suppress those emotions. After the video the subjects had to answer about the emotions they felt while watching it. The data were then segmented and labeled by two annotators.
 
 A study of spontaneous micro expression spotting and recognition methods was done in \cite{xli2015reading}. A new training-free method, based on feature difference contrast for recognizing micro-expressions was presented. The features are extracted from the video using Local Binary Pattern (LBP) and Histogram of Optical Flow. \\
 To recognize the Micro expressions, the authors performed face alignment and temporal interpolation, then trained an SVM classifier. \\
@@ -248,26 +249,25 @@ The output of LSTMs and CNNs are then fused together to predict 12 AUs on a fram
 De la Torre et al. \cite{AU_STM} \cite{AU_STM2} tackle this problem by personalizing a generic classifier without requiring additional labels for the test subject (unsupervised). They use a transductive learning method, referred as Selective Transfer Machine (STM), that personalizes a generic classifier by attenuating people specific biases. This is done by  learning a classifier and re-weighting the training samples most relevant to the subject. \\
 The performance of STM were compared to generic classifiers and cross-domain learning methods and evaluated on CK+ \cite{CK+}, GEMEP-FERA, RUFACS and GFT dataset, and STM is shown to outperform the generic classifiers on all datasets.
 
-Although there has been a lot of progress during the years, there is still a lot of work to be done regarding AUs, since many approaches to automatic facial AU detection fail to account for individual difference in morphology and behavior for the target person. This is a hard problem because it's difficult for classifiers to generalize to very different subjects, and training a person-specific classifier is neither feasible (very low training data) nor has particular theoretical interest. 
+Although there has been a lot of progress during the years, there is still a lot of work to be done regarding AUs, since many approaches to automatic facial AU detection fail to account for individual difference in morphology and behavior for the target person. This is a hard problem because it's difficult for classifiers to generalize to very different subjects, and training a person-specific classifier is neither feasible (very low training data) nor there is particular theoretical interest in the research community. 
 
 \clearpage
 
 \section{Contributions and Outline} \label{contrib}
 
 \subsection{Contribution}
-The human face holds many clues to recognize emotions and to discern truth and lies. Human emotions can be recognized mainly by the expressions we make when a situation arises, such as being scared or happy. Those expressions are translated into movements of the muscles of the face. Building on this idea, the objective of this thesis is to classify if a person is lying or telling the truth based on the action units (muscular movements of the face) extracted from a video. 
+The human face holds many clues to recognize emotions and to discern truth and lies. Human emotions can be recognized mainly by the expressions we make when a situation arises, such as being scared, happy, confused angry and so on. Those expressions are represented by movements of the muscles of the face. Building on this idea, the objective of this thesis is to classify weather a person is lying or telling the truth based on the action units (muscular movements of the face) performed by the subjects and extracted from a video. 
 
 It is important to note that all the videos are taken from high stakes situations, specifically court trials, so that all the liars and truth tellers have a big incentive in lying or telling the truth, since the validity of many studies is questionable based on the fact that the emotions analyzed are posed (non spontaneous). 
 
-As far as we know this is the first time a study uses an SVM to classify between truth and lies in high stakes situations, using extracted action units.
+As far as we know this is the first time a study uses action units extracted from a video and processed through an SVM to classify between truth and lies in high stakes situations.
 
 \subsection{Outline}
 This thesis is composed by the following chapters:
 
 \begin{itemize}
-	\item \textbf{Chapter 2} is about Machine Learning. We will talk about classification, regression, supervised learning and some techniques such as Random Forest and SVM.
-	\item \textbf{Chapter 3} will describe the architecture of our work, explaining landmark detection, action unit intensity and presence estimation, and the process to discriminate between deception and honesty.
-	\item In \textbf{chapter 4} we discuss the dataset and explain the experimental procedure of training and testing a binary classifier for discerning truth and lies.
-	\item \textbf{Chapter 5} is where we discuss the results of this work.
-	\item In \textbf{chapter 6} we draw the conclusions, and future work is presented. 
+	\item \textbf{Chapter \ref{tit:ml}} is about Machine Learning. We will talk about classification, regression, supervised learning and some techniques such as Random Forest and SVM.
+	\item \textbf{Chapter \ref{tit:archi}} will describe the architecture of our work, explaining landmark detection, action unit intensity and presence estimation, and the process to discriminate between deception and honesty.
+	\item In \textbf{chapter \ref{tit:exp}} we discuss the dataset and explain the experimental procedure of training and testing a binary classifier for discerning truth and lies. We then proceed discuss the results of the work (par. \ref{results})
+	\item In \textbf{chapter \ref{tit:concl}} we draw the conclusions, and future work is presented. 
 \end{itemize}
