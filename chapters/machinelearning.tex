@@ -582,7 +582,7 @@ Equations \ref{eq:svm2} and \ref{eq:svm3} ensure that each observation is on the
 So $M$ represents the margin of our hyperplane, and the optimization problem chooses $\beta_0, \beta_1, \beta_2, \beta_3, \dots, \beta_p$ to maximize M and find the maximal margin hyperplane \cite{ISLR}.
 
 \subsection{Support Vector Classifier}
-Unfortunately this hyperplane does not necessarily exists (\ref{fig:svmnotsep}), but we can extend this concept to find a hyperplane that almost separates the classes using a soft margin. This is really what an SVM does.
+Unfortunately this hyperplane does not necessarily exists (fig. \ref{fig:svmnotsep}), but we can extend this concept to find a hyperplane that almost separates the classes using a soft margin. This is really what an SVM does.
 
 \begin{figure}[H]
 	\centering
@@ -646,7 +646,7 @@ Based on the value of $\epsilon_i$ we can make some assumptions:
 $C$ determines the quantity and quality of the violations of the margin and hyperplane that is tolerable by our classifier, and is called \textit{cost}.
 \begin{itemize}[noitemsep]
 	\item If $C = 0$ then we cannot violate the margin, and $\epsilon_1 = \dots = \epsilon_n = 0$.
-	\item If $C > 0$ then $\le C$ observations ca be on the wrong side of the hyperplane.
+	\item If $C > 0$ then the observations $\le C$ can be on the wrong side of the hyperplane.
 \end{itemize} 
 
 When $C$ is small the margin is small and we have a classifier that is very fit to the data, with low bias and high variance. \\
@@ -699,7 +699,7 @@ or a radial kernel:
 %todo: add sigmoid kernel
 another example is the sigmoid kernel:
 \begin{equation} \label{eq:svm15}
-	K(x_i, x_i') = \exp(-\gamma\sum_{j=1}^{p} (x_{ij}, x_{i'j})^2), \quad \gamma \ge 0
+	K(x_i, x_i') = \tanh(-\gamma\sum_{j=1}^{p} (x_{ij}, x_{i'j})^2), \quad \gamma \ge 0
 \end{equation}
 
 We can visualize some of these kernels in fig. \ref{fig:kernels}

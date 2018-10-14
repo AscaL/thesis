@@ -1,7 +1,8 @@
 %TODO: obviously rewrite this
-In this section I will describe the stack used for this thesis and the experiments done to achieve our results: I will start by reviewing the configurations and libraries utilized (par. \ref{bb}), the database used to acquire training and test set (Par. \ref{rldb}), all the analysis done on the data (par. \ref{data_an}), and finally we discuss the results (par. \ref{results}).
+In this section I will describe the stack used for this thesis and the experiments done to achieve our results: I will start by reviewing the configurations and libraries utilized (par. \ref{bb}), the database used to acquire training and test set (par. \ref{rldb}), all the analysis done on the data (par. \ref{data_an}), and finally we will discuss the results of this work (par. \ref{results}).
 
 \section{Building Blocks} \label{bb}
+%TODO: maybe expand this with something?
 To realize this work we used the following tools and libraries:
 \begin{itemize}
 	\item OpenFace: the library to train the models for face detection, landmark detection, feature extraction and action unit recognition.
@@ -53,12 +54,10 @@ Fig. \ref{fig:rldb_distrib} shows the frequency counts associated with the gestu
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{rldb_distrib}
-	%todo: change caption
-	\caption{Examples of images from the dataset videos. \cite{Perez-Rosas:2015:DDU:2818346.2820758}.}
+	\caption{Frequency of gestures annotated in the videos from the database. \cite{Perez-Rosas:2015:DDU:2818346.2820758}.}
 	\label{fig:rldb_distrib}
 \end{figure}
 
-%TODO: modification made by me to the DB 
 %TODO: rewrite tentative atm
 
 We modified this database in the following way:
@@ -133,7 +132,7 @@ Variables correlation is shown in figure \ref{fig:correlation_matrix}. When the 
 	\label{fig:correlation_matrix}
 \end{figure}
 
-%todo: positive corr with, neg corr with...
+%todo: positive corr with, neg corr with... non tutte sono strong corr, forse cambiare un po'
 which shows some obvious correlations between presence and intensity of the same AU, and significant correlation between AU10\_r, AU12\_r, AU12\_c, AU07\_r, AU17\_r, AU06\_r, AU04\_c, AU02\_r, AU01\_r, AU25\_r, AU45\_c.
 
 \clearpage
@@ -178,7 +177,6 @@ Classifying with Random Forest gave me 58,42\% accuracy on the test set, which i
 \subsection{SVM} \label{SVM}
 To approach classification with an SVM we tried both linear, radial and sigmoid kernel.
 
-%todo: specify how much is C and gamma
 The cost $c$ and $\gamma$ parameter were found using a tuning function that performs a grid search over the combinations of cost and gamma for all the kinds of kernels we used, and then by empirically changing the values to see if better results could be achieved. 
 
 In the tuning function $\gamma$ varied from $10^{-5}$ to $10^{-1}$ and \textit{c} from $10^{-3}$ to $10^2$. 
@@ -187,11 +185,11 @@ After the grid search I did some experimental changes and found empirically that
 
 The results for classifying with a linear kernel are 67\% accuracy on the test set (to be precise 66.99394), which is a good starting result, while the radial kernel performed worse at around 61\% accuracy.
 
-The best scoring kernel was actually the sigmoid kernel, giving us 68,64206\% accuracy when predicting the test set, by setting $\gamma  = 0.001$ and $C = 3$.
+The best scoring kernel was actually the sigmoid kernel, giving us 68,64206\% accuracy when predicting the test set, by setting $\gamma  = 0.001$ and $C = 3$, obtaining the values of the parameters via both the tuning function and trial and error.
 
 \clearpage
 
-%todo: do this
+%todo: complete?
 \section{Results} \label{results}
 Using Support Vector Machine we were able to classify deceptive and truthful videos with an accuracy of 68,64\%.
 
@@ -208,5 +206,5 @@ The table below shows a comparison of the results obtained using different machi
 		SVM - Linear        & 66,99             \\ \hline
 		SVM - Sigmoid       & 68,64             \\ \hline
 	\end{tabular}
-	\caption{My caption}
+	\caption{Comparison of the results obtained with different approaches for this dataset}
 \end{table}

@@ -33,6 +33,8 @@ The OpenFace \cite{Baltru2018} toolkit is a tool for machine learning and comput
 %TODO: check this new addition
 This tool is customizable in the way that all the SVM models and neural networks can be trained with new datasets, and the code is open source, so it can be changed to fit the needs of the experimenters.
 
+%TODO: expand saying "we now describe how we used this tool for x y z...?
+
 
 \clearpage
 
@@ -40,7 +42,7 @@ This tool is customizable in the way that all the SVM models and neural networks
 
 The first step in Action Unit identification is to detect the facial landmarks. To accomplish this a local detector called Convolutional Experts Network (CEN) (Fig. \ref{fig:CEN}) is utilized. 
 
-CEN has the advantage of aggregating a neural architecture and patch experts (local detectors, they evaluate the probability of a landmark being aligned at a particular pixel location). CEN can learn different patch experts and adapt to diverse appearance models without explicitly labeling attributes.
+CEN has the advantage of aggregating a neural architecture and patch experts which are local detectors and are used to evaluate the probability of a landmark being aligned at a particular pixel location. CEN can learn different patch experts and adapt to diverse appearance models without explicitly labeling attributes.
 
 \begin{figure}[H]
 	\centering
