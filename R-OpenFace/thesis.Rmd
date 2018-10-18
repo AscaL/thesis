@@ -26,7 +26,7 @@ library(doSNOW)
 library(doParallel)
 library(parallelSVM)
 library(devtools) # github install
-library(ggbiplot) # PCA plotting
+#library(ggbiplot) # PCA plotting
 set.seed(123)
 ```
 
@@ -552,7 +552,6 @@ svm.pred_sig_all <- predict(svm.model_sig_all, ALL_test[,-c(36)])
 summary(svm.model_sig_all)
 table(svm.pred_sig_all, ALL_test$truthful)
 mean(svm.pred_sig_all == ALL_test$truthful)
-
 
 ```
 

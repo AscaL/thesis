@@ -297,4 +297,25 @@ We organized the data in three sets, one concerning only AUs intensity, one with
 \subsection{SVM}
 %todo: svm personalizzato a quello che ho fatto
 
+After pre-processing the data we use the train set to train a sigmoid %lo metto o solo svm?
+SVM, and then we use the trained model to evaluate the test set and compare the results with the labels present on the test set.
+
+Generally, each frame is converted in a vector of length 36, where 17 variables represent the intensity and 18  variables represent the presence of Action Units.
+
+%todo: check better way to formalize this
+So a given input \textbf{X} is a series of $n$ vectors composed of $AUI_i$ + $AUP_i$, where $AUI_i$ stands for the action unit intensity for row \textit{i} and $AUP_i$ is the action unit presence for row \textit{i}, and a label \textbf{Y} = $\{y_1 \dots y_n\}$, where $y = \{0,1\}$ depending on whether the frame belongs to a deceptive or truthful observation.
+
+\begin{equation}
+	X = (AUI_i + AUP_i, y_i)
+\end{equation}
+
+%figure with SVM with AUs divided by a line (or whatever)
+
+input:\\
+- $AUI_i$ \\
+- $AUP_i$ \\
+
+%todo: equations from ML chapter rewritten using X
+
+
 
