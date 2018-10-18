@@ -274,11 +274,11 @@ We use an SVM because after a lot of testing with different techniques that was 
 \subsection{Data pre-processing}
 Before feeding the videos to the SVM for Action Units extraction we had to make sure the videos were in good enough condition to be processed. That is not given since all this videos come from real life trials and the recording conditions are not optimal.
 
-Being in an acceptable condition means that the face should be clearly visible, and the video has to have the specific person visible and talking in \textit{most} of the video, and no other people on it, so to avoid training on different subjects of which we are not sure if they are lying or telling the truth.
+Being in an acceptable condition means that the face should be clearly visible, and the video has to have the specific person visible and talking in at least \textit{most} of the video, and no other people on it, so to avoid training on different subjects of which we are not sure if they are lying or telling the truth.
 
 As a consequence many videos had to be cut, trimmed or discarded to reach an acceptable level.
 
-After extracting Action Units intensity and presence from our dataset of videos (\ref{rldb}) we put the data in a \textit{csv} format to be able to pass them to the SVM. 
+After extracting Action Units intensity and presence from our dataset of videos (\ref{rldb}) we put the data in a \textit{csv} format to be able to process them and pass them to the SVM. 
 
 The data are divided for both AUs intensity, ranging from $0$ to $5$, and AU presence, having the boolean value of either $0$ or $1$ if the AU was missing or present in the specific frame of the video.
 
