@@ -303,7 +303,7 @@ SVM, and then we utilize the trained model to evaluate on the test set and compa
 Generally, each of \textit{n} frames is converted in a vector of length 36, where 17 variables represent the intensity and 18 variables represent the presence of Action Units. The last variable is the class label.
 
 %todo: check better way to formalize this
-So a given training input \textbf{X} for our SVM, \textbf{X} is a $36 \times n$ matrix composed of $AUI_i$ and $AUP_i$, where $AUI_i$ represents the intensity for action units in row \textit{i} and $AUP_i$ is the action units presence for row \textit{i}. 
+So a given training input \textbf{AU} for our SVM, \textbf{AU} is a $36 \times n$ matrix composed of $AUI_i$ and $AUP_i$, where $AUI_i$ represents the intensity for action units in row \textit{i} and $AUP_i$ is the action units presence for row \textit{i}. 
 
 These observations belong to two classes, truthful and deceptive, represented by a label \textbf{Y} = $\{y_1 \dots y_n\}$, where $y = \{0,1\}$ depending on whether the frame belongs to a deceptive or truthful observation.
 
@@ -311,13 +311,24 @@ These observations belong to two classes, truthful and deceptive, represented by
 	\mathbf{X} = (AUI_i + AUP_i, y_i)
 \end{equation}
 
-An input vector $x^*$ for the test set, this time of length 35, is formed the same way but without having a class label.
+An input vector $au^*$ for the test set, this time of length 35, is formed the same way but without having a class label.
 
 \begin{equation}
-	\mathbf{x^*} = (AUI^*_1 + AUP^*_1, \dots, AUI^*_{35} + AUP^*_{35})^T
+	\mathbf{au^*} = (AUI^*_1 + AUP^*_1, \dots, AUI^*_{35} + AUP^*_{35})^T
 \end{equation}
 
-The goal of our SVM classifier is to correctly classify the test observation based on the training data.
+The goal of our SVM classifier is to correctly classify the test observation based on the training done by using the data in the train set.
+
+%todo: recheck
+Suppose we are using a linear SVM classifier. We would need to figure out weather a point lies on one side or the other of an hyperplane, and we would look at this kind of equations to classify a test observation $au^*$ based on the sign of $f(au^*)$:
+
+\begin{equation} 
+	f(au^*) = \beta_0 + \beta_1 au^*_{1} + \beta_2 au^*_{2} + \dots + \beta_{35} au^*_{35}
+\end{equation}
+
+if $f(au^*)$ is positive, then we assign the test observation to class 1, and if it is negative, we assign it to class 0.
+
+Ofcourse we need to keep the margin M in consideration
 
 %figure with SVM with AUs divided by a line (or whatever)
 
