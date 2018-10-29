@@ -655,25 +655,25 @@ When $C$ is big the margin is larger and the classifier is less fit to the data 
 The interesting property of this optimization problem is that only the support vectors (observations that are on the margin or that violate the margin) affect the hyperplane, and thus the classifier obtained. \\
 All the observations that lie on the correct side of the margin do not affect the support vector classifier.
 
-\subsection{Kernels}
-Sometimes data is not linearly separable (Fig. \ref{fig:svmnotsep}). When that happens, Support Vector Machines work by enlarging the feature space using specific function called kernels.
+\subsection{Kernels} \label{kernel}
+Sometimes data is not linearly separable (Fig. \ref{fig:svmnotsep}). When that happens, Support Vector Machines work by enlarging the feature space using specific function called kernels, utilized to accommodate a non-linear boundary between the classes.
 
 The solution to equations \ref{eq:svm4} - \ref{eq:svm6} involves only the inner products of the observations, and not the observations themselves \cite{ISLR}.\\
-The inner product of two observations $x_i$, $x_i'$ is given by:
+We define the inner product between two \textit{r}-vectors \textit{a} and \textit{b} as $	\langle a,b \rangle = \sum_{i=1}^{r} a_{i}b_{i}$. So the inner product of two observations $x_i$, $x_i'$ is given by:
 
 \begin{equation} \label{eq:svm9}
-\langle x_i, x_i' \rangle = \sum_{j=1}^{p} x_{ij}x_{i'j}
+	\langle x_i, x_i' \rangle = \sum_{j=1}^{p} x_{ij}x_{i'j}
 \end{equation}
 
-the linear SVC can be described as:
+the linear SVC can then be described as:
 
 \begin{equation} \label{eq:svm10}
-f(x) = \beta_0 + \sum_{i=1}^{n} \alpha_i \langle x, x_i \rangle
+	f(x) = \beta_0 + \sum_{i=1}^{n} \alpha_i \langle x, x_i \rangle
 \end{equation}
 
-To estimate $\beta_{0}$ and $\alpha_1 \dots, \alpha_n$ all that is required are the $n \choose 2$ inner products $\langle x_i, x_i' \rangle$ between all pairs of training observations \cite{ISLR}.
+To estimate $\beta_{0}$ and $\alpha_1 \dots, \alpha_n$ all that is required are the $n \choose 2$ inner products $\langle x_i, x_{i'} \rangle$ between all pairs of training observations \cite{ISLR}.
 
-Every time we compute the inner product (\ref{eq:svm9}) in equation \ref{eq:svm10} we could replace it with a generalization:
+Every time we compute the inner product (\ref{eq:svm9}) in equation \ref{eq:svm10} we could replace it with a generalization of this form:
 
 \begin{equation} \label{eq:svm11}
 K(x_i, x_i')
@@ -709,7 +709,6 @@ We can visualize some of these kernels in fig. \ref{fig:kernels}
 	\caption{Visualization of different kinds of kernels \cite{kernels}.}
 	\label{fig:kernels}
 \end{figure} 
-
 
 There are many more kernel functions that can be used based on the shape of the data.
 
