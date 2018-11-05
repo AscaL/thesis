@@ -187,13 +187,13 @@ After the grid search I did some experimental changes and found empirically that
 
 The results for classifying with a linear kernel are 67\% accuracy on the test set (to be precise 66.99394), which is a good starting result, while the radial kernel performed worse at around 61\% accuracy.
 
-The best scoring kernel was actually the sigmoid kernel, giving us 68,64206\% accuracy when predicting the test set, by setting $\gamma  = 0.001$ and $C = 3$, obtaining the values of the parameters via both the tuning function and trial and error.
+The best scoring kernel was actually the sigmoid kernel, giving us 72,64206\% accuracy when predicting the test set, by setting $\gamma  = 0.001$ and $C = 3$, obtaining the values of the parameters via both the tuning function and trial and error.
 
 \clearpage
 
 %todo: complete?
 \section{Results} \label{results}
-Using Support Vector Machine we were able to classify deceptive and truthful videos with an accuracy of 68,64\%.
+Using Support Vector Machine we were able to classify deceptive and truthful videos with an accuracy of 72,64\%.
 
 The table below shows a comparison of the results obtained using different machine learning algorithms, and different kernels for SVM.
 
@@ -207,7 +207,7 @@ The table below shows a comparison of the results obtained using different machi
 		Random Forest       & 58,42             \\ \hline
 		SVM - Radial        & 61,56             \\ \hline
 		SVM - Linear        & 66,99             \\ \hline
-		SVM - Sigmoid       & 68,64             \\ \hline
+		SVM - Sigmoid       & 72,64             \\ \hline
 	\end{tabular}
 	\caption{Comparison of the results obtained with different approaches for this dataset}
 \end{table}

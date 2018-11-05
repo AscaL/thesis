@@ -14,7 +14,7 @@ The applications for machine learning are huge and diverse, and range from chara
 
 Machine learning also focuses on making prediction on data, by utilizing techniques taken from statistics and mathematical optimization. This has many applications, ranging from health care by predicting risk factors for diseases or gaining insights for prevention, to sports or politics where actual results of games or elections can be predicted.
 
-The field of machine learning is subdivided in two broad categories (Fig. \ref{fig:ml_mldiv}), supervised learning (\ref{supervised}) and unsupervised learning (\ref{unsupervised}) based on whether the data is labeled or not.
+The field of machine learning is subdivided in two broad categories (Fig. \ref{fig:ml_mldiv}), supervised learning (par. \ref{supervised}) and unsupervised learning (par. \ref{unsupervised}) based on whether the data is labeled or not.
 
 \begin{figure}[H]
 	\centering
@@ -23,19 +23,18 @@ The field of machine learning is subdivided in two broad categories (Fig. \ref{f
 	\label{fig:ml_mldiv}
 \end{figure}
 
-%todo: write better i think
-Another subdivision of machine learning is based on the kind of output that the users wish to obtain, and the categories are:
-\begin{enumerate}[noitemsep]
-	\item \textbf{Classification} (\ref{classification}) for predicting a discrete class label for a new example data.
-	\item \textbf{Regression} (\ref{regression}) to predict a continuous quantity.
+Another subdivision of the field of machine learning is based on the kind of output that the users wish to obtain, and the categories of said output are:
+\begin{itemize}[noitemsep]
+	\item \textbf{Classification} (par. \ref{classification}) for predicting a discrete class label for a new example data.
+	\item \textbf{Regression} (par. \ref{regression}) to predict a continuous quantity.
 	\item \textbf{Clustering} to group similar but unlabeled data.
-\end{enumerate}
+\end{itemize}
 
 \subsection{Supervised Learning} \label{supervised}
 When using supervised learning we want to learn a function that maps an input to an output, based on example input-output pairs \cite{ai_sup}. \\
 This means that we need labeled training data, consisting of a vector of input objects and an output value. The objective is to correctly classify the new data based on the previously analyzed training pairs.
 
-The general steps to solve a supervised learning problem are (Fig. \ref{fig:sup_wf}):
+The general steps to solve a supervised learning problem are (fig. \ref{fig:sup_wf}):
 \begin{enumerate}[noitemsep]
 	\item Understand what kind of training example to use.
 	\item Gathering a training set.
@@ -75,7 +74,7 @@ There are important considerations to make when using a supervised learning appr
 	To avoid this, it is important to reduce the number of features through manual removal or using feature selection algorithms such as Principal Component Analysis (PCA). This usually improves the accuracy of the classifier.
 	
 	\item \textbf{Overfitting and Underfitting} \cite{overfit}: \\	
-	Overfitting happens when the algorithm adapts too much on the training data and is no longer able to make accurate predictions on the test data (Fig. \ref{fig:underfitting}). This usually happens when there is an excessive number of parameters than what can be justified by the data \cite{camb_over}. 
+	Overfitting happens when the algorithm adapts too much on the training data and is no longer able to make accurate predictions on the test data (Fig. \ref{fig:underfitting}). This usually happens when there is an excessive number of parameters than what can be justified by the data \cite{camb_over}.
 	
 	Underfitting is the opposite: a model is not able to correctly capture the structure of the data, for example when fitting non linear data with a linear model. \\
 	A common way to avoid overfitting is to resample the data using different techniques, commonly k-fold cross validation or leave-one-out. Other methods include feature removal, early stopping and regularization.
@@ -202,7 +201,7 @@ A regression model relates $Y$ to a function of $X$ and $\beta$ \cite{wiki:reg_a
 	Y \approx f(X,\beta)
 \end{equation}
 
-This is usually formalized as
+This is usually formalized as:
 \begin{equation}
 	E(Y|X) = f(X,\beta)
 \end{equation}
@@ -356,7 +355,6 @@ Once the coefficient have been estimated is pretty simple to compute the probabi
 \clearpage
 
 \section{Random Forest} \label{random_forest}
-%TODO: review from wiki
 
 \begin{figure}[H]
 	\centering
@@ -365,12 +363,11 @@ Once the coefficient have been estimated is pretty simple to compute the probabi
 	\label{fig:RFClass}
 \end{figure}
 
-Random forests are an ensemble learning method used mainly for classification and regression. They work by building a lot of decision trees while in the training phase, and then outputting the class that is the mode of the classes for classification, or the mean prediction of the individual trees for regression \cite{wiki:randomforest}.
+Random forests are an ensemble learning method used mainly for classification and regression. They work by building many decision trees while in the training phase, and then outputting the class that is the mode of the classes for classification, or the mean prediction of the individual trees for regression \cite{wiki:randomforest}\cite{RDF}.
 
 Random Forest (RF) is preferred to decision trees because decision trees suffer from high variance. By using tree bagging, which is a commonly used technique to reduce variance, we can correct decision trees' habit of overfitting to their training set \cite{ESL}.
 
 \subsubsection{Decision Trees}
-%TODO: check this par too much wiki maybe not clear
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{decTree}
@@ -378,10 +375,16 @@ Random Forest (RF) is preferred to decision trees because decision trees suffer 
 	\label{fig:decTree}
 \end{figure}
 
-Decision trees are a popular method for various machine learning tasks and can be used for either classification or regression.\\
-The aim of decision trees is to create a model that predicts the value of a target variable based on several input variables. 
+Decision trees are a widespread method for many different machine learning tasks and can be used for either classification or regression.\\
+The aim of decision trees is to build a model that predicts the value of a target variable based on different input variables. 
 
-Each node of the tree corresponds to one of the input variables. Each leaf represents a value of the target variable, given the values of the input variables represented by the path from the root to the leaf \cite{wiki:DT}.
+Each node of the tree corresponds to one of the input variables. Each leaf represents a value of the target variable, given the values of the input variables represented by the path from the root to the leaf (fig \ref{fig:decTree}) \cite{wiki:DT}.
+
+The data usually has the following structure: 
+\begin{equation}
+	(x, Y) = (x_1, x_2, \dots, x_n, Y)
+\end{equation}
+Where \textit{Y} is the dependent variable that we are trying to classify and \textit{x} is the feature vector.
 
 A decision tree is able to represent a classification problem:
 The arcs of a tree's node labeled with input features are labeled with the possible values for that feature, and they can lead to two options:
@@ -390,9 +393,9 @@ The arcs of a tree's node labeled with input features are labeled with the possi
 	\item A leaf labeled with the resulting class (or a probability).
 \end{itemize}
 
-A tree can be learned by dividing the training set into subsets based on the values of the attributes. This is done recursively until a node has all the same value of the target variable, or when splitting stopped aiding the prediction's result.
+A tree can be learned by dividing the training set into subsets based on the values of the attributes. This is done recursively until a node has all the same value of the target variable, or when splitting is no longer aiding the prediction's result.
 
-Decision trees, however, are often inaccurate. Specifically, by growing trees very deep, they tend to learn highly irregular patterns by overfitting to the training set (i.e. have low bias, but very high variance). 
+Decision trees, however, are often inaccurate. Specifically, by growing trees very deep, they tend to learn highly irregular patterns by overfitting to the training set (they normally have low bias but very high variance) \cite{ESL}. 
 
 Random forests are a way of averaging multiple deep decision trees, trained on different parts of the same training set, with the goal of reducing the variance. \\
 This comes at the expense of a small increase in the bias and some loss of interpretability, but generally greatly boosts the performance in the final model \cite{ESL}. 
@@ -501,8 +504,8 @@ Support Vector Machines (SVM) are a supervised machine learning algorithm used f
 
 The main idea is to find the optimal hyperplane for linearly separable data, and then extend this idea to data that are not linearly separable by mapping this data in a new space using a kernel function.
 
-\subsection{What is a hyperplane?}
-In \textit{p}-dimension, a hyperplane is a flat affine subspace of $p - 1$ dimension. For example, in two dimensions it's a line, in three dimensions it's a plane (Fig. \ref{fig:hyperplane}), and so on.
+\subsection{Hyperplane}
+What is a hyperplane? In \textit{p}-dimension, a hyperplane is a flat affine subspace of $p - 1$ dimension. For example, in two dimensions it's a line, in three dimensions it's a plane (Fig. \ref{fig:hyperplane}), and so on.
 
 \begin{figure}[H]
 	\centering
@@ -561,28 +564,28 @@ Support vectors are the data points that lie closest to the hyperplane (Fig. \re
 
 So the objective is to choose a hyperplane with the largest possible margin between it and the support vectors, since the larger is the margin, the lower the generalization error of the classifier \cite{ISLR}.
 
-\subsection{Constructing the Maximal Margin Classifier}
+\subsection{Finding the Maximal Margin Classifier}
 Finding the maximal margin hyperplane based on a set of $n$ training observations $x_1, \dots x_n \in \mathbb{R}^p$ and with class labels $y_1 \dots y_n \in \{1, -1\}$, translates to an optimization problem:
 
 Maximize the margin $M$:
 \begin{equation} \label{eq:svm1}
-\beta_0, \beta_1, \beta_2, \dots, \beta_p, M
+	\beta_0, \beta_1, \beta_2, \dots, \beta_p, M
 \end{equation}
 
 subject to
 \begin{equation} \label{eq:svm2}
-\sum_{j=1}^{p}\beta^2_j = 1
+	\sum_{j=1}^{p}\beta^2_j = 1
 \end{equation}
 
 \begin{equation} \label{eq:svm3}
-y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) \ge M \quad \forall i = 1, \dots, n
+	y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) \ge M \quad \forall i = 1, \dots, n
 \end{equation}
 
 Equations \ref{eq:svm2} and \ref{eq:svm3} ensure that each observation is on the correct side of the hyperplane, and at least at distance $M$ from the hyperplane. \\
 So $M$ represents the margin of our hyperplane, and the optimization problem chooses $\beta_0, \beta_1, \beta_2, \beta_3, \dots, \beta_p$ to maximize M and find the maximal margin hyperplane \cite{ISLR}.
 
 \subsection{Support Vector Classifier}
-Unfortunately this hyperplane does not necessarily exists (fig. \ref{fig:svmnotsep}), but we can extend this concept to find a hyperplane that almost separates the classes using a soft margin. This is really what an SVM does.
+Unfortunately this hyperplane does not necessarily exists (fig. \ref{fig:svmnotsep}), but we can extend the concept of the Maximal Margin Classifier to find a hyperplane that almost separates the classes by using a \textit{soft} margin. This is actually what an SVM does.
 
 \begin{figure}[H]
 	\centering
