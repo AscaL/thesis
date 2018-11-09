@@ -702,7 +702,7 @@ or a radial kernel:
 %todo: add sigmoid kernel
 another example is the sigmoid kernel:
 \begin{equation} \label{eq:svm15}
-	K(x_i, x_i') = \tanh(-\gamma\sum_{j=1}^{p} (x_{ij}, x_{i'j})^2), \quad \gamma \ge 0
+	K(x_i, x_i') = \tanh(-k\sum_{j=1}^{p} (x_{ij}, x_{i'j})^2 + \delta)
 \end{equation}
 
 We can visualize some of these kernels in fig. \ref{fig:kernels}

@@ -1,5 +1,4 @@
-%TODO: obviously rewrite this
-In this section I will describe the stack used for this thesis and the experiments done to achieve our results: I will start by reviewing the configurations and libraries utilized (par. \ref{bb}), the database used to acquire training and test set (par. \ref{rldb}), all the analysis done on the data (par. \ref{data_an}), and finally we will discuss the results of this work (par. \ref{results}).
+This describes the stack used for this thesis and the experiments done to achieve our results: I will start by reviewing the configurations and libraries utilized (par. \ref{bb}), the database used to acquire training and test set (par. \ref{rldb}), all the analysis done on the data (par. \ref{data_an}), and finally we will discuss the results of this work (par. \ref{results}).
 
 \section{Building Blocks} \label{bb}
 %TODO: maybe expand this with something?
@@ -15,7 +14,7 @@ To realize this work we used the following tools and libraries:
 \end{itemize}
 
 The experiments were conducted on two systems, Windows and Mac OS, with the following specs:\\
-The windows machine has 8GB of RAM, i5 processor, and 4096MB ATI AMD Radeon R9. \\
+The windows machine has 8GB of RAM, i5 processor, and 4096MB ATI AMD Radeon R9 GPU. \\
 The Mac has 4gb RAM, i5 processor, and an intel integrated GPU.\\
 SVM training took about one hour on both machines.
 
@@ -58,13 +57,11 @@ Fig. \ref{fig:rldb_distrib} shows the frequency counts associated with the gestu
 	\label{fig:rldb_distrib}
 \end{figure}
 
-%TODO: rewrite tentative atm
-
 We modified this database in the following way:
 \begin{itemize}
-	\item We cut or removed videos where the where the face was covered, hidden or in very difficult to see.
-	\item We also cut parts of video that had multiple subjects in the scene because Action Unit extraction works on one person only.
-	\item Since it is necessary to see the person to perform AU extraction, we also avoided some videos in which the subject was not visible while talking (the interlocutor was shown).
+	\item We cut or removed videos where the where the face was covered, hidden or in  any way very difficult to see or recognize.
+	\item We also cut parts of video that had multiple subjects in the scene because Action Unit extraction works on one person only at the moment.
+	\item Since it is necessary to see the person to perform AU extraction, we also avoided some videos in which the subject was not visible while talking, but the interlocutor was shown.
 \end{itemize}
 
 With deceptive videos going from \#1 to \#61 and truthful videos going from \#1 to \#60 we cut and removed the following videos from the original dataset, since they showed signs of the problems just described:
@@ -83,10 +80,9 @@ With deceptive videos going from \#1 to \#61 and truthful videos going from \#1 
 \end{itemize}
 
 
-We also performed a division of subjects in the training and test set "by hand", splitting data to around 75\% for the training set and 25\% for the test set, to train the classifiers in a way that it wouldn't adapt the specific people since there are many videos with the same subject. In fact, the same person never appears both in the training and in the test set.
+We also performed a division of subjects in the training and test set "by hand", splitting data to around 75\% for the training set and 25\% for the test set, to train the classifiers in a way that it wouldn't adapt to specific people, a problem that could occur since there are many videos with the same subject. In fact, the same person never appears both in the training and in the test set as an effort to completely avoid this problem.
 
-The training set consists of 72451 observations of 36 variables, and the test set is 14198 observations.
-%todo: stats of db, #of frames ecc
+The training set consists of 72451 observations of 36 variables, and the test set is composed of 14198 observations of 36 variables.
 
 \clearpage
 
@@ -149,7 +145,6 @@ Another quick experiment I made was with the Generalized Linear Model in R, whic
 
 As we can see AU01\_r (Inner Brow Raiser), AU23\_r (Lip Tightener), and AU17\_c (Chin Raiser) are not significant and that's an indication that we could remove them from the features used to make the classification.
 
-%todo: should i say this?
 The results for classifying data with GLM is 54.86\% accuracy on the test set, which is a little better than chance but not great. 
 
 \clearpage
@@ -176,16 +171,15 @@ Classifying with Random Forest gave me 58,42\% accuracy on the test set, which i
 
 \subsection{SVM} \label{SVM}
 %todo: some kind of image?
-%todo: adjust percentages
 To approach classification with an SVM we tried both linear, radial and sigmoid kernel.
 
 The cost $c$ and $\gamma$ parameter were found using a tuning function that performs a grid search over the combinations of cost and gamma for all the kinds of kernels we used, and then by empirically changing the values to see if better results could be achieved. 
 
-In the tuning function $\gamma$ varied from $10^{-5}$ to $10^{-1}$ and \textit{c} from $10^{-3}$ to $10^2$. 
+In the tuning function, $\gamma$ varied from $10^{-5}$ to $10^{-1}$ and \textit{c} from $10^{-3}$ to $10^2$, growing by $10^1$ every iteration. 
 
 After the grid search I did some experimental changes and found empirically that the best parameters for the linear kernel were $C = 1$ and $\gamma = 0.04$
 
-The results for classifying with a linear kernel are 67\% accuracy on the test set (to be precise 66.99394), which is a good starting result, while the radial kernel performed worse at around 61\% accuracy.
+The results for classifying with a radial kernel are 67\% accuracy on the test set (to be precise 66.99394), which is a good starting result, while the linear kernel performed worse at around 61\% accuracy.
 
 The best scoring kernel was actually the sigmoid kernel, giving us 72,64206\% accuracy when predicting the test set, by setting $\gamma  = 0.001$ and $C = 3$, obtaining the values of the parameters via both the tuning function and trial and error.
 
@@ -197,7 +191,6 @@ Using Support Vector Machine we were able to classify deceptive and truthful vid
 
 The table below shows a comparison of the results obtained using different machine learning algorithms, and different kernels for SVM.
 
-%todo:adjust percentages
 \begin{table}[H]
 	\centering
 	\begin{tabular}{|l|l|}
@@ -205,8 +198,8 @@ The table below shows a comparison of the results obtained using different machi
 		\textbf{Algorithm}  & \textbf{Accuracy} \\ \hline
 		Logistic Regression & 54.86             \\ \hline
 		Random Forest       & 58,42             \\ \hline
-		SVM - Radial        & 61,56             \\ \hline
-		SVM - Linear        & 66,99             \\ \hline
+		SVM - Linear        & 61,56             \\ \hline
+		SVM - Radial        & 66,99             \\ \hline
 		SVM - Sigmoid       & 72,64             \\ \hline
 	\end{tabular}
 	\caption{Comparison of the results obtained with different approaches for this dataset}
