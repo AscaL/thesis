@@ -1,12 +1,12 @@
-In this chapter we will give a brief introduction of Machine Learning (\ref{ml}), explaining Classification (\ref{classification}), Regression (\ref{regression}) and Supervised learning (\ref{supervised}), proceeding then to explain different techniques such as Random Forests (\ref{random_forest}) and SVM (\ref{svm}), which is the most important technique used for this thesis.
-
-\section{Introduction} \label{ml}
-
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{ml_troll}
 	\label{fig:ml_troll}
 \end{figure}
+
+In this chapter we will give a brief introduction of Machine Learning (\ref{ml}), explaining Classification (\ref{classification}), Regression (\ref{regression}) and Supervised learning (\ref{supervised}), proceeding then to explain different techniques such as Random Forests (\ref{random_forest}) and SVM (\ref{svm}), which is the most important technique used for this thesis.
+
+\section{Introduction} \label{ml}
 
 Machine Learning is a subfield of Artificial Intelligence that uses statistical techniques to provide computers with the ability to progressively improve performance on different tasks using data, while not being explicitly programmed \cite{wiki:ml}.
 
@@ -694,13 +694,12 @@ or for a polynomial kernel of degree \textit{d}:
 	K(x_i, x_i') = (1 + \sum_{j=1}^{p} x_{ij}x_{i'j})^d
 \end{equation}
 
-or a radial kernel:
+the function for a radial kernel is:
 \begin{equation} \label{eq:svm14}
 	K(x_i, x_i') = \exp(-\gamma\sum_{j=1}^{p} (x_{ij}, x_{i'j})^2), \quad \gamma \ge 0
 \end{equation} 
 
-%todo: add sigmoid kernel
-another example is the sigmoid kernel:
+yet another example is the sigmoid kernel:
 \begin{equation} \label{eq:svm15}
 	K(x_i, x_i') = \tanh(-k\sum_{j=1}^{p} (x_{ij}, x_{i'j})^2 + \delta)
 \end{equation}
