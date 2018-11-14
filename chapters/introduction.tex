@@ -1,27 +1,27 @@
-In this chapter we give an overview of the work (Par. \ref{overview}). We start examining how people perform at detecting lies in order to have a comparison with other methods (Par. \ref{pplLieDet}). \\
-We then present a taxonomy of the current state of the art (Par. \ref{sota}) concerning lie detection with particular emphasis on computer vision. \\
-The last section is about the structure of the rest of the thesis, and our contribution to the field of deception detection (Par. \ref{contrib}).
+In this chapter we give an overview of the work (par. \ref{overview}). We start by examining how people perform at the task of detecting lies in order to have a comparison with other methods adopted in the filed of machine learning and computer vision (par. \ref{pplLieDet}). \\
+We then present a taxonomy of the current state of the art (par. \ref{sota}) concerning deception detection, putting particular emphasis on computer vision research. \\
+The last section is about the structure of the rest of this thesis, and finally our contribution to the field of deception detection (par. \ref{contrib}).
 
 \section{Overview of the work} \label{overview}
-Deception detection has always been a very interesting topic since it has numerous social and psychological implications in many different fields. In the past 40 years there has been a steady increase in researchers interested in studying deceptive behavior, first from a sociological and psychological point of view, and in more recent years from a technological standpoint, aided by the advance of machine learning techniques, especially in the field of Computer Vision, an interdisciplinary field that aims to simulate the human visual system to automatically comprehend images or videos.
+Deception detection has always been a very interesting topic since it has numerous social and psychological implications in many different fields. In the past 40 years there has been a steady increase in researchers interested in studying deceptive behavior, initially from a sociological and psychological point of view, and in more recent years from a technological standpoint, aided by the advance of machine learning techniques, especially in the field of Computer Vision, an interdisciplinary field that aims to simulate the human visual system to automatically comprehend images or videos.
 
 Our work aims to recognize whether a person is lying or telling the truth by performing a frame by frame analysis on a database of videos, with the goal of extracting a set of the different facial movements performed by the person in the video. After finishing the extraction, the data is submitted to analysis by using statistical and machine learning techniques.
 
-The dataset we are using was provided by Perez-Rosas et al. \cite{Perez-Rosas:2015:DDU:2818346.2820758} and is composed by 121 videos taken from real life trials and uploaded on YouTube (Par. \ref{rldb}). Since those videos are taken from real life events, the illumination, pose, audio and video features are not homogeneous and often substandard. Substantial work was done to eliminate the parts that are not relevant, and as result some videos were trimmed or discarded.
+The dataset we are using was provided by Perez-Rosas et al. \cite{Perez-Rosas:2015:DDU:2818346.2820758} and is composed by 121 videos taken from real life trials and uploaded on YouTube (par. \ref{rldb}). Since those videos are taken from real life events, the illumination, pose, audio and video features are not homogeneous and often substandard. Substantial work was done to eliminate the parts that are not relevant, and as result some videos were trimmed or discarded.
 
-After trimming and cleaning the videos, we split the data into two sets (train and test) based on the subject ID and extracted all the facial movements. Then we utilized machine learning and statistical approaches to understand if the person in the video was lying, based on the results of analyzing each frame.
+After trimming and cleaning the videos, we split the data into two sets, called the train and test set, based on the subject ID and extracted all the facial movements. Then we utilized machine learning and statistical approaches to understand if the person in the video was lying, based on the results of analyzing each frame.
 
-The result of this work, especially when improved by having a better and larger dataset, can be useful in different situations, even though it is important to remember that privacy is a real concern, and with this kind of applications it should never be underestimated.
+The result of this work, especially when improved by having a better and larger dataset, can be useful in many different situations, even though it is important to remember that privacy is a real concern, and with this kind of applications it should never be underestimated.
 
-Some of the applications of this work can include airport security, work interviews, and possibly many kinds of social interactions. It could be eventually used by the public to review a speech of a political candidate or by the police force as an aid in the interrogation process. Another use can be in trials where people lives are at stake and discerning a true or false testimony might be vital. We really hope this work proves to be socially useful.
+Some of the applications of this work can include airport security, work interviews, and possibly many kinds of social interactions. It could be eventually used by the public to review a speech of a political candidate or by the police force as an aid in the interrogation process, where people lives are at stake and discerning a true or false testimony might be vital. We really hope this work proves to be socially useful.
 
 \clearpage
 
 \section{People Lie Detection} \label{pplLieDet}
-It's very rare for people to be able to consistently discern between lies and truths, even though we hear lies regularly in the course of our lives. In fact most untrained people perform like chance (50\%) when tasked with detecting lies \cite{Porter2012SecretsAL}, and considering that the ordinary person lies at least twice a day on average \cite{LyingEverydayLife}, and that in this digital age the amount of lies told daily are increasing \cite{DigitalDeception} due to on-line communication making us feel more protected and confident in our deceptions, the problem of detecting lies is an important one and it deserves a good deal of research effort. 
+It's very rare for people to be able to consistently discern between lies and truths, even though we hear lies regularly in the course of our lives. In fact most untrained people perform like chance (around 50\%) when tasked with detecting lies \cite{Porter2012SecretsAL}, and considering that the ordinary person lies at least twice a day on average \cite{LyingEverydayLife}, and that in this digital age the amount of lies told daily are increasing \cite{DigitalDeception} due to on-line communication making us feel more protected and confident in our deceptions, the problem of detecting lies is an important one and it deserves a good deal of research effort. 
 
-People's difficulty in detecting lies stem from the lack of objectivity. We are biased by so many factors and skilled deceivers can take advantage of that. \\
-An important reason is that people generally think it is easy to spot liars, underestimating the effort it takes by having too much confidence on their own judgment and capabilities, and by believing in gut feelings instead of empirical clues \cite{VrijDLD}. 
+People's difficulty in detecting lies stem from the lack of objectivity. We are biased by so many factors when deciding weather a statement is a lie or not, and skilled deceivers can take advantage of that. \\
+An important reason is that people generally think it is easy to spot liars, underestimating the effort it takes by having too much confidence in their own judgment and capabilities, and by believing in gut feelings instead of empirical clues \cite{VrijDLD}. 
 
 In a study by Baker et al.  \cite{EmotionallyIntelligent} 116 participants were asked to judge 20 videos of people pleading for the safe return of missing family members, half of which were lies where the pleader was the one responsible for the disappearance of the victim. The participants provided confidence ratings, the cues they utilized to make their judgment, and their emotional response to each video.\\
 Weirdly, emotionally intelligent people perform worse at deception detection. This is due to their greater sympathetic feelings towards others (enhanced gullibility) that can often cloud their judgment.
@@ -29,21 +29,20 @@ Weirdly, emotionally intelligent people perform worse at deception detection. Th
 In \cite{BondDePauloAccuracy} De Paulo et al. analyze the accuracy of deception judgments from a collection of 206 documents and 24.483 judges. They found that people can differentiate lies and truths with an accuracy of 54\%, with a lie detection accuracy of 47\% and a truth detection accuracy of 61\%. Interestingly, their findings reveal that is easier for people to discriminate between lies and truths from the audio cues rather than the visual ones.
 
 In another study \cite{HartwigGranhag} 192 students obtained an accuracy of 55.2\% on lie detection, with 61\% accuracy for guilty suspects and 49\% for innocent ones.\\
-Police officers and other trained officials seems to perform better than the average person at detecting lies  \cite{VrijPoliceDetect}, obtaining around 70\% accuracy for distinguishing both lies and truths correctly, supporting the hypothesis that training and practice can make us better at spotting liars.
+Police officers and other trained officials seems to perform better than the average person at detecting lies \cite{VrijPoliceDetect}, obtaining around 70\% accuracy for distinguishing both lies and truths correctly, supporting the hypothesis that training and practice have an effect in bettering people at spotting liars.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{Ppl_lie_accuracy}
+	\includegraphics[width=1\textwidth]{Ppl_lie_accuracy}
 	\caption{Performance on deceit detection by human observers \cite{SU201652}.}
 \end{figure}
  
 \clearpage
 
-%todo: also talk about non-contact
 \section{State of the Art} \label{sota}
 How are lies detected? At the moment there are a lot of different instruments and technologies to attempt to detect deceit, ranging from analyzing psychological features, to using the polygraph or thermal cameras and machine learning approaches.
 
-In computer vision specifically, lie detection is a somewhat new field of research, and as such it's done using many different approaches, employing not only RGB cameras but also physical sensors and thermal cameras, and using voice, gaze, action and body analysis tools, all of this often aided by machine learning techniques, and by combining many of these modalities together to achieve better results.
+In computer vision specifically lie detection is a somewhat new field of research, and as such it's done using many different approaches, employing not only RGB cameras but also physical sensors and thermal cameras, and using voice, gaze, action and body analysis tools, all of this often aided by machine learning techniques most of the time consisting of support vector machines and neural networks, and by combining many of these modalities together to achieve better results.
 
 We now proceed to describe the state of the art, based on the latest researches done in the field, with specific focus on computer vision:
 
@@ -53,13 +52,13 @@ Speech is one of the many methods that can be used to recognize if a person is l
 One of the most used indicator of deception in various studies has been the response latency \cite{EaseLying}, since inventing a lie requires additional cognitive load as opposed to remembering the truth. The authors also notice that habitual lying makes it easier, and conversely often being spontaneous and telling the truth makes lying harder.\\
 Another indicator of lying is the speech rate, especially when it's different from the average rate of a specific person \cite{TemporalCues}. Other verbal cues like grammar usage and word frequency have been used and have achieved high accuracy in psychological researches \cite{PorterTruthLying}.
 
-Speech analysis can reveal changes that affect behavior, such as stress, emotion, deception etc. by analyzing the pitch and the stress level. When a stressful situation arises, the hormonal levels of the body change, and this causes an increase in blood pressure and heart rate. This in turn affects the muscle in the respiratory system, and so speech is affected \cite{norena}.
+Speech analysis can reveal changes that affect behavior, such as stress, emotion, deception etc. by analyzing the pitch and the stress level. When a stressful situation arises, the hormonal levels of the body change, and this causes an increase in blood pressure and heart rate. This in turn affects the muscle in the respiratory system, and so our speech pattern is affected and varies from normality \cite{norena}.
 
 In sound processing, the mel-frequency cepstrum (MFC, Fig. \ref{fig:MFCC}) is a representation of the short-term power spectrum of a sound. Mel-frequency cepstral coefficients (MFCCs) are coefficients that collectively make up the MFC \cite{wiki:mfcc}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{MFCC}
+	\includegraphics[width=0.75\textwidth]{MFCC}
 	\caption{Topside is the spoken word, bottom is the MFCC derived from the word}
 	\label{fig:MFCC}
 \end{figure}
@@ -67,14 +66,13 @@ In sound processing, the mel-frequency cepstrum (MFC, Fig. \ref{fig:MFCC}) is a 
 In \cite{relidss} the authors created a new database by making 40 candidates try to deceive them while telling truthful or deceptive statements for about one to two minutes each. From this experiment they extracted MFCC and pitch, so that they could process them through Matlab's Voice Box. \\
 After acquiring the data, an SVM classifier was trained to classify new data, obtaining an accuracy of lie and truth detection from speech audio respectively of 88.23\% and 84.52\%.
 
-In \cite{Mihalcea:2013:ADD:2522848.2522888} Perez et al. utilize a dataset of 140 videos created by users who uploaded either truthful or deceptive statements. They collected the transcriptions from the videos both manually and via automatic speech recognition software. By using a bag-of-words representation of the transcripts they build a vocabulary, and to classify the data they employed an SVM and Naive Bayes classifier, achieving 73\% accuracy.
+In \cite{Mihalcea:2013:ADD:2522848.2522888} Perez et al. utilize a dataset of 140 videos created by users who uploaded either truthful or deceptive statements. They collected the transcriptions from the videos both manually and via automatic speech recognition software. By using a bag-of-words representation of the transcripts they built a vocabulary, and to classify the data they employed a Support Vector Machine and Naive Bayes classifier, achieving 73\% accuracy.
 
 \clearpage
  
 \subsection{Eyes}
-Using the eyes to detect lies is one of the most studied approaches, as the eyes hold a significant amount of information regarding our thinking and emotional state \cite{FUKUDA2001239} (Fig \ref{fig:eye-lies}). We will focus our description on the Computer Vision approaches rather then psychological ones.
+Using the eyes to detect lies is one of the most studied approaches, especially in psychological research, as the eyes hold a significant amount of information regarding our thinking and emotional state \cite{FUKUDA2001239} (Fig \ref{fig:eye-lies}). We will focus our description on the Computer Vision approaches rather then psychological ones.
 
-% TODO: this pic has nothing to do with what is written here
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.85\textwidth]{eye-lies}
@@ -86,9 +84,9 @@ An important advantage of using the eyes as a vehicle for deception detection is
 
 Cognitive load, which is set to increase while lying, is one of the most significant factor for deception detection and can be analyzed through the eyes. Important factors are also blink rate, gaze aversion and pupil dilation.
 
-In \cite{8125844} the authors utilize high speed cameras to record and analyze blink count and blink duration of 50 subjects while asking 10 control questions, to see if there is a variation in them while the subject is being questioned. The authors analyzed the resulting images frame by frame and based on the facial landmarks around the eye they recognize AU45, the action unit (muscle movement) associated blinking. The results shows that both blink duration and count are increased while lying.
+In \cite{8125844} the authors utilize high speed cameras to record and analyze blink count and blink duration of 50 subjects while asking 10 control questions, to see if there is a variation in them while the subject is being questioned. The authors analyzed the resulting images frame by frame and based on the facial landmarks around the eye they recognize AU45, the action unit (muscle movement par. \ref{au}) associated blinking. The results shows that both blink duration and count are increased while lying.
 
-In another study, Leal and Vrij \cite{Leal2008} gathered 26 people, 13 liars and 13 truth tellers, to ask them to lie or tell the truth in a target period, while having a baseline from two preceding periods. The eye blinks during the target and baseline periods and directly after the target period (target offset period) were recorded.\\
+In another study, Leal and Vrij \cite{Leal2008} gathered 26 people, 13 liars and 13 truth tellers, to ask them to lie or tell the truth in a target period, while already having a baseline from two preceding periods. The eye blinks during the target and baseline periods and directly after the target period (target offset period) were recorded.\\
 Compared to the baseline periods, lying subjects show a decrease in eye blinks during the target period and an increase in eye blinks during the target offset period. This means that there is a decrease in eye blinks while lying and an increase just after lying. This pattern resulted very different for truth tellers, showing that there is a significant difference in eye blink behavior between truthfulness and deception.
 
 Singh et al. in \cite{7324092} show that while lying there is an increase in cognitive load and a significant decrease in eye blinks, directly followed by an increase in blink rate as soon as the cognitive demand ceases, after telling the lie. A threshold is set by the authors for this study, either at 26 blinks per minute or it is calculated ad personam using the average blink rate from a blink detection algorithm. Blink detection is done through MATLAB using the HAAR Cascade algorithm.
@@ -165,21 +163,20 @@ Another example of multimodal detection is found in \cite{DBLP:journals/corr/abs
 The authors decided to fuse the score of the classifiers on IDT and micro-expressions to boost the performance. Regarding text, the transcript of the considered videos are analyzed, but the performance increase is very marginal. \\
 For speech, they integrated the vision side with Mel Frequency Cepstral Coefficient (MFCC) features analysis from the audio, boosting the performances significantly, reaching an AUC of 0.877. 
 
-%todo: is this useless?
-Noje et al. \cite{7367432} set up a study with ten subjects to observe the potential of head movements in lie detection. They built an application to detect head movement and position by performing a frame to frame analysis on a video stream. A correlation was made between head movement/position and the identification of lies. The results of the study are not concluding as this data can't be utilized without being incorporated with other modalities such as voice, gaze, words, expressions et cetera.
+Noje et al. \cite{7367432} set up a study with ten subjects to observe the potential of head movements in lie detection. They built an application to detect head movements and position by performing a frame to frame analysis of a video stream. A correlation was found between the head movements and position and the identification of lies, confirming what the psychological theory suggests, but the authors suggest that this data would be more telling if incorporated with other modalities such as voice, gaze, words, expressions et cetera.
 
 In \cite{Perez-Rosas:2015:DDU:2818346.2820758} Perez et al. utilize real life trial videos to identify deception, employing a model that extracts features from both linguistic and gesture modalities. The verbal features consist of unigrams and bigrams derived from the bag-of-words representation of the video transcripts, while gesture features are taken from the annotations performed using the MUMIN coding scheme, where each feature indicates the presence of a gesture only if it's present in the majority of the video. Using Decision Trees and Random Forest classifiers they achieve between 60\% and 75\% accuracy.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{non_verbal_perez}
+	\includegraphics[width=1\textwidth]{non_verbal_perez}
 	\caption{Distribution of non-verbal features for deceptive and truthful groups \cite{Perez-Rosas:2015:DDU:2818346.2820758}.}
 \end{figure}
 
 \subsection{Facial Expression and Micro-Expressions}
-Facial Expressions are one of the main methods that we use to express our emotions, and are developed since the first months of our life to help us communicate our feelings to others. But what happens when we want to hide our emotions instead? 
+Facial Expressions are one of the main methods that we use to express our emotions, and are developed since the first months of our life to help us communicate our feelings to and towards others. But what happens when we want to hide our emotions instead? 
 
-Facial micro-expressions are very fast (from 1/2 to 1/25 of a second) and involuntary expressions that come up on the human face when we are trying to suppress or hide an emotion, and are very difficult to control using just one's willpower \cite{EkmanER}.
+Facial micro-expressions are very fast (from 1/2 to 1/25 of a second) and involuntary expressions that come up on the human face when we are trying to suppress or hide an emotion, and are very difficult to control using just one's willpower and without explicitly training for it \cite{EkmanER}.
 
 \begin{figure}[H]
 	\centering
@@ -187,7 +184,7 @@ Facial micro-expressions are very fast (from 1/2 to 1/25 of a second) and involu
 	\caption{Six basic Facial Expressions in adults and children \cite{baby_fe}.}
 \end{figure}
 
-Studying and classifying micro-expression is very valuable and has many applications, especially in psychology and forensic sciences, but it is a hard feat as the duration is very short and the intensity is generally very low low.\\ 
+Studying and classifying micro-expression is very valuable and has many applications, especially in psychology and forensic sciences, but it is a hard and complex feat as the duration is very short and the intensity is generally very low. Recognizing micro-expressions using the human eye, without further help from a computer has proved to be a challenging task.\\ 
 Micro-expressions have been studied since 1966 to recognize and distinguish real or fake emotions, initially by Haggard and Isaacs \cite{Haggard}, and three years later by Ekman and Frisen \cite{EkmanLeakage}.
 
 Substantial work on Micro-Expressions has been done in recent years by Pfister, Li et al. In \cite{pfister2011micro} they collaborated with psychologists to design an induced emotion suppression experiment. The data was collected with a high speed camera to be able to register the micro expressions of the subjects. A Temporal interpolation model was used to counter the shortness of the video length, while multiple kernel learning, random forest and SVM were used to classify micro expressions reaching an accuracy of 71.4\%.
@@ -198,6 +195,8 @@ They used two high speed cameras to record the face of the subjects while they w
 A study of spontaneous micro expression spotting and recognition methods was done in \cite{xli2015reading}. A new training-free method, based on feature difference contrast for recognizing micro-expressions was presented. The features are extracted from the video using Local Binary Pattern (LBP) and Histogram of Optical Flow. \\
 To recognize the Micro expressions, the authors performed face alignment and temporal interpolation, then trained an SVM classifier. \\
 This micro-expression framework was tested on the SMIC and CASMEII database with very good results. After combining micro-expressions spotting and recognition they released a new micro-expression analysis system (MESR) that is able to recognize micro-expressions from spontaneous video data.
+
+%todo: read till here ^
 
 Owayjan et al. \cite{6462897} designed a lie detection system using micro-expressions. At first an embedded video system is used to record the subject interview. The video stream is converted into frames, and each frame is processed in four stages: converting the images, filtering out useless features, applying geometric templates and finally extracting the measurements to detect the micro-expressions. \\
 Results show that up to eight facial expressions can be recognized, and that lies can be discerned with high precision.
