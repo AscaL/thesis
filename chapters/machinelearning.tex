@@ -202,7 +202,6 @@ This is usually formalized as:
 	E(Y|X) = f(X,\beta)
 \end{equation}
 
-%TODO: riguardare anche questo, troppo wiki
 If $\beta$ is of length $k$ and the number of observed data points is enough ($N > k$), then it's possible to estimate a unique value for $\beta$ that best fits the data.
 
 If this is the case, regression analysis provides the means to find a solution for unknown parameters of $\beta$ to, for example, apply the method of least squares.
@@ -285,23 +284,23 @@ where $x_{ij}$ is the i\textit{th} observation on the j\textit{th} independent v
 \clearpage
 
 \section{Logistic Regression} \label{logreg}
-In regression analysis, logistic regression is a method for estimating the parameters of a logistic model. A logistic model is one where the log-odds of the probability of an event is a linear combination of independent or predictor variables. \\
-The two possible dependent variable's values are often labeled as "0" and "1", "true" or "false", "pass" or "fail" etc, and they represent binary outcomes (Fig. \ref{fig:logistic_exam}). \\
-It's possible to generalize the binary logistic regression model to more than two levels (outcomes) of the dependent variable \cite{wiki:logisticreg}.
+In regression analysis, logistic regression is a method for estimating the parameters of a logistic model. A logistic model is a model where the log-odds of the probability of an event is a linear combination of independent or predictor variables. \\
+The two possible dependent variable's values are often labeled as "0" and "1", "true" or "false", "pass" or "fail" etc, and they represent a binary outcome (Fig. \ref{fig:logistic_exam}). \\
+It's possible to generalize the binary logistic regression model to more than two levels (outcomes) of the dependent variable \cite{wiki:logisticreg}, called multinomial logistic regression.
 
 The binary logistic model works by estimating the probability of a binary response based on one or more predictor variables.\\
-By using logistic regression is possible to say how much that the presence of a risk factor increases the odds of a given outcome. \\
-The model itself simply calculates the probability of output in terms of input, and it is not specifically a classifier, but it can be used to classify data by choosing a threshold value, for example if the probability is $\ge 50\%$ the class is "1" otherwise is "0".
+By using logistic regression is possible to say how much the presence of a risk factor increases the odds of a given outcome. \\
+The model itself simply calculates the probability of output in terms of input, and it is not specifically a classifier, but it can be used to classify data by choosing a threshold value, for example by saying that if the resulting probability is $\ge 50\%$ the class is "1" otherwise is "0".
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.85\textwidth]{exam_pass_logistic_curve}
-	\caption{Graph of a logistic regression curve showing probability of passing an exam versus hours studying \cite{wiki:logisticreg}}
+	\caption{Graph of a logistic regression curve showing probability of passing an exam versus hours studying \cite{wiki:logisticreg}}.
 	\label{fig:logistic_exam}
 \end{figure}
 
 \subsubsection{Logistic Function}
-The logistic function to estimate the probabilities is a sigmoid function (exemplified in fig. \ref{fig:sigmoid}). \\
+The logistic function to estimate the probabilities is a sigmoid function (fig. \ref{fig:sigmoid}). \\
 A sigmoid function takes an input from the real numbers and outputs a value between $0$ and $1$.
 
 \begin{figure}[H]
@@ -352,6 +351,8 @@ Once the coefficient have been estimated is pretty simple to compute the probabi
 
 \section{Random Forest} \label{random_forest}
 
+%TODO2: fixpage
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{RFClass}
@@ -361,7 +362,7 @@ Once the coefficient have been estimated is pretty simple to compute the probabi
 
 Random forests are an ensemble learning method used mainly for classification and regression. They work by building many decision trees while in the training phase, and then outputting the class that is the mode of the classes for classification, or the mean prediction of the individual trees for regression \cite{wiki:randomforest}\cite{RDF}.
 
-Random Forest (RF) is preferred to decision trees because decision trees suffer from high variance. By using tree bagging, which is a commonly used technique to reduce variance, we can correct decision trees' habit of overfitting to their training set \cite{ESL}.
+Random Forest (RF) is preferred to decision trees because decision trees suffer from high variance. By using tree bagging, which is a commonly used technique to reduce variance, it is possible to correct decision trees' habit of overfitting to their training set \cite{ESL}.
 
 \subsubsection{Decision Trees}
 \begin{figure}[H]
@@ -383,7 +384,7 @@ The data usually has the following structure:
 Where \textit{Y} is the dependent variable that we are trying to classify and \textit{x} is the feature vector.
 
 A decision tree is able to represent a classification problem:
-The arcs of a tree's node labeled with input features are labeled with the possible values for that feature, and they can lead to two options:
+the arcs of a tree's node labeled with input features are labeled with the possible values for that feature, and they can lead to two options:
 \begin{itemize}[noitemsep]
 	\item A subordinate decision node, with different input features.
 	\item A leaf labeled with the resulting class (or a probability).
@@ -391,7 +392,9 @@ The arcs of a tree's node labeled with input features are labeled with the possi
 
 A tree can be learned by dividing the training set into subsets based on the values of the attributes. This is done recursively until a node has all the same value of the target variable, or when splitting is no longer aiding the prediction's result.
 
-Decision trees, however, are often inaccurate. Specifically, by growing trees very deep, they tend to learn highly irregular patterns by overfitting to the training set (they normally have low bias but very high variance) \cite{ESL}. 
+%todo2: pagefix
+
+Decision trees, however, are often inaccurate. Specifically, by growing trees very deep, they tend to learn highly irregular patterns by overfitting to the train set, and result having low bias but very high variance) \cite{ESL}. 
 
 Random forests are a way of averaging multiple deep decision trees, trained on different parts of the same training set, with the goal of reducing the variance. \\
 This comes at the expense of a small increase in the bias and some loss of interpretability, but generally greatly boosts the performance in the final model \cite{ESL}. 
@@ -400,15 +403,15 @@ This comes at the expense of a small increase in the bias and some loss of inter
 Given a set of $n$ independent observations $X_1, \dots, X_n$, each with variance $\sigma^2$, the variance of the mean $\overline{X}$ of the observations is given by $\sigma^2/n$. \\
 This means that averaging a set of observations reduces the variance. So to reduce the variance we can take many training sets from the population, build a prediction model using each training set, and average the resulting predictions. 
 
-Basically we could calculate $\hat{f}^1(x), \hat{f}^2(x), \dots, \hat{f}^B(x)$ using B separate training sets, and then average them in order to obtain a single model with lower variance \cite{ISLR}.
+Basically we could calculate $\hat{f}_1(x), \hat{f}_2(x), \dots, \hat{f}_B(x)$ using B separate training sets, and then average them in order to obtain a single model with lower variance \cite{ISLR}.
 
 This solution is not practical since we normally lack more than one training set. \\
-Instead we utilize \textit{bagging}: we can take repeated samples from the training set in order to generate B different bootstrapped training sets. We then train our method on the b\textit{th} bootstrapped training set, and then average the resulting predictions.
+Instead we utilize \textit{bagging}: we can take repeated samples from the training set in order to generate B different bootstrapped versions of it. We then train our method on the b\textit{th} bootstrapped training set, and then average the resulting predictions (fig. \ref{fig:bagging}).
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{bagging}
-	\caption{Bagging Example \cite{bagging}}
+	\caption{Tree Bagging example \cite{bagging}}
 	\label{fig:bagging}
 \end{figure}
 
@@ -447,11 +450,13 @@ Additionally, an estimate of the uncertainty of the prediction can be made as th
 	{\sigma ={\sqrt {\frac {\sum_{b=1}^{B}(f_{b}(x')-{\hat {f}})^{2}}{B-1}}}}
 \end{equation}
 
-The number of samples/trees, B, is a free parameter. Typically, a few hundred to several thousand trees are used, depending on the size and nature of the training set. \\
-An optimal number of trees B can be found using cross-validation, or by observing the out-of-bag error (\ref{oob}): the mean prediction error on each training sample $x_i$, using only the trees that did not have $x_i$ in their bootstrap sample. \\
-The training and test error tend to level off after some number of trees have been fit \cite{ISLR}.
+The number of samples/trees B is a free parameter. Typically, a few hundred to several thousand trees are used, depending on the size and nature of the training set. \\
+An optimal number of trees B can be found using cross-validation, or by observing the out-of-bag error (par \ref{oob}): the mean prediction error on each training sample $x_i$, using only the trees that did not have $x_i$ in their bootstrap sample. \\
+The training and test error tend to level off after a good amount of trees have been fit \cite{ISLR}.
 
-\subsubsection{From Bagging to Random Forests}
+%todo: arrived here
+
+\subsubsection{Random Forests}
 Random Forests provide an improvement over bagged decision trees by decorrelating the trees. As in bagging, the decision trees are built on a bootstrapped training set. \\
 The difference is that every time a split is considered, a random sample of $m$ predictors is chosen as split candidates from the total $p$ predictors. The split can only use one of those $m$ predictors. $\sqrt{m}$ predictors are taken each split, typically with $m \equiv \sqrt{p}$ \cite{ISLR}.
 
