@@ -12,9 +12,9 @@ Machine Learning is a subfield of Artificial Intelligence that uses statistical 
 
 The applications for machine learning are huge and diverse, and range from character recognition to email filtering, with lots of applications in computer vision, such as image recognition and classification.
 
-Machine learning also focuses on making prediction on data, by utilizing techniques taken from statistics and mathematical optimization. This has many applications, ranging from health care by predicting risk factors for diseases or gaining insights for prevention, to sports or politics where actual results of games or elections can be predicted.
+Machine learning also focuses on making prediction on data, performed by utilizing techniques taken from statistics and mathematical optimization. This has many applications, ranging from health care by predicting risk factors for diseases or gaining insights for prevention, to sports or politics where actual results of games or elections can be predicted.
 
-The field of machine learning is subdivided in two broad categories (Fig. \ref{fig:ml_mldiv}), supervised learning (par. \ref{supervised}) and unsupervised learning (par. \ref{unsupervised}) based on whether the data is labeled or not.
+The field of machine learning is subdivided in two broad categories (fig. \ref{fig:ml_mldiv}), supervised learning (par. \ref{supervised}) and unsupervised learning (par. \ref{unsupervised}). This division is made based on whether the data is labeled or not.
 
 \begin{figure}[H]
 	\centering
@@ -23,7 +23,7 @@ The field of machine learning is subdivided in two broad categories (Fig. \ref{f
 	\label{fig:ml_mldiv}
 \end{figure}
 
-Another subdivision of the field of machine learning is based on the kind of output that the users wish to obtain, and the categories of said output are:
+Another subdivision of the field of machine learning is based on the kind of output that the users wish to obtain. The categories of said output are:
 \begin{itemize}[noitemsep]
 	\item \textbf{Classification} (par. \ref{classification}) for predicting a discrete class label for a new example data.
 	\item \textbf{Regression} (par. \ref{regression}) to predict a continuous quantity.
@@ -31,7 +31,7 @@ Another subdivision of the field of machine learning is based on the kind of out
 \end{itemize}
 
 \subsection{Supervised Learning} \label{supervised}
-When using supervised learning we want to learn a function that maps an input to an output, based on example input-output pairs \cite{ai_sup}. \\
+When using a supervised learning method we want to learn a function that maps an input to an output, based on example input-output pairs \cite{ai_sup}. \\
 This means that we need labeled training data, consisting of a vector of input objects and an output value. The objective is to correctly classify the new data based on the previously analyzed training pairs.
 
 The general steps to solve a supervised learning problem are (fig. \ref{fig:sup_wf}):
@@ -60,8 +60,9 @@ There are important considerations to make when using a supervised learning appr
 	A learning algorithm has high variance for a particular input $x$ if it predicts output values that are correct on average but inconsistent when trained on different training sets. \\
 	Basically, a high variance indicates that the data points are very spread out from the mean, and from one another (Fig. \ref{fig:biasvar}).
 	
-	The prediction error of a classifier is related to the sum of bias and variance, so generally there is a tradeoff between them. Low bias means that it fits the new data well, but if the bias is too low it will fit each training set differently and so result in high variance.
+	The prediction error of a classifier is related to the sum of bias and variance, so generally there is a tradeoff between them. Low bias means that a classifier fits the new data well, but if the bias is too low it will fit each training set differently and so result in high variance.
 	
+	%TODO2: pagefix
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.75\textwidth]{biasvar}
@@ -102,7 +103,7 @@ There are many algorithms used to perform supervised learning tasks, the most co
 
 \subsection{Unsupervised Learning} \label{unsupervised}
 Unsupervised learning is the subfield of Machine Learning tasked with inferring a function from the analysis of unlabeled (not classified) data. Being unclassified there is also a difficulty in evaluating the accuracy of the model.\\
-Usually items are grouped by some measure of similarity, like for example in k-means clustering (Fig. \ref{fig:clustering}).
+Usually items are grouped by some measure of similarity, like for example in k-means clustering (fig. \ref{fig:clustering}).
 
 \begin{figure}[H]
 	\centering
@@ -157,7 +158,7 @@ The classifier is the algorithm that implements the classification, or a functio
 	\label{fig:classification}
 \end{figure}	
 
-Many classification algorithm, such as SVM (\ref{svm}), logistic regression \ref{logreg}, LDA (Linear Discriminant Analysis) or perceptron, can be described using a linear function assigning a score to each category \textit{c}, by doing the dot product of the feature vector of an instance with a vector of weights, thus combining them. The predicted category will be the one with the highest score. This function is called linear predictor function and has this general formula:
+Many classification algorithm, such as Support Vector Machine (par. \ref{svm}), logistic regression (par. \ref{logreg}), Linear Discriminant Analysis (LDA) or perceptron, can be described using a linear function assigning a score to each category \textit{c}, and doing the dot product of the feature vector of an instance with a vector of weights, thus combining them. The predicted category will be the one with the highest score. This function is called linear predictor function and has this general formula:
 
 \begin{equation}
 score(X_i, c) = \beta_c \cdot X_i
@@ -166,14 +167,9 @@ score(X_i, c) = \beta_c \cdot X_i
 where $X_i$ is the feature vector of instance \textit{i} and $\beta_c$ is the vector of weights of category \textit{c}. This kind of algorithms are known as linear classifiers.
 
 \subsection{Regression Analysis} \label{regression}
-%TODO: check if it's ok
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.75\textwidth]{reg_analysis}
-	\caption{Regression Analysis can solve this! \cite{reg_analisys}}
-	\label{fig:reg_analysis}
-\end{figure}
+%TODO2: fix page
 
+%TODO: non mi piace fino a fig
 Regression analysis is used in statistics and machine learning to estimate the relationships among variables. \\
 More specifically, it focuses on the relationship between one dependent variable and more independent variables (also called predictors), and generally is used to estimate the average value of the dependent variable when the independent variables are fixed, by calculating a regression function.
 
@@ -211,7 +207,7 @@ If $\beta$ is of length $k$ and the number of observed data points is enough ($N
 
 If this is the case, regression analysis provides the means to find a solution for unknown parameters of $\beta$ to, for example, apply the method of least squares.
 
-To apply regression the data must abide by some assumptions, generally \cite{wiki:lin_reg}:
+Generally, to apply a regression analysis, the data must abide by some assumptions \cite{wiki:lin_reg}:
 \begin{itemize}[noitemsep, topsep = -5pt]
 	\item The sample is representative of the population for the inference prediction.
 	\item The error is a random variable with a mean of zero.
@@ -222,9 +218,9 @@ To apply regression the data must abide by some assumptions, generally \cite{wik
 \end{itemize}
 
 \subsection{Linear Regression} \label{lin_reg}
-Linear regression is the most basic case of Regression Analysis, and it is a useful tool for predicting a quantitative response. Also, most of the newer approaches to regression are often a generalization or extension of linear regression.
+Linear regression (LR) is the most basic case of Regression Analysis, and it is a useful tool for predicting a quantitative response. Also, most of the newer approaches are often a generalization or an extension of the linear regression model.
 
-Linear regression is a linear approach to modeling the relationship between a dependent variable and one or more independent variables. The simplest case of linear regression (LR) is when there is only one independent variable, and is called simple linear regression \cite{wiki:lin_reg} and has this form:
+LR is a linear approach to modeling the relationship between a dependent variable and one or more independent variables. The simplest case of linear regression is when there is only one independent variable, this is called simple linear regression \cite{wiki:lin_reg}, and has the following form:
 \begin{equation}
 	y_i \approx \beta_0 + \beta_1x_i + \varepsilon_i
 \end{equation}
@@ -236,7 +232,7 @@ The aim of LR is to estimate the $\beta$ coefficients to make predictions. To do
 	\widehat{y_i} \approx \widehat{\beta_0} + {\widehat{\beta_1}x_i}
 \end{equation}
 
-$e_i = y_i - \widehat{y_i}$ is the difference between the true value and the prediction for an observation, and it is called residual (Fig. \ref{fig:reg_error}).
+$e_i = y_i - \widehat{y_i}$ is the difference between the true value and the prediction for an observation, and it is called residual (fig. \ref{fig:reg_error}).
 
 \begin{figure}[H]
 	\centering
@@ -284,7 +280,7 @@ The general multiple regression model, where there are $p$ independent variables
 	y_{i}=\beta_{1}x_{i1} + \beta_{2}x_{i2} + \cdots + \beta_{p}x_{ip} + \varepsilon_{i}
 \end{equation}
 
-where $x_{ij}$ is the i-th observation on the j-th independent variable.
+where $x_{ij}$ is the i\textit{th} observation on the j\textit{th} independent variable.
 
 \clearpage
 
