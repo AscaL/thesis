@@ -58,7 +58,7 @@ There are important considerations to make when using a supervised learning appr
 	A high bias indicates that the data points tend to be very close to the mean, and to each other.
 	
 	A learning algorithm has high variance for a particular input $x$ if it predicts output values that are correct on average but inconsistent when trained on different training sets. \\
-	Basically, a high variance indicates that the data points are very spread out from the mean, and from one another (Fig. \ref{fig:biasvar}).
+	Basically, a high variance indicates that the data points are very spread out from the mean, and from one another (fig. \ref{fig:biasvar}).
 	
 	The prediction error of a classifier is related to the sum of bias and variance, so generally there is a tradeoff between them. Low bias means that a classifier fits the new data well, but if the bias is too low it will fit each training set differently and so result in high variance.
 	
@@ -75,7 +75,7 @@ There are important considerations to make when using a supervised learning appr
 	To avoid this, it is important to reduce the number of features through manual removal or using feature selection algorithms such as Principal Component Analysis (PCA). This usually improves the accuracy of the classifier.
 	
 	\item \textbf{Overfitting and Underfitting} \cite{overfit}: \\	
-	Overfitting happens when the algorithm adapts too much on the training data and is no longer able to make accurate predictions on the test data (Fig. \ref{fig:underfitting}). This usually happens when there is an excessive number of parameters than what can be justified by the data \cite{camb_over}.
+	Overfitting happens when the algorithm adapts too much on the training data and is no longer able to make accurate predictions on the test data (fig. \ref{fig:underfitting}). This usually happens when there is an excessive number of parameters than what can be justified by the data \cite{camb_over}.
 	
 	Underfitting is the opposite: a model is not able to correctly capture the structure of the data, for example when fitting non linear data with a linear model. \\
 	A common way to avoid overfitting is to resample the data using different techniques, commonly k-fold cross validation or leave-one-out. Other methods include feature removal, early stopping and regularization.
@@ -285,7 +285,7 @@ where $x_{ij}$ is the i\textit{th} observation on the j\textit{th} independent v
 
 \section{Logistic Regression} \label{logreg}
 In regression analysis, logistic regression is a method for estimating the parameters of a logistic model. A logistic model is a model where the log-odds of the probability of an event is a linear combination of independent or predictor variables. \\
-The two possible dependent variable's values are often labeled as "0" and "1", "true" or "false", "pass" or "fail" etc, and they represent a binary outcome (Fig. \ref{fig:logistic_exam}). \\
+The two possible dependent variable's values are often labeled as "0" and "1", "true" or "false", "pass" or "fail" etc, and they represent a binary outcome (fig. \ref{fig:logistic_exam}). \\
 It's possible to generalize the binary logistic regression model to more than two levels (outcomes) of the dependent variable \cite{wiki:logisticreg}, called multinomial logistic regression.
 
 The binary logistic model works by estimating the probability of a binary response based on one or more predictor variables.\\
@@ -454,13 +454,11 @@ The number of samples/trees B is a free parameter. Typically, a few hundred to s
 An optimal number of trees B can be found using cross-validation, or by observing the out-of-bag error (par \ref{oob}): the mean prediction error on each training sample $x_i$, using only the trees that did not have $x_i$ in their bootstrap sample. \\
 The training and test error tend to level off after a good amount of trees have been fit \cite{ISLR}.
 
-%todo: arrived here
-
 \subsubsection{Random Forests}
 Random Forests provide an improvement over bagged decision trees by decorrelating the trees. As in bagging, the decision trees are built on a bootstrapped training set. \\
 The difference is that every time a split is considered, a random sample of $m$ predictors is chosen as split candidates from the total $p$ predictors. The split can only use one of those $m$ predictors. $\sqrt{m}$ predictors are taken each split, typically with $m \equiv \sqrt{p}$ \cite{ISLR}.
 
-Practically, at each split in the tree, the algorithm can only consider a subset of the predictors (Fig. \ref{fig:RF}). This works because if there is a very strong predictor, that predictor would be used in the majority of the trees, and then all the bagged trees would look alike and would be highly correlated, thus leading to a small reduction in variance.
+Practically, at each split in the tree, the algorithm can only consider a subset of the predictors (fig. \ref{fig:RF}). This works because if there is a very strong predictor, that predictor would be used in the majority of the trees, and then all the bagged trees would look alike and would be highly correlated, thus leading to a small reduction in variance.
 
 By forcing each split to consider only $m$ predictors, on average $(p - m)/p$ of splits will not take into account a strong predictor. This, in turn, will decorrelate the trees.
 
@@ -476,13 +474,13 @@ There is a very direct way to estimate the test error of a bagged model: \\
 on average, we use $2/3$ of the observations to fit a bagged tree. The remaining $1/3$ that are not utilized are called the out-of-bag (OOB) observations. 
 
 We can predict the response for the i\textit{th} observation using each of the trees in which that observation was OOB. This will generate approximately $B/3$ predictions for the i\textit{th} observation.
-We can then average these predictions (or use majority voting for classification). 
+We can then average these predictions, or use majority voting for classification.
 
 We can repeat the process for all the $n$ observations and get an average classification error. \\
 The resulting OOB error is a valid estimate of the test error for the bagged model, since the response for each observation is predicted using only the trees that were not fit using that observation \cite{ISLR}. 
 
 \subsubsection{Variable Importance}
-Bagging has the advantage of giving increased accuracy over using a single tree, at the cost of interpretability of the data. Using bagging we can no longer have easily interpreted diagrams.
+Bagging has the advantage of giving increased accuracy over using a single tree, at the cost of interpretability of the data. Using bagging we can no longer have easily interpreted diagrams \cite{ISLR}.
 
 With Random Forest we can instead rank the importance of each predictor: \\
 given a dataset $D_n = \{X_i, Y_i\}_{i=1}^n$ we fit a RF to the data. While fitting the data, the out-of-bag error is averaged over the forest. 
@@ -494,7 +492,7 @@ The importance is given by doing the average of the difference between the OOB e
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{RF_imp}
-	\caption{Example of variable importance found with Random Forest \cite{rf_imp}.}
+	\caption{Example of variable importance found using Random Forest \cite{rf_imp}.}
 	\label{fig:RF_imp}
 \end{figure}
 
@@ -506,7 +504,7 @@ Support Vector Machines (SVM) are a supervised machine learning algorithm used f
 The main idea is to find the optimal hyperplane for linearly separable data, and then extend this idea to data that are not linearly separable by mapping this data in a new space using a kernel function.
 
 \subsection{Hyperplane}
-What is a hyperplane? In \textit{p}-dimension, a hyperplane is a flat affine subspace of $p - 1$ dimension. For example, in two dimensions it's a line, in three dimensions it's a plane (Fig. \ref{fig:hyperplane}), and so on.
+What is a hyperplane? In \textit{p}-dimension, a hyperplane is a flat affine subspace of $p - 1$ dimension. For example, in two dimensions it's a line, in three dimensions it's a plane (fig. \ref{fig:hyperplane}), and so on.
 
 \begin{figure}[H]
 	\centering
@@ -522,7 +520,7 @@ The definition of an hyperplane for two dimensions is:
 
 Where any $X = (X_1, X_2)^T$ for which equation \ref{eq:hyper1} holds is a point on the hyperplane.
 
-And it can be extended to an hyperplane of p-dimensions:
+This definition can be extended to an hyperplane of p-dimensions:
 \begin{equation} \label{eq:hyper2}
 \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p = 0
 \end{equation}
@@ -541,7 +539,7 @@ If the data can be separated by a hyperplane, it means that there can be an infi
 To build a classifier it's necessary to chose one between those infinite hyperplanes, such that the classification results are as accurate as possible.
 
 The distance between the hyperplane and the nearest data point from either side is known as the margin.\\
-Generally the choice is the \textit{maximal margin hyperplane}, meaning the hyperplane that \textit{maximizes} the margins (has the farthest minimum distance) for the data we are classifying.
+Generally the choice is the \textit{maximal margin hyperplane}, meaning the hyperplane that \textit{maximizes} the margins, meaning that it has the farthest minimum distance, for the data we are trying to classify.
 
 In fact the distance of a data point from the hyperplane is a measure of our confidence that the observation was classified correctly \cite{ISLR}.
 
@@ -554,7 +552,7 @@ In fact the distance of a data point from the hyperplane is a measure of our con
 The idea is that a classifier with a large margin on the training set will have a large margin on the test set, so it will classify it correctly \cite{ISLR}.
 
 \subsection{Support Vectors}
-Support vectors are the data points that lie closest to the hyperplane (Fig. \ref{fig:suppvec}), they are also the most difficult data points to classify and have direct influence on the location of the hyperplane. In fact, moving the support vectors would change the hyperplane's location.
+Support vectors are the data points that lie closest to the hyperplane (fig. \ref{fig:suppvec}), they are also the most difficult data points to classify and have direct influence on the location of the hyperplane. In fact, moving the support vectors would change the hyperplane's location.
 
 \begin{figure}[H]
 	\centering
@@ -590,12 +588,12 @@ Unfortunately this hyperplane does not necessarily exists (fig. \ref{fig:svmnots
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{svm_not_separable}
-	\caption{Example of Linearly non separable data \cite{svm_not_sep}}
+	\includegraphics[width=1\textwidth]{svm_not_separable}
+	\caption{Example of non linearly separable data \cite{svm_not_sep}}
 	\label{fig:svmnotsep}
 \end{figure}
 
-Even if a separating hyperplane did exists, we might not want to use it: such a classifier would necessarily  classify all of the training data perfectly, and that would lead to sensitivity to changes in data points (fig. \ref{fig:margin_change}). Also, being so sensitive could mean that it's overfitting the data. 
+Even if a separating hyperplane did exists, we might not want to use it: such a classifier would necessarily  classify all of the training data perfectly, and that would lead to sensitivity to changes in data points (fig. \ref{fig:margin_change}). Also, being so sensitive could mean that it's overfitting to the data. 
 
 \begin{figure}[H]
 	\centering
@@ -606,13 +604,13 @@ Even if a separating hyperplane did exists, we might not want to use it: such a 
 
 Instead we consider a classifier that does not separate the data perfectly, but is less prone to change for individual data points and can better classify \textit{most} of the observations.
 
-This classifier is called \textit{soft margin classifier} or \textit{support vector classifier} (Fig. \ref{fig:soft_svm}). \\
+This classifier is called \textit{soft margin classifier} or \textit{support vector classifier} (fig. \ref{fig:soft_svm}). \\
 In a support vector classifier (SVC) a small subset of the observations are on the wrong side of the margin, or even on the wrong side of the separating hyperplane.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{soft_svm}
-	\caption{Soft margin classifier. Some data points are allowed to be misclassified to find a larger margin \cite{soft_svm}}
+	\includegraphics[width=0.85\textwidth]{soft_svm}
+	\caption{Soft margin classifier. Some data points in the picture are allowed to be misclassified, this leads to finding a larger and better margin \cite{soft_svm}}
 	\label{fig:soft_svm}
 \end{figure}
 
@@ -660,7 +658,7 @@ The interesting property of this optimization problem is that only the support v
 All the observations that lie on the correct side of the margin do not affect the support vector classifier.
 
 \subsection{Kernels} \label{kernel}
-Sometimes data is not linearly separable (Fig. \ref{fig:svmnotsep}). When that happens, Support Vector Machines work by enlarging the feature space using specific function called kernels, utilized to accommodate a non-linear boundary between the classes.
+Sometimes data is not linearly separable (fig. \ref{fig:svmnotsep}). When that happens, Support Vector Machines work by enlarging the feature space using specific function called kernels, utilized to account for a non-linear boundary between the classes.
 
 The solution to equations \ref{eq:svm4} - \ref{eq:svm6} involves only the inner products of the observations, and not the observations themselves \cite{ISLR}.\\
 We define the inner product between two \textit{r}-vectors \textit{a} and \textit{b} as $	\langle a,b \rangle = \sum_{i=1}^{r} a_{i}b_{i}$. So the inner product of two observations $x_i$, $x_i'$ is given by:
@@ -704,6 +702,8 @@ yet another example is the sigmoid kernel:
 \begin{equation} \label{eq:svm15}
 	K(x_i, x_i') = \tanh(-k\sum_{j=1}^{p} (x_{ij}, x_{i'j})^2 + \delta)
 \end{equation}
+
+%todo2: fixpage
 
 We can visualize some of these kernels in fig. \ref{fig:kernels}
 \begin{figure}[H]

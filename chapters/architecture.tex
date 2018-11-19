@@ -1,11 +1,10 @@
-%todo: complete, this is what my program does
-In this chapter we will discuss the architecture of our framework and the tools used for this thesis in Deception Detection. We will first explain the general architecture to perform deception detection (\ref{ga}), then we will introduce the OpenFace toolkit (\ref{OpenFace}), and describe landmark detection (\ref{landmark_det}), action unit recognition (\ref{au_det}) and the deception detection process (\ref{dec_det}).
+In this chapter we will discuss the architecture of our framework and the tools used for this thesis in Deception Detection. We will first explain the general architecture to perform deception detection (par. \ref{ga}), then we will introduce the OpenFace toolkit (par. \ref{OpenFace}), and describe landmark detection (par. \ref{landmark_det}), action unit recognition (par. \ref{au_det}) and the deception detection process (par. \ref{dec_det}).
 
 \section{General Architecture} \label{ga}
-%todo with images + change title
+%todo: image
 The general idea of this thesis is to classify whether a person is telling the truth or lying by analyzing the subject's facial movement, extracted using an RGB camera, during a video. To achieve this it is fundamental that the subject's face results visible during the videos.
 
-We implemented this idea using a Support Vector Machine classifier. 
+We ultimately implemented this idea using a Support Vector Machine classifier. 
 
 The architecture utilized is shown in fig \ref{fig:architecture} and is composed this way:
 
@@ -14,8 +13,8 @@ The architecture utilized is shown in fig \ref{fig:architecture} and is composed
 	\item Detect the face of the person in the video using Constrained Local Neural Field.
 	\item Detect the facial landmarks using Convolutional Experts Network.
 	\item Extract the appearance features in the form of Histogram of Oriented Gradients and perform dimensionality reduction and feature normalization through Principal Component Analysis.
-	\item Extract action unit presence and intensity from the videos using a SVM.
-	\item Feed the extracted data to train an SVM for classification on a test set.
+	\item Extract action unit presence and intensity from the videos using a Support Vector Classifier.
+	\item Feed the extracted data to train an Support Vector Classifier for classification on a test set.
 \end{itemize}
 
 \clearpage
@@ -31,7 +30,7 @@ The OpenFace \cite{Baltru2018} toolkit is a tool for machine learning and comput
 \end{figure}
 
 %TODO: check this new addition
-This tool is customizable in the way that all the SVM and neural networks models can be trained with different datasets, and the code is open source so it can be changed to fit the needs of the experimenters.
+This tool is fully customizable in such a way that all the support vector machine and neural networks models can be trained with different datasets. Moreover the code is open source so it is possible to change changed any part of it to fit the needs of the experimenters.
 
 %TODO: expand saying "we now describe how we used this tool for x y z...?
 
@@ -55,14 +54,13 @@ OpenFace uses a Convolutional Experts Constrained Local Model (CE-CLM) \cite{Bal
 
 A Constrained Local Model is class of methods for locating sets of points (constrained by a statistical shape model) on a target image \cite{clm_cootes}.
 
-Generally the procedure is as follows (Fig. \ref{fig:CLM}):
+Generally the procedure is as follows (fig. \ref{fig:CLM}):
 \begin{itemize}[noitemsep]
 	\item Sample a region from the image around the current estimate, projecting it into a reference frame.
 	\item For each point, generate a "response image" giving a cost for having the point at each pixel.
 	\item Search for a combination of points which optimizes the total cost, by manipulating the shape model parameters.
 \end{itemize}
 
-%todo: pic from https://pdfs.semanticscholar.org/c2a3/850becae2799b0e591e7ab1008b84897d6e9.pdf
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{CLM}
@@ -79,7 +77,7 @@ In the second phase, all landmarks are considered together and for misaligned la
 
 \subsection{CEN}
 In the initial step, the objective is to generate a response map to localize the individual landmarks. This is performed by assessing the landmark alignment probability at specific pixel locations. \\
-CEN takes in input a Region of Interest (ROI) around the currently estimated position of a landmark, and outputs a response map that calculates the landmark alignment probability at each pixel location (Fig. \ref{fig:landmark_det}).
+CEN takes in input a Region of Interest (ROI) around the currently estimated position of a landmark, and outputs a response map that calculates the landmark alignment probability at each pixel location (fig. \ref{fig:landmark_det}).
 
 \begin{figure}[H]
 	\centering
@@ -106,7 +104,7 @@ The Point Distribution Model is a used to represent the mean geometry of a shape
 Point distribution models rely on landmark points. The general PDM works this way:
 \begin{enumerate}
 	\item A set of training images are manually landmarked to sufficiently approximate the geometry of the original shapes. 
-	\item This \textit{k} landmarks are aligned in two dimensions resulting in \\
+	\item These \textit{k} landmarks are aligned in two dimensions resulting in \\
 	$\mathbf{X} = (x_1,y_1, \dots, x_k, y_k)$
 	\item The shape outlines are reduced to sequences of k landmarks, so that any given training shape can be defined by the vector $\mathbf{X} \in {\mathbb{R} ^{2k}}$.
 	\item The matrix of the top $d$ eigenvectors is given as $\mathbf{P} \in \mathbb{R}^{2k \times d}$, and each eigenvector describes a principal mode of variation along the set.
@@ -129,7 +127,7 @@ The application of PDM has two objectives:
 \end{itemize}
 This has an effect in the final detected landmarks, where the irregular shapes are imposed a penalty.
 
-The results can be seen in the figure \ref{fig:land_det_ex} below for different images with different illuminations and angles. 
+The results can be seen in the figure (\ref{fig:land_det_ex}) below for different images with different illuminations and angles. 
 
 \begin{figure}[H]
 	\centering
@@ -141,7 +139,7 @@ The results can be seen in the figure \ref{fig:land_det_ex} below for different 
 \clearpage
 
 \section{Action Unit Detection} \label{au_det}
-Action Unit (AU) detection plays a fundamental role in our work. We now describe the process used to detect the AUs through an SVM, starting with an overview of the datasets utilized for training the SVM in AUs detection.
+Action Unit (AU) detection plays a fundamental role in our work. We now describe the process used to detect the AUs through an SVM, starting with an overview of the datasets utilized for training the SVM for AUs detection.
 
 \begin{figure}[H]
 	\centering
@@ -158,7 +156,7 @@ The \textbf{BP4D} database of spontaneous facial expressions includes videos of 
 Emotion inducing techniques were used to elicit an emotional response. Frame-level ground-truth for facial actions was obtained by using the Facial Action Coding System annotations, performed by trained professionals. \\
 Each participant in the database is associated with 8 tasks. For each task, there are both 3D and 2D videos and the metadata include annotations for 11 AUs for occurrence and 5 AUs for intensities.
 
-\textbf{DISFA} (Denver Intensity of Spontaneuos Facial Action) Database is a non posed facial expression database for automatic action unit detection. It contains videos of 27 participants (12 female, 15 males; 14 used for training and 13 for validation). It includes 4 minute-long videos of spontaneous facial expression, resulting in 130k frames annotated for 12 AUs (Fig. \ref{fig:DISFA_AU}), comprehensive of AUs intensity on a 0 to 5 scale.
+\textbf{DISFA} (Denver Intensity of Spontaneuos Facial Action) Database is a non posed facial expression database for automatic action unit detection. It contains videos of 27 participants (12 female, 15 males; 14 used for training and 13 for validation). It includes 4 minute-long videos of spontaneous facial expression, resulting in 130k frames annotated for 12 AUs (fig. \ref{fig:DISFA_AU}), comprehensive of AUs intensity on a 0 to 5 scale.
 
 \begin{figure}[H]
 	\centering
@@ -178,7 +176,7 @@ SEMAINE and DISFA share AUs 2, 12, 17, 25. \\
 BP4D and DISFA share AUs 1, 2, 4, 6, 12, 15, 17. \\
 This allows for cross-dataset training.
 
-By training on these dataset is possible to detect the following AUs (\ref{fig:all_AUs}):
+By training on these dataset is possible to detect the following AUs (fig. \ref{fig:all_AUs}):
 
 \begin{figure}[H]
 	\centering
@@ -187,12 +185,15 @@ By training on these dataset is possible to detect the following AUs (\ref{fig:a
 	\label{fig:all_AUs}
 \end{figure}
 
+%TODO: read till here
+
 \subsection{Feature Extraction}
 There are two types of features that are used: appearance (Histogram of Oriented Gradients) and geometry (shape parameters and landmark locations) ones. To extract those features it's required to track certain landmarks on the face, and then continue this process by performing face alignment.
 
 \subsubsection{Face Tracking}
 %TODO: rewrite
 Face tacking is done by utilizing Constrained Local Neural Field (CLNF) facial landmark detector and tracker, backed up by a structural SVM for facial detection \cite{Baltru2013}.
+
 CLNF is a specific case of Constrained Local Model (CLM), that differs from the original by utilizing more advanced local detectors and a different optimization function.
 
 The Constrained Local Model can be described by the following parameters: \\
@@ -219,7 +220,7 @@ For the extracted face to be correctly analyzed, there needs to be a mapping to 
 
 In order to achieve this, a similarity transform from the currently detected landmarks to a representation of frontal landmarks from a neutral expression (projection of mean shape from a 3D PDM) is utilized. \\
 The similarity transform is done with Procrustes superimposition that minimizes the mean square error between aligned pixels \cite{Baltru2013}.\\
-The result is a $112 \times 112$ pixel image of the face with 45 pixel interpupillary distance (Fig \ref{fig:alignment_masking}). 
+The result is a $112 \times 112$ pixel image of the face with 45 pixel interpupillary distance (fig \ref{fig:alignment_masking}). 
 
 To reduce the weight of significant facial expressions (mouth opening, brow raises etc.) on the similarity transform, only the most stable facial landmarks must be used. \\
 %TODO: non mi piace
@@ -325,15 +326,17 @@ Suppose we are using a \textit{linear} SVM classifier. We would need to figure o
 	f(au^*) = \beta_0 + \beta_1 au^*_{1} + \beta_2 au^*_{2} + \dots + \beta_{35} au^*_{35}
 \end{equation}
 
-if $f(au^*)$ is positive, then we would assign the test observation to class 1, and if it is negative, we would assign it to class 0.
+if $f(au^*)$ is positive, then we would assign the test observation to class 1, and if it is negative, we would assign it to class 0 (fig. \ref{fig:ausvm}).
 
 Of course there are two things we need to consider:
-- we need to keep the margin M of the hyperplane in consideration
-- the relationship between features is not linear so we could need to enlarge the feature space
+\begin{enumerate}
+	\item we need to keep the margin M of the hyperplane in consideration
+	\item the relationship between features is not linear so we could need to enlarge the feature space
+\end{enumerate}
 
-For the Support Vector Machine we enlarge the feature space using kernel functions \ref{kernel}
+For the Support Vector Machine we enlarge the feature space using kernel functions (par. \ref{kernel})
 
-%figure with SVM with AUs divided by a line (or whatever)
+%todo: figure with SVM with AUs divided by a line (or whatever)
 
 %todo: equations from ML chapter rewritten using X
 
