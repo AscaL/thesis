@@ -290,6 +290,9 @@ The next step is to remove all the rows that have both no intensity and no prese
 We organized the data in three sets, one concerning only AUs intensity, one with only AUs presence, and another one where we merged the previous ones together, in order to better analyze the data and understand it's structure.
 
 \subsection{SVM}
+
+%todo avola: documento che parla di svm nello specifico per personalizzare / retraining di openface
+
 After pre-processing the data we use the train set to train a sigmoid %lo metto o solo svm?
 SVM, and then we utilize the trained model to evaluate on the test set and compare the results with the labels present on the test set.
 
@@ -323,8 +326,8 @@ if $f(au^*)$ is positive, then we would assign the test observation to class 1, 
 
 Of course there are two things we need to consider:
 \begin{enumerate}
-	\item we need to keep the margin M of the hyperplane in consideration
-	\item the relationship between features is not linear so we could need to enlarge the feature space
+	\item We need to keep the margin M of the hyperplane in consideration
+	\item The relationship between features is not linear so we could need to enlarge the feature space
 \end{enumerate}
 
 For the Support Vector Machine we enlarge the feature space using kernel functions (par. \ref{kernel})
