@@ -18,7 +18,7 @@ Some of the applications of this work can include airport security, work intervi
 \clearpage
 
 \section{People Lie Detection} \label{pplLieDet}
-It's very rare for people to be able to consistently discern between lies and truths, even though we hear lies regularly in the course of our lives. In fact most untrained people perform like chance (around 50\%) when tasked with detecting lies \cite{Porter2012SecretsAL}, and considering that the ordinary person lies at least twice a day on average \cite{LyingEverydayLife}, and that in this digital age the amount of lies told daily are increasing \cite{DigitalDeception} due to on-line communication making us feel more protected and confident in our deceptions, the problem of detecting lies is an important one and it deserves a good deal of research effort. 
+It's very rare for people to be able to consistently discern between lies and truths, even though we hear lies regularly in the course of our lives. In fact most untrained people perform like chance when tasked with detecting lies \cite{Porter2012SecretsAL}, and considering that the ordinary person lies at least twice a day on average \cite{LyingEverydayLife}, and that in this digital age the amount of lies told daily are increasing \cite{DigitalDeception} due to on-line communication making us feel more protected and confident in our deceptions, the problem of detecting lies is an important one and it deserves a good deal of research effort. 
 
 People's difficulty in detecting lies stem from the lack of objectivity. We are biased by so many factors when deciding weather a statement is a lie or not, and skilled deceivers can take advantage of that. \\
 An important reason is that people generally think it is easy to spot liars, underestimating the effort it takes by having too much confidence in their own judgment and capabilities, and by believing in gut feelings instead of empirical clues \cite{VrijDLD}. 
@@ -28,15 +28,24 @@ Weirdly, emotionally intelligent people perform worse at deception detection. Th
 
 In \cite{BondDePauloAccuracy} De Paulo et al. analyze the accuracy of deception judgments from a collection of 206 documents and 24.483 judges. They found that people can differentiate lies and truths with an accuracy of 54\%, with a lie detection accuracy of 47\% and a truth detection accuracy of 61\%. Interestingly, their findings reveal that is easier for people to discriminate between lies and truths from the audio cues rather than the visual ones.
 
-In another study \cite{HartwigGranhag} 192 students obtained an accuracy of 55.2\% on lie detection, with 61\% accuracy for guilty suspects and 49\% for innocent ones.\\
-Police officers and other trained officials seems to perform better than the average person at detecting lies \cite{VrijPoliceDetect}, obtaining around 70\% accuracy for distinguishing both lies and truths correctly, supporting the hypothesis that training and practice have an effect in bettering people at spotting liars.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{Ppl_lie_accuracy}
+\begin{table}[H]
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		\textbf{\begin{tabular}[c]{@{}l@{}}Lie \\ Catchers\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}\# of Lie \\ Catchers\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Overall \\ Accuracy\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Lying \\ Detection \\ Accuracy\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Truth \\ Detection \\ Accuracy\end{tabular}} \\ \hline
+		Diverse (206 documents) & N/A & 54\% & 47\% & 61\% \\ \hline
+		Undergraduate Students & 192 & 55.2\% & 61.5\% & 49\% \\ \hline
+		\begin{tabular}[c]{@{}l@{}}Police, FBI, CIA, \\ Lawyers, Judges\end{tabular} & N/A & 50\% & N/A & N/A \\ \hline
+		Secret Service Agents & N/A & 70\% & N/A & N/A \\ \hline
+		Police Officers & 37 & 72\% & 73\% & 70\% \\ \hline
+		College Students & 20 & 50\% & N/A & N/A \\ \hline
+	\end{tabular}
 	\caption{Performance on deceit detection by human observers \cite{SU201652}.}
-\end{figure}
- 
+	\label{tab:lidet}
+\end{table}
+
+In another study \cite{HartwigGranhag} 192 students obtained an accuracy of 55.2\% on lie detection, with 61\% accuracy for guilty suspects and 49\% for innocent ones.\\
+Police officers and other trained officials seems to perform better than the average person at detecting lies \cite{VrijPoliceDetect}, obtaining around 70\% accuracy for distinguishing both lies and truths correctly, supporting the hypothesis that training and practice have an effect in bettering people at spotting liars. In the table \ref{tab:lidet} above there is a comparison of lie detection accuracy between different classes of people, e.g. college students or police officers.
+
 \clearpage
 
 \section{State of the Art} \label{sota}
