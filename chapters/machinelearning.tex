@@ -38,17 +38,17 @@ This means that we need labeled training data, consisting of a vector of input o
 
 The general steps to solve a supervised learning problem are (fig. \ref{fig:sup_wf}):
 \begin{enumerate}[noitemsep]
-	\item Understand what kind of training example to use.
-	\item Gathering a training set.
-	\item Model the training set to be fed as input to the algorithm by choosing which features to use and how to represent the data.
-	\item Choose what kind of algorithm can best train the model.
+	\item Understand what kind of training example to use;
+	\item Gathering a training set;
+	\item Model the training set to be fed as input to the algorithm by choosing which features to use and how to represent the data;
+	\item Choose what kind of algorithm can best train the model;
 	\item Run the algorithm and evaluate the resulting accuracy on the test set.
 \end{enumerate}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{sup_wf}
-	\caption{Supervised Learning Workflow \cite{sup_wf}}
+	\caption{Supervised Learning Workflow \cite{sup_wf}.}
 	\label{fig:sup_wf}
 \end{figure}
 
@@ -64,43 +64,43 @@ There are important considerations to make when using a supervised learning appr
 	
 	The prediction error of a classifier is related to the sum of bias and variance, so generally there is a tradeoff between them. Low bias means that a classifier fits the new data well, but if the bias is too low it will fit each training set differently and so result in high variance.
 	
+	\clearpage
+	
 	%TODO2: pagefix
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.75\textwidth]{biasvar}
-		\caption{Example of Bias-Variance Tradeoff \cite{biasvarTradeoff}}
+		\includegraphics[width=0.65\textwidth]{biasvar}
+		\caption{Visual Explanation of Bias-Variance Tradeoff \cite{biasvarTradeoff}.}
 		\label{fig:biasvar}
 	\end{figure}	
 
 	\item \textbf{Dimensionality of Input} \cite{wiki:dim_red}:\\ 
 	When the input feature vectors are dimensionally very big there could be problems in learning the function, even if not all features contribute significantly to it. This happens because the data depends on too many variables and this could cause high variance. \\
 	To avoid this, it is important to reduce the number of features through manual removal or using feature selection algorithms such as Principal Component Analysis (PCA). This usually improves the accuracy of the classifier.
-	
-	\item \textbf{Overfitting and Underfitting} \cite{overfit}: \\	
+	\item \textbf{Overfitting and Underfitting} \cite{overfit}:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.85\textwidth]{underfitting}
+		\caption{Example of overfitting and underfitting \cite{underfitting}.}
+		\label{fig:underfitting}
+	\end{figure}
 	Overfitting happens when the algorithm adapts too much on the training data and is no longer able to make accurate predictions on the test data (fig. \ref{fig:underfitting}). This usually happens when there is an excessive number of parameters than what can be justified by the data \cite{camb_over}.
 	
 	Underfitting is the opposite: a model is not able to correctly capture the structure of the data, for example when fitting non linear data with a linear model. \\
 	A common way to avoid overfitting is to resample the data using different techniques, commonly k-fold cross validation or leave-one-out. Other methods include feature removal, early stopping and regularization.
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=1\textwidth]{underfitting}
-		\caption{Example of overfitting and underfitting \cite{underfitting}}
-		\label{fig:underfitting}
-	\end{figure}
 \end{itemize}
 
 There are many algorithms used to perform supervised learning tasks, the most commonly used are:
 
 \begin{itemize}[noitemsep, topsep = -5pt]
-	\item Linear Regression (\ref{regression})
-	\item Logistic Regression (\ref{logreg})
-	\item Naive Bayes
-	\item Linear Discriminant Analysis
-	\item Decision Trees
-	\item k-Nearest Neighbor
-	\item Neural Networks
-	\item Support Vector Machines (\ref{svm})
+	\item Linear Regression (par. \ref{regression});
+	\item Logistic Regression (par. \ref{logreg});
+	\item Naive Bayes;
+	\item Linear Discriminant Analysis;
+	\item Decision Trees;
+	\item k-Nearest Neighbor;
+	\item Neural Networks;
+	\item Support Vector Machines (par. \ref{svm}).
 \end{itemize}
 
 \subsection{Unsupervised Learning} \label{unsupervised}
@@ -109,8 +109,8 @@ Usually items are grouped by some measure of similarity, like for example in k-m
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{clustering}
-	\caption{Example of Unclustered and Clustered data \cite{kmeans}}
+	\includegraphics[width=0.75\textwidth]{clustering}
+	\caption{Example of Unclustered and Clustered data \cite{kmeans}.}
 	\label{fig:clustering}
 \end{figure}	
 
@@ -119,26 +119,23 @@ These are the most widely used unsupervised learning algorithms:
 \begin{itemize}[noitemsep]
 	\item Clustering
 	\begin{itemize}[noitemsep]
-		\item k-means
-		\item mixture models
-		\item hierarchical clustering
+		\item k-means;
+		\item mixture models;
+		\item hierarchical clustering;
 	\end{itemize}
-	\item Anomaly detection
-	\item Neural Networks
+	\item Neural Networks:
 	\begin{itemize}[noitemsep]
-		\item Autoencoders
-		\item Deep Belief Nets
-		\item Hebbian Learning
-		\item Generative Adversarial Networks
-		\item Self-organizing map
+		\item Autoencoders;
+		\item Deep Belief Nets;
+		\item Hebbian Learning;
+		\item Generative Adversarial Networks;
+		\item Self-organizing map;
 	\end{itemize}
-	\item Expectation–maximization algorithm (EM)
-	\item Method of moments
-	\item Blind signal separation techniques
+	\item Expectation–maximization algorithm (EM);
 	\begin{itemize}[noitemsep]
-		\item Principal component analysis,
-		\item Independent component analysis,
-		\item Non-negative matrix factorization
+		\item Principal component analysis;
+		\item Independent component analysis;
+		\item Non-negative matrix factorization;
 		\item Singular value decomposition.
 	\end{itemize}
 \end{itemize}
@@ -155,8 +152,8 @@ The classifier is the algorithm that implements the classification, or a functio
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{classification}
-	\caption{Example of data division by a classification algorithm}
+	\includegraphics[width=0.55\textwidth]{classification}
+	\caption{Example of data division by a classification algorithm.}
 	\label{fig:classification}
 \end{figure}	
 
@@ -210,11 +207,11 @@ If this is the case, regression analysis provides the means to find a solution f
 
 Generally, to apply a regression analysis, the data must abide by some assumptions \cite{wiki:lin_reg}:
 \begin{itemize}[noitemsep, topsep = -5pt]
-	\item The sample is representative of the population for the inference prediction.
-	\item The error is a random variable with a mean of zero.
-	\item The independent variables are measured with no error.
-	\item The independent variables (predictors) are linearly independent.
-	\item The errors are uncorrelated.
+	\item The sample is representative of the population for the inference prediction;
+	\item The error is a random variable with a mean of zero;
+	\item The independent variables are measured with no error;
+	\item The independent variables (predictors) are linearly independent;
+	\item The errors are uncorrelated;
 	\item The variance of the error is constant across observations.
 \end{itemize}
 
@@ -297,7 +294,7 @@ The model itself simply calculates the probability of output in terms of input, 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.85\textwidth]{exam_pass_logistic_curve}
-	\caption{Graph of a logistic regression curve showing probability of passing an exam versus hours studying \cite{wiki:logisticreg}}.
+	\caption{Graph of a logistic regression curve showing probability of passing an exam versus hours studying \cite{wiki:logisticreg}.}
 	\label{fig:logistic_exam}
 \end{figure}
 
@@ -357,8 +354,8 @@ Once the coefficient have been estimated is pretty simple to compute the probabi
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{RFClass}
-	\caption{Example of Random Forest Classification \cite{medium:RF}}
+	\includegraphics[width=0.8\textwidth]{RFClass}
+	\caption{Example of Random Forest Classification \cite{medium:RF}.}
 	\label{fig:RFClass}
 \end{figure}
 
@@ -366,11 +363,15 @@ Random forests are an ensemble learning method used mainly for classification an
 
 Random Forest (RF) is preferred to decision trees because decision trees suffer from high variance. By using tree bagging, which is a commonly used technique to reduce variance, it is possible to correct decision trees' habit of overfitting to their training set \cite{ESL}.
 
+In the following paragraphs we will give an overview of how the Random Forest method is derived from decision trees and bagging.
+
+\clearpage
+
 \subsubsection{Decision Trees}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{decTree}
-	\caption{Example of a Decision Tree \cite{KDNrf}}
+	\includegraphics[width=0.8\textwidth]{decTree}
+	\caption{Example of a Decision Tree \cite{KDNrf}.}
 	\label{fig:decTree}
 \end{figure}
 
@@ -402,19 +403,27 @@ Random forests are a way of averaging multiple deep decision trees, trained on d
 This comes at the expense of a small increase in the bias and some loss of interpretability, but generally greatly boosts the performance in the final model \cite{ESL}. 
 
 \subsubsection{Tree Bagging}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{bagging}
+	\caption{Tree Bagging algorithm example \cite{bagging}.}
+	\label{fig:bagging}
+\end{figure}
+
 Given a set of $n$ independent observations $X_1, \dots, X_n$, each with variance $\sigma^2$, the variance of the mean $\overline{X}$ of the observations is given by $\sigma^2/n$. \\
 This means that averaging a set of observations reduces the variance. So to reduce the variance we can take many training sets from the population, build a prediction model using each training set, and average the resulting predictions. 
 
 Basically we could calculate $\hat{f}_1(x), \hat{f}_2(x), \dots, \hat{f}_B(x)$ using B separate training sets, and then average them in order to obtain a single model with lower variance \cite{ISLR}.
 
 This solution is not practical since we normally lack more than one training set. \\
-Instead we utilize \textit{bagging}: we can take repeated samples from the training set in order to generate B different bootstrapped versions of it. We then train our method on the b\textit{th} bootstrapped training set, and then average the resulting predictions (fig. \ref{fig:bagging}).
+Instead we utilize \textit{bagging}: we can take repeated samples from the training set in order to generate B different bootstrapped versions of it \ref{fig:baggingDT}. We then train our method on the b\textit{th} bootstrapped training set, and then average the resulting predictions (fig. \ref{fig:bagging}).
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{bagging}
-	\caption{Tree Bagging example \cite{bagging}}
-	\label{fig:bagging}
+	\includegraphics[width=0.85\textwidth]{baggingDT}
+	\caption{Bagging leads to different decision trees' structure \cite{baggingDT}.}
+	\label{fig:baggingDT}
 \end{figure}
 
 To apply bagging to regression trees specifically, we simply construct B regression trees using B bootstrapped training sets, and average the resulting predictions. These trees are grown deep, and are not pruned. Hence each individual tree has high variance, but low bias. Averaging these B trees reduces the variance \cite{ISLR}.
@@ -438,13 +447,6 @@ After training, predictions for unseen samples $x'$ can be made by averaging the
 
 or by using the majority vote in case of classification.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{baggingDT}
-	\caption{Bagging leads to different decision trees \cite{baggingDT}}
-	\label{fig:baggingDT}
-\end{figure}
-
 %todo : maybe remove the rest
 Additionally, an estimate of the uncertainty of the prediction can be made as the standard deviation of the predictions from all the individual regression trees on $x'$:
 
@@ -464,10 +466,12 @@ Practically, at each split in the tree, the algorithm can only consider a subset
 
 By forcing each split to consider only $m$ predictors, on average $(p - m)/p$ of splits will not take into account a strong predictor. This, in turn, will decorrelate the trees.
 
+\clearpage
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{RF}
-	\caption{Random Forest overview}
+	\includegraphics[width=0.85\textwidth]{RF}
+	\caption{Random Forest overview.}
 	\label{fig:RF}
 \end{figure}
 
@@ -510,8 +514,8 @@ What is a hyperplane? In \textit{p}-dimension, a hyperplane is a flat affine sub
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{hyperplane}
-	\caption{Two and three dimensional space hyperplanes \cite{hyperplaneimg}}
+	\includegraphics[width=0.85\textwidth]{hyperplane}
+	\caption{Two and three dimensional space hyperplanes \cite{hyperplaneimg}.}
 	\label{fig:hyperplane}
 \end{figure}
 
@@ -547,8 +551,8 @@ In fact the distance of a data point from the hyperplane is a measure of our con
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{hyperplane_margin}
-	\caption{Different hyperplanes have different margins \cite{svm_monkeylearn}}
+	\includegraphics[width=0.4\textwidth]{hyperplane_margin}
+	\caption{Different hyperplanes have different margins \cite{svm_monkeylearn}.}
 \end{figure}
 
 The idea is that a classifier with a large margin on the training set will have a large margin on the test set, so it will classify it correctly \cite{ISLR}.
@@ -556,10 +560,12 @@ The idea is that a classifier with a large margin on the training set will have 
 \subsection{Support Vectors}
 Support vectors are the data points that lie closest to the hyperplane (fig. \ref{fig:suppvec}), they are also the most difficult data points to classify and have direct influence on the location of the hyperplane. In fact, moving the support vectors would change the hyperplane's location.
 
+\clearpage
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\textwidth]{svm_support_vectors}
-	\caption{Example of Support Vectors}
+	\caption{Example of Support Vectors.}
 	\label{fig:suppvec}
 \end{figure}
 
@@ -590,8 +596,8 @@ Unfortunately this hyperplane does not necessarily exists (fig. \ref{fig:svmnots
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{svm_not_separable}
-	\caption{Example of non linearly separable data \cite{svm_not_sep}}
+	\includegraphics[width=0.75\textwidth]{svm_not_separable}
+	\caption{Example of non linearly separable data \cite{svm_not_sep}.}
 	\label{fig:svmnotsep}
 \end{figure}
 
@@ -599,8 +605,8 @@ Even if a separating hyperplane did exists, we might not want to use it: such a 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{margin_change}
-	\caption{Adding a single data point (from left to right) can change the maximal margin hyperplane very significantly \cite{ISLR}}
+	\includegraphics[width=0.8\textwidth]{margin_change}
+	\caption{Adding a single data point (from left to right) can change the maximal margin hyperplane very significantly \cite{ISLR}.}
 	\label{fig:margin_change}
 \end{figure}
 
@@ -611,8 +617,8 @@ In a support vector classifier (SVC) a small subset of the observations are on t
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.85\textwidth]{soft_svm}
-	\caption{Soft margin classifier. Some data points in the picture are allowed to be misclassified, this leads to finding a larger and better margin \cite{soft_svm}}
+	\includegraphics[width=0.65\textwidth]{soft_svm}
+	\caption{Soft margin classifier. Some data points in the picture are allowed to be misclassified, this leads to finding a larger and better margin \cite{soft_svm}.}
 	\label{fig:soft_svm}
 \end{figure}
 
@@ -677,7 +683,7 @@ the linear SVC can then be described as:
 
 To estimate $\beta_{0}$ and $\alpha_1 \dots, \alpha_n$ all that is required are the $n \choose 2$ inner products $\langle x_i, x_{i'} \rangle$ between all pairs of training observations \cite{ISLR}.
 
-Every time we compute the inner product (\ref{eq:svm9}) in equation \ref{eq:svm10} we could replace it with a generalization of this form:
+Every time we compute the inner product (eq. \ref{eq:svm9}) in equation \ref{eq:svm10} we could replace it with a generalization of this form:
 
 \begin{equation} \label{eq:svm11}
 K(x_i, x_i')
@@ -707,13 +713,15 @@ yet another example is the sigmoid kernel:
 
 %todo2: fixpage
 
-We can visualize some of these kernels in fig. \ref{fig:kernels}
+We can visualize some of these kernels in fig. \ref{fig:kernels}:
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{kernels}
+	\includegraphics[width=0.85\textwidth]{kernels}
 	\caption{Visualization of different kinds of kernels \cite{kernels}.}
 	\label{fig:kernels}
 \end{figure} 
+
+\clearpage
 
 There are many more kernel functions that can be used based on the shape of the data.
 

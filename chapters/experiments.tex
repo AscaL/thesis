@@ -54,14 +54,14 @@ Fig. \ref{fig:rldb_distrib} shows the frequency counts associated with the gestu
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{rldb_distrib}
-	\caption{Frequency of gestures annotated in the videos from the database. \cite{Perez-Rosas:2015:DDU:2818346.2820758}.}
+	\caption{Frequency of gestures annotated in the videos from the database \cite{Perez-Rosas:2015:DDU:2818346.2820758}.}
 	\label{fig:rldb_distrib}
 \end{figure}
 
 We modified this database in the following way:
 \begin{itemize}
-	\item We cut or removed videos where the where the face was covered, hidden or in  any way very difficult to see or recognize.
-	\item We also cut parts of videos that had multiple subjects in the scene because Action Unit extraction works on one person only at the moment.
+	\item We cut or removed videos where the where the face was covered, hidden or in  any way very difficult to see or recognize;
+	\item We also cut parts of videos that had multiple subjects in the scene because Action Unit extraction works on one person only at the moment;
 	\item Since it is necessary to see the person to perform AU extraction, we also avoided some videos in which the subject was not visible while talking, but the interlocutor was shown.
 \end{itemize}
 
@@ -70,12 +70,12 @@ With deceptive videos labeled from \#1 to \#61 and truthful videos labeled from 
 \begin{itemize}
 	\item \textbf{Deceptive}:
 	\begin{itemize}
-		\item CUT: Video numbers 46, 47, 48, 49, 52, 54, 56.
+		\item CUT: Video numbers 46, 47, 48, 49, 52, 54, 56;
 		\item REMOVED: Video numbers 50, 53,  55.
 	\end{itemize}
 	\item \textbf{Truthful}:
 	\begin{itemize}
-		\item CUT: Video number 7, 28, 43.
+		\item CUT: Video number 7, 28, 43;
 		\item REMOVED: Video numbers 12, 31. 
 	\end{itemize}
 \end{itemize}
@@ -124,7 +124,7 @@ Variables correlation is shown in figure \ref{fig:correlation_matrix}. When the 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{images/correlation_matrix}
+	\includegraphics[width=0.8\textwidth]{images/correlation_matrix}
 	\caption{Correlation between variables for both presence and intensity in the training set.}
 	\label{fig:correlation_matrix}
 \end{figure}
@@ -214,9 +214,9 @@ Compared to other similar work using action units and micro expressions our resu
 	\centering
 	\begin{tabular}{|l|l|}
 		\hline
-		\textbf{Paper}  & \textbf{Accuracy} \\ \hline
+		\textbf{Research Paper}  & \textbf{Accuracy} \\ \hline
 		Deception Detection in Videos \cite{DBLP:journals/corr/abs-1712-04415} & 75,02             \\ \hline
-		Random Forest       & 58,42             \\ \hline
+		Deception Detection using Real-life Trial Data \cite{Perez-Rosas:2015:DDU:2818346.2820758}       & 70,24             \\ \hline
 		SVM - Linear        & 61,56             \\ \hline
 		SVM - Sigmoid        & 66,99             \\ \hline
 		Our work       & 72,64             \\ \hline
