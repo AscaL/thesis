@@ -55,6 +55,8 @@ In computer vision specifically lie detection is a somewhat new field of researc
 
 We now proceed to describe the state of the art, based on the latest researches done in the field, with specific focus on computer vision:
 
+
+
 \subsection{Speech}
 Speech is one of the many methods that can be used to recognize if a person is lying. In fact, the speech signal contains linguistic, expressive, organic and biological data \cite{norena}.
 
@@ -65,15 +67,15 @@ Speech analysis can reveal changes that affect behavior, such as stress, emotion
 
 In sound processing, the mel-frequency cepstrum (MFC, fig. \ref{fig:MFCC}) is a representation of the short-term power spectrum of a sound. Mel-frequency cepstral coefficients (MFCCs) are coefficients that collectively make up the MFC \cite{wiki:mfcc}.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.75\textwidth]{MFCC}
-	\caption{Topside is the spoken word, bottom is the MFCC derived from the word}
-	\label{fig:MFCC}
-\end{figure}
-
 In \cite{relidss} the authors created a new database by making 40 candidates try to deceive them while telling truthful or deceptive statements for about one to two minutes each. From this experiment they extracted MFCC and pitch, so that they could process them through Matlab's Voice Box. \\
 After acquiring the data, an SVM classifier was trained to classify new data, obtaining an accuracy of lie and truth detection from speech audio respectively of 88.23\% and 84.52\%.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.65\textwidth]{MFCC}
+	\caption{Topside is the spoken word, bottom is the MFCC derived from the word.}
+	\label{fig:MFCC}
+\end{figure}
 
 In \cite{Mihalcea:2013:ADD:2522848.2522888} Perez et al. utilize a dataset of 140 videos created by users who uploaded either truthful or deceptive statements. They collected the transcriptions from the videos both manually and via automatic speech recognition software. By using a bag-of-words representation of the transcripts they built a vocabulary, and to classify the data they employed a Support Vector Machine and Naive Bayes classifier, achieving 73\% accuracy.
 
@@ -118,8 +120,8 @@ Eleven males of age between 20 and 27 took part in the study. The gathered data 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{EEG}
-	\caption{EEG of P300 waves image on channels Fz, Cz, and Pz}
+	\includegraphics[width=0.65\textwidth]{EEG}
+	\caption{EEG of P300 waves image on channels Fz, Cz, and Pz.}
 	\label{fig:EEG}
 \end{figure}
 
@@ -134,20 +136,22 @@ In most of the experiments with fMRI and lie detection, candidates are instructe
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.55\textwidth]{fMRI}
-	\caption{fMRI image with yellow areas showing increased activity compared with a control condition  \cite{WikifMRI}}
+	\includegraphics[width=0.45\textwidth]{fMRI}
+	\caption{fMRI image with yellow areas showing increased activity compared with a control condition  \cite{WikifMRI}.}
 	\label{fig:fMRI}
 \end{figure}
 
-As much as fMRI is useful for lie detection, it presents some shortcomings \cite{fMRIDD} \cite{fMRIDA}: many fMRI studies are small, not replicated and done with just a few subjects; there are some contradicting results between some studies; most of the studies are not done in a contest of high stake deception, but in a controlled environment where subjects are asked to lie about some topic or event, but often without a real interest in being deceitful. Another important point is that the fMRI approach requires collaboration and expensive equipment to be carried out, so this is a very limiting factor.
+As much as fMRI is useful for lie detection, it presents some shortcomings \cite{fMRIDD} \cite{fMRIDA}: many fMRI studies are small, not replicated and done with just a few subjects; there are some contradicting results between some studies; most of the studies are not done in a contest of high stake deception, but in a controlled environment where subjects are asked to lie about some topic or event, but often without a real interest in being deceitful. Another important point is that the fMRI approach requires collaboration and expensive equipment to be carried out, so this turns out to be a very limiting factor.
 
 \subsection{Thermal Imaging}
 In thermal imaging, thermal features are extracted from the face using a high definition thermal camera. The objective is to analyze what kind of differences occur when a subject responds truthfully or deceptively to particular stimuli.
 
+\clearpage
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{thermal}
-	\caption{Examples of thermal images during (a) questioning and (b) answering \cite{6967765}}
+	\includegraphics[width=0.8\textwidth]{thermal}
+	\caption{Examples of thermal images during (a) questioning and (b) answering \cite{6967765}.}
 \end{figure}
 
 According to a recent study \cite{Abouelenien:2015:TAD:2823465.2823470} examining 30 subjects, the most relevant zones for deception detection, seen by utilizing thermal equipment, and located in the facial area are the forehead and periorbital regions. \\
@@ -219,7 +223,7 @@ Using FACS it's possible to code nearly any facial expression by deconstructing 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{duchenne}
+	\includegraphics[width=0.75\textwidth]{duchenne}
 	\caption{Duchenne smile (real) vs non Duchenne (fake).}
 	\label{fig:duchenne}
 \end{figure}
@@ -232,6 +236,8 @@ In the FACS there are 44 AUs categorized with five level of intensity (A to E). 
 	\caption{Facial images with AU intensity variations (AU12: lip corner puller, AU25: lips part) \cite{DISFA}.}
 	\label{fig:au_intensity}
 \end{figure}
+
+\clearpage
 
 By using AUs is possible to recognize emotions based on the combination of AUs displayed (fig. \ref{fig:AUs}).
 
@@ -274,8 +280,8 @@ As far as we know this is the first time a study uses action units extracted fro
 This thesis is composed by the following chapters:
 
 \begin{itemize}
-	\item \textbf{Chapter \ref{tit:ml}} is about Machine Learning. We will talk about classification, regression, supervised learning and some of the most utilized techniques such as Random Forest and SVM.
-	\item \textbf{Chapter \ref{tit:archi}} will describe the architecture of our work, explaining landmark detection, action unit intensity and presence estimation, and the process to discriminate between deception and honesty.
-	\item \textbf{Chapter \ref{tit:exp}} discusses the dataset and explain the experimental procedure of training and testing a binary classifier for discerning truth and lies. We then proceed discuss the results of the work.
+	\item \textbf{Chapter \ref{tit:ml}} is about Machine Learning. We will talk about classification, regression, supervised learning and some of the most utilized techniques such as Random Forest and SVM;
+	\item \textbf{Chapter \ref{tit:archi}} will describe the architecture of our work, explaining landmark detection, action unit intensity and presence estimation, and the process to discriminate between deception and honesty;
+	\item \textbf{Chapter \ref{tit:exp}} discusses the dataset and explain the experimental procedure of training and testing a binary classifier for discerning truth and lies. We then proceed discuss the results of the work;
 	\item \textbf{Chapter \ref{tit:concl}} is where we draw the conclusions, and then we present the future improvements we plan to implement and discuss new features.
 \end{itemize}
