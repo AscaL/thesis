@@ -1,12 +1,10 @@
-%TODO: READ TILL HERE
-
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{ml_troll}
 	\label{fig:ml_troll}
 \end{figure}
 
-In this chapter we will give a brief introduction of Machine Learning (\ref{ml}), explaining Classification (\ref{classification}), Regression (\ref{regression}) and Supervised learning (\ref{supervised}), proceeding then to explain different techniques such as Random Forests (\ref{random_forest}) and SVM (\ref{svm}), which is the most important technique used for this thesis.
+In this chapter we will give a brief introduction of Machine Learning (par. \ref{ml}), explaining Classification (par. \ref{classification}), Regression (par. \ref{regression}) and Supervised learning (par. \ref{supervised}), proceeding then to explain different techniques such as Random Forests (par. \ref{random_forest}) and SVM (par. \ref{svm}), which is the most important technique used for this thesis.
 
 \section{Introduction} \label{ml}
 
@@ -65,12 +63,10 @@ There are important considerations to make when using a supervised learning appr
 	The prediction error of a classifier is related to the sum of bias and variance, so generally there is a tradeoff between them. Low bias means that a classifier fits the new data well, but if the bias is too low it will fit each training set differently and so result in high variance.
 	
 	\clearpage
-	
-	%TODO2: pagefix
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.65\textwidth]{biasvar}
-		\caption{Visual Explanation of Bias-Variance Tradeoff \cite{biasvarTradeoff}.}
+		\caption{Visual explanation of Bias-Variance Tradeoff \cite{biasvarTradeoff}.}
 		\label{fig:biasvar}
 	\end{figure}	
 
@@ -166,8 +162,6 @@ score(X_i, c) = \beta_c \cdot X_i
 where $X_i$ is the feature vector of instance \textit{i} and $\beta_c$ is the vector of weights of category \textit{c}. This kind of algorithms are known as linear classifiers.
 
 \subsection{Regression Analysis} \label{regression}
-%TODO2: fix page
-
 %TODO: non mi piace fino a fig
 Regression analysis is used in statistics and machine learning to estimate the relationships among variables. \\
 More specifically, it focuses on the relationship between one dependent variable and more independent variables (also called predictors), and generally is used to estimate the average value of the dependent variable when the independent variables are fixed, by calculating a regression function.
@@ -304,7 +298,7 @@ A sigmoid function takes an input from the real numbers and outputs a value betw
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{sigmoid}
+	\includegraphics[width=0.65\textwidth]{sigmoid}
 	\caption{Example of a Sigmoid shaped function}
 	\label{fig:sigmoid}
 \end{figure}
@@ -350,8 +344,6 @@ Once the coefficient have been estimated is pretty simple to compute the probabi
 
 \section{Random Forest} \label{random_forest}
 
-%TODO2: fixpage
-
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{RFClass}
@@ -394,8 +386,6 @@ the arcs of a tree's node labeled with input features are labeled with the possi
 \end{itemize}
 
 A tree can be learned by dividing the training set into subsets based on the values of the attributes. This is done recursively until a node has all the same value of the target variable, or when splitting is no longer aiding the prediction's result.
-
-%todo2: pagefix
 
 Decision trees, however, are often inaccurate. Specifically, by growing trees very deep, they tend to learn highly irregular patterns by overfitting to the train set, and result having low bias but very high variance) \cite{ESL}. 
 
@@ -710,8 +700,6 @@ yet another example is the sigmoid kernel:
 \begin{equation} \label{eq:svm15}
 	K(x_i, x_i') = \tanh(-k\sum_{j=1}^{p} (x_{ij}, x_{i'j})^2 + \delta)
 \end{equation}
-
-%todo2: fixpage
 
 We can visualize some of these kernels in fig. \ref{fig:kernels}:
 \begin{figure}[H]
