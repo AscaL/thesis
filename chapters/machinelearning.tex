@@ -162,7 +162,6 @@ score(X_i, c) = \beta_c \cdot X_i
 where $X_i$ is the feature vector of instance \textit{i} and $\beta_c$ is the vector of weights of category \textit{c}. This kind of algorithms are known as linear classifiers.
 
 \subsection{Regression Analysis} \label{regression}
-%TODO: non mi piace fino a fig
 Regression analysis is used in statistics and machine learning to estimate the relationships among variables. \\
 More specifically, it focuses on the relationship between one dependent variable and more independent variables (also called predictors), and generally is used to estimate the average value of the dependent variable when the independent variables are fixed, by calculating a regression function.
 
@@ -437,7 +436,6 @@ After training, predictions for unseen samples $x'$ can be made by averaging the
 
 or by using the majority vote in case of classification.
 
-%todo : maybe remove the rest
 Additionally, an estimate of the uncertainty of the prediction can be made as the standard deviation of the predictions from all the individual regression trees on $x'$:
 
 \begin{equation}
@@ -445,8 +443,8 @@ Additionally, an estimate of the uncertainty of the prediction can be made as th
 \end{equation}
 
 The number of samples/trees B is a free parameter. Typically, a few hundred to several thousand trees are used, depending on the size and nature of the training set. \\
-An optimal number of trees B can be found using cross-validation, or by observing the out-of-bag error (par \ref{oob}): the mean prediction error on each training sample $x_i$, using only the trees that did not have $x_i$ in their bootstrap sample. \\
-The training and test error tend to level off after a good amount of trees have been fit \cite{ISLR}.
+An optimal number of trees \textit{B} can be found using cross-validation, or by observing the out-of-bag error (par \ref{oob}): the mean prediction error on each training sample $x_i$, using only the trees that did not have $x_i$ in their bootstrap sample. \\
+The training and test error tend to settle after enough trees have been fit \cite{ISLR}.
 
 \subsubsection{Random Forests}
 Random Forests provide an improvement over bagged decision trees by decorrelating the trees. As in bagging, the decision trees are built on a bootstrapped training set. \\

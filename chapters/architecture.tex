@@ -25,14 +25,14 @@ The OpenFace \cite{Baltru2018} toolkit is a tool for machine learning and comput
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{openface20_pipeline}
-	\caption{OpenFace Pipeline \cite{Baltru2018}}
+	\caption{OpenFace pipeline \cite{Baltru2018}.}
 	\label{fig:openface20_pipeline}
 \end{figure}
 
-%TODO: check this new addition
-This tool is fully customizable in such a way that all the support vector machine and neural networks models can be trained with different datasets. Moreover the code is open source so it is possible to change changed any part of it to fit the needs of the experimenters.
+%TODO: Avola check
+This tool is fully customizable in such a way that all the support vector machine and neural networks models can be trained with different datasets. Moreover the code is open source so it is possible to change any part of it to fit the needs of the experimenters.
 
-%TODO: expand saying "in the next par we will describe how we used this tool for x y z... in par x y z?
+In the next paragraphs we will describe how we used this tool to perform landmark detection (par. \ref{landmark_det}) and action unit detection (par. \ref{au_det}).
 
 
 \clearpage
@@ -73,7 +73,7 @@ The CE-CLM is divided in two fundamental parts: response map computation using C
 In the first step, the landmarks alignment is computed separately from the other landmarks. \\
 In the second phase, all landmarks are considered together and for misaligned landmarks and irregular shapes their position is penalized, using a Point Distribution Model (PDM).
 
-\subsection{CEN}
+\subsection{Convolutional Experts Network}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{landmark_det}
@@ -88,8 +88,7 @@ In order to do all this, the ROI is initially passed in a Contrast Normalizing C
 The last neural layer before the response map is the Mixture of Expert Layer (ME-layer), and it can model the alignment probability using a combination of patch experts (local detectors) that are able to represent different landmarks appearance prototypes by outputting individual votes on alignment through a sigmoid function. The response maps from all the local detectors are then combined in the last layer, giving the final alignment probability.
 
 \subsection{Point Distribution Model}
-%TODO: from wiki modify a bit
-The Point Distribution Model is a used to represent the mean geometry of a shape and some statistical modes of geometric variation inferred from a training set of shapes \cite{wiki:PDM}. 
+The Point Distribution Model is commonly utilized in computer vision as a standard to represent the mean geometry of a shape, and to gather information from geometric variation inferred from a training set of shapes \cite{wiki:PDM}. 
 
 \begin{figure}[H]
 	\centering
@@ -100,17 +99,17 @@ The Point Distribution Model is a used to represent the mean geometry of a shape
 
 Point distribution models rely on landmark points. The general PDM works this way:
 \begin{enumerate}
-	\item A set of training images are manually landmarked to sufficiently approximate the geometry of the original shapes. 
+	\item A set of training images are manually landmarked to sufficiently approximate the geometry of the original shapes;
 	\item These \textit{k} landmarks are aligned in two dimensions resulting in \\
 	$\mathbf{X} = (x_1,y_1, \dots, x_k, y_k)$
-	\item The shape outlines are reduced to sequences of k landmarks, so that any given training shape can be defined by the vector $\mathbf{X} \in {\mathbb{R} ^{2k}}$.
-	\item The matrix of the top $d$ eigenvectors is given as $\mathbf{P} \in \mathbb{R}^{2k \times d}$, and each eigenvector describes a principal mode of variation along the set.
+	\item The shape outlines are reduced to sequences of k landmarks, so that any given training shape can be defined by the vector $\mathbf{X} \in {\mathbb{R} ^{2k}}$;
+	\item The matrix of the top $d$ eigenvectors is given as $\mathbf{P} \in \mathbb{R}^{2k \times d}$, and each eigenvector describes a principal mode of variation along the set;
 	\item A linear combination of the eigenvectors is used to define a new shape $ \mathbf{X} '$, mathematically defined as: 
 	\begin{equation}
 	\mathbf {X}' = {\overline {\mathbf {X}} + \mathbf{P} \mathbf{b}}
 	\end{equation}
 	
-	where $ {\overline {\mathbf {X}}}$ is defined as the mean shape across all training images, and $\mathbf {b}$ is a vector of scaling values for each principal component. 
+	where $ {\overline {\mathbf {X}}}$ is defined as the mean shape across all training images, and $\mathbf {b}$ is a vector of scaling values for each principal component; 
 	\item By modifying the variable $\mathbf {b}$  an infinite number of shapes can be defined. $\mathbf {b}$ shouldn't generally be modified more than $\pm3\sigma$ \cite{wiki:PDM}.
 \end{enumerate}
 
@@ -154,6 +153,8 @@ Emotion inducing techniques were used to elicit an emotional response. Frame-lev
 Each participant in the database is associated with 8 tasks. For each task, there are both 3D and 2D videos and the metadata include annotations for 11 AUs for occurrence and 5 AUs for intensities.
 
 \textbf{DISFA} (Denver Intensity of Spontaneuos Facial Action) Database is a non posed facial expression database for automatic action unit detection. It contains videos of 27 participants (12 female, 15 males; 14 used for training and 13 for validation). It includes 4 minute-long videos of spontaneous facial expression, resulting in 130k frames annotated for 12 AUs (fig. \ref{fig:DISFA_AU}), comprehensive of AUs intensity on a 0 to 5 scale.
+
+\clearpage
 
 \begin{figure}[H]
 	\centering
@@ -210,6 +211,7 @@ These parameters can be modified to compute different versions of the model. The
 
 Where $x_i$ is the location of the i\textit{th} feature point in an image, $\overline{x_i}$ is the mean of the i\textit{th} element of the PDM, and $\phi_i$ is the i\textit{th} eigenvector that describes the variation of the feature point.
 
+%todo: non so che sia sta merda
 In the Constrained Local Model we use the parameters from face detection to estimate the maximum a posteriori probability \textit{p} of the face model.
 
 \subsubsection{Alignment and Masking}
@@ -261,9 +263,8 @@ Since the AU occurrences are not balanced by nature (for example AU45, blinking,
 \clearpage
 
 \section{Deception Detection} \label{dec_det}
-%TODO: rewrite, tentative
-In this step we feed the extracted action units from the videos to an SVM for classification.
-We use an SVM because after a lot of testing with different techniques that was the one that performed the best compared to others. 
+In this step we feed the extracted action units from the videos to a Support Vector Machine for classification.
+We use an SVM because after a lot of testing with different techniques that was the one that performed the best compared to others, as we can see from par. \ref{results}. 
 
 \subsection{Data pre-processing}
 Before feeding the videos to the SVM for Action Units extraction we had to make sure the videos were in good enough condition to be processed. That is not given since all this videos come from real life trials and the recording conditions are not optimal.
