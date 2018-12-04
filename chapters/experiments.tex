@@ -2,13 +2,14 @@ This describes the stack used for this thesis and the experiments done to achiev
 
 \section{Building Blocks} \label{bb}
 %TODO: maybe expand this with something?
-To realize this work we used the following tools and libraries:
+The high level tools and libraries utilized o realize this work were:
 \begin{itemize}
 	\item OpenFace: a collection of libraries and tools to train the models for face detection, landmark detection, feature extraction and action unit recognition.
 	\item R + R-Studio: the environment where I implemented the code, with some important libraries, such as:
 	\begin{itemize}
-		\item e1071: library for SVM classification (implementation of libsvm).
-		\item Random Forest: library to perform Random Forest and calculate variable importance.
+		\item e1071: library for SVM classification (implementation of libsvm);
+		\item ParallelSVM: library to perform SVM training in parallel using all the cores available;
+		\item Random Forest: library to perform Random Forest and calculate variable importance;
 		\item Corrplot: library for calculating and visualizing correlations.
 	\end{itemize}
 \end{itemize}
@@ -129,7 +130,7 @@ Variables correlation is shown in figure \ref{fig:correlation_matrix}. When the 
 	\label{fig:correlation_matrix}
 \end{figure}
 
-%todo: positive corr with, neg corr with... non tutte sono strong corr, forse cambiare un po'
+%todo: UPDATE THIS
 The correlation matrix shows some obvious correlations between presence and intensity of the same AU, and significant correlation between AU10\_r, AU12\_r, AU12\_c, AU07\_r, AU17\_r, AU06\_r, AU04\_c, AU02\_r, AU01\_r, AU25\_r, AU45\_c.
 
 \clearpage
@@ -139,14 +140,14 @@ Another quick experiment I made was with the Generalized Linear Model in R, whic
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{images/pval}
+	\includegraphics[width=0.35\textwidth]{images/pval}
 	\caption{p-values from GLM for each AU (intensity and presence).}
 	\label{fig:pval}
 \end{figure}
 
 As we can see AU01\_r (Inner Brow Raiser), AU23\_r (Lip Tightener), and AU17\_c (Chin Raiser) are not significant and that's an indication that we could remove them from the features used to make the classification.
 
-The results for classifying data with GLM is 54.86\% accuracy on the test set, which is a little better than chance but definatly not great, and shows that probably a linear relation does not occur in this instance. 
+The results for classifying data with GLM is 54.86\% accuracy on the test set, which is a little better than chance but definitely not great, and shows that probably a linear relation does not occur in this instance. 
 
 \clearpage
 
@@ -170,7 +171,7 @@ Classifying with Random Forest gave me 58,42\% accuracy on the test set, which i
 
 \clearpage
 
-\subsection{SVM} \label{SVM}
+\subsection{Support Vector Machine Classification} \label{SVM}
 %todo: some kind of image?
 To approach classification with a Support Vector Machine we tried both linear, radial and sigmoid kernel.
 
@@ -182,7 +183,7 @@ After the grid search I did some experimental changes and found empirically that
 
 The results for classifying with a sigmoid kernel are 67\% accuracy on the test set (to be precise 66.99394), which is a good starting result, while the linear kernel performed worse at around 61\% accuracy.
 
-The best scoring kernel was actually the kernel, giving us 72,64206\% accuracy when predicting on the test set, by setting $\gamma  = 0.001$ and $C = 3$, obtaining the values of the parameters via both the tuning function and trial and error.
+The best scoring kernel was actually the radial kernel, giving us 72,64206\% accuracy when predicting on the test set, by setting $\gamma  = 0.001$ and $C = 3$, obtaining the values of the parameters via both the tuning function and trial and error.
 
 \clearpage
 

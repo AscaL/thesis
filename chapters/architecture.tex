@@ -145,7 +145,6 @@ Action Unit (AU) detection plays a fundamental role in our work. We now describe
 \end{figure}
 
 \subsection{Training Datasets} \label{trainDS}
-%todo: this part might not be necessary here? I could expand a lot on it in the experiments section
 There are four main dataset used for training the Action Unit detection system: DISFA \cite{DISFA}, BP4D-Spontaneous \cite{BP4D-Spontaneous}, SEMAINE \cite{SEMAINE} and CK+ \cite{CK+}. These four datasets consist of videos of people subject to emotion inducing tasks.
 
 The \textbf{BP4D} database of spontaneous facial expressions includes videos of 41 participants (23 women and 18 men, 21 for training and 20 for validating). The age ranged from 18 to 29; 11 were Asian, 6 African-American, 4 Hispanic, and 20 Euro-American. \\
@@ -186,10 +185,9 @@ By training on these dataset is possible to detect the following AUs (fig. \ref{
 \end{figure}
 
 \subsection{Feature Extraction} \label{featExtr}
-There are two types of features that are used: appearance (Histogram of Oriented Gradients) and geometry (shape parameters and landmark locations) ones. To extract those features it's required to track certain landmarks on the face, and then continue this process by performing face alignment.
+There are two types of features that are used: appearance features through Histogram of Oriented Gradients, and geometry using shape parameters and landmark locations. To extract those features it's required to track certain landmarks on the face, and then continue this process by performing face alignment.
 
 \subsubsection{Face Tracking}
-%TODO: rewrite
 Face tacking is done by utilizing Constrained Local Neural Field (CLNF) facial landmark detector and tracker, backed up by a structural SVM for facial detection \cite{Baltru2013}.
 
 CLNF is a specific case of Constrained Local Model (CLM), that differs from the original by utilizing more advanced local detectors and a different optimization function.
@@ -273,7 +271,7 @@ Being in an acceptable condition means that the face should be clearly visible, 
 
 As a consequence many videos had to be cut, trimmed or discarded to reach an acceptable level.
 
-After extracting Action Units intensity and presence from our dataset of videos (\ref{rldb}) we put the data in a \textit{csv} format to be able to process them and pass them to the SVM. 
+After extracting Action Units intensity and presence from our dataset of videos (par. \ref{rldb}) we put the data in a \textit{csv} format to be able to process them and pass them to the SVM. 
 
 The data are divided for both AUs intensity, ranging from $0$ to $5$, and AU presence, having the boolean value of either $0$ or $1$ if the AU was missing or present in the specific frame of the video.
 
@@ -286,22 +284,20 @@ The data are divided for both AUs intensity, ranging from $0$ to $5$, and AU pre
 
 The next step is to remove all the rows that have both no intensity and no presence for AUs, since those rows are most likely errors from the extraction, deriving from the poor quality of the videos, or from the face not being recognized in some frames.
 
-%todo: forse non e' utile qui ma in generale lo devo dire
 We organized the data in three sets, one concerning only AUs intensity, one with only AUs presence, and another one where we merged the previous ones together, in order to better analyze the data and understand it's structure.
 
-\subsection{SVM}
+\subsection{Support Vector Machine Classifier}
 
 %todo avola: documento che parla di svm nello specifico per personalizzare / retraining di openface
 
-After pre-processing the data we use the train set to train a sigmoid %lo metto o solo svm?
-SVM, and then we utilize the trained model to evaluate on the test set and compare the results with the labels present on the test set.
+After pre-processing the data we use the train set to train a Support Vector Machine classifier, and then we utilize the trained model to evaluate on the test set and compare the results with the labels present on the test set.
 
 Generally, each of \textit{n} frames is converted in a vector of length 36, where 17 variables represent the intensity and 18 variables represent the presence of Action Units. The last variable is the class label.
 
 %todo: check better way to formalize this
 So a given training input \textbf{AU} for our SVM, \textbf{AU} is a $36 \times n$ matrix composed of $AUI_i$ and $AUP_i$, where $AUI_i$ represents the intensity for action units in row \textit{i} and $AUP_i$ is the action units presence for row \textit{i}. 
 
-These observations belong to two classes, truthful and deceptive, represented by a label \textbf{Y} = $\{y_1 \dots y_n\}$, where $y = \{0,1\}$ depending on whether the frame belongs to a deceptive or truthful observation.
+These observations belong to two classes, truthful and deceptive, represented by a label \textbf{Y} = $\{y_1 \dots y_n\}$, where $y_i = \{0,1\}$ depending on whether the frame belongs to a deceptive or truthful observation.
 
 \begin{equation}
 	\mathbf{AU} = (AUI_i + AUP_i, y_i)
@@ -315,6 +311,13 @@ An input vector $au^*$ for the test set, this time of length 35, is formed the s
 
 The goal of our SVM classifier is to correctly classify the test observation based on the training done by using the data in the train set.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{svmclass}
+	\caption{Example of input data in csv format.}
+	\label{fig:svmclass}
+\end{figure}
+
 %todo: recheck
 Suppose we are using a \textit{linear} SVM classifier. We would need to figure out weather a point lies on one side or the other of an hyperplane, and we would look at this kind of equations to classify a test observation $au^*$ based on the sign of $f(au^*)$:
 
@@ -322,15 +325,18 @@ Suppose we are using a \textit{linear} SVM classifier. We would need to figure o
 	f(au^*) = \beta_0 + \beta_1 au^*_{1} + \beta_2 au^*_{2} + \dots + \beta_{35} au^*_{35}
 \end{equation}
 
-if $f(au^*)$ is positive, then we would assign the test observation to class 1, and if it is negative, we would assign it to class 0 (fig. \ref{fig:ausvm}).
+if $f(au^*)$ is positive, then we would assign the test observation to class 1, and if it is negative, we would assign it to class 0 (fig. \ref{fig:svmclass}).
 
 Of course there are two things we need to consider:
 \begin{enumerate}
-	\item We need to keep the margin M of the hyperplane in consideration
-	\item The relationship between features is not linear so we could need to enlarge the feature space
+	\item We need to keep the margin M of the hyperplane in consideration;
+	\item The relationship between features is not linear so we could need to enlarge the feature space;
 \end{enumerate}
 
-For the Support Vector Machine we enlarge the feature space using kernel functions (par. \ref{kernel})
+As explained in par. \ref{SVM}, to get the best margin we use a grid search and find the best \textit{C} and $\gamma$ parameters.
+
+To enlarge the feature space of our Support Vector classifier we make use of kernel functions (par. \ref{kernel}) and use linear, sigmoid and radial kernels.
+
 
 %todo: figure with SVM with AUs divided by a line (or whatever)
 
