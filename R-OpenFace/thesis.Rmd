@@ -261,7 +261,7 @@ corrplot(
   cl.ratio = 0.2, cl.align = "r", tl.srt = 25, tl.col = "black", tl.cex = 0.65
 )
 
-(highlyCorrelated <- findCorrelation(correlation, cutoff=0.75, names = T, exact = T))
+(highlyCorrelated <- findCorrelation(correlation, cutoff=0.5, names = T, exact = T))
 ```
 
 Plots

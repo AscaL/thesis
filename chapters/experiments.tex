@@ -20,8 +20,6 @@ The Mac has 4gb RAM, i5 processor, and an intel integrated GPU.\\
 SVM training took about one hour on both machines.
 
 \clearpage
-
-%TODO: SHORT review (table pherhaps) of face db, maybe not in this section
 \section{Real Life Trial Database} \label{rldb}
 This section is about the database we used to perform our experiments: it comes from the work done for the paper "Deception Detection using Real-life Trial Data" \cite{Perez-Rosas:2015:DDU:2818346.2820758}.
 
@@ -121,17 +119,24 @@ The first thing I did, after cleaning the data, was to compare the extracted dec
 This comparison shows interesting differences between truthful and deceptive occurrences for AU04 (Brow Lowerer), AU05 (Upper Lid Raiser), AU10 (Upper Lip Raiser), AU12 (Lip Corner Puller) and AU14 (Dimpler). %"suggesting there could be a pattern"?
 
 \subsection{Correlation} \label{corr}
-Variables correlation is shown in figure \ref{fig:correlation_matrix}. When the AUs label ends with "\_r" it indicate intensity and "\_c" means presence.
+Variables correlation is shown in figure \ref{fig:correlation_matrix} for both presence and intensity. When the AUs label ends with "\_r" it indicate intensity and "\_c" means presence.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{images/correlation_matrix}
-	\caption{Correlation between variables for both presence and intensity in the training set.}
+	\caption{Correlation between variables for both presence and intensity in the train set.}
 	\label{fig:correlation_matrix}
 \end{figure}
 
-%todo: UPDATE THIS
-The correlation matrix shows some obvious correlations between presence and intensity of the same AU, and significant correlation between AU10\_r, AU12\_r, AU12\_c, AU07\_r, AU17\_r, AU06\_r, AU04\_c, AU02\_r, AU01\_r, AU25\_r, AU45\_c.
+The correlation matrix shows some obvious correlations between presence and intensity of the same AU, for example AU12\_c and AU12\_r, and some less obvious correlation between, for example:
+\begin{itemize}
+	\item AU14\_c (Dimpler) and AU04\_c (Brow Lowerer);
+	\item AU05\_c (Upper Lid Raiser) and AU12\_r (Lip Corner Puller) or AU10\_r (Upper Lip Raiser);
+	\item AU02\_r (Outer Brow Raiser) and AU01\_r (Inner Brow Raiser);
+	\item AU17\_c (Chin Raiser) and AU23\_c (Lip Tightener).
+\end{itemize}
+
+Some of these correlation make anatomical sense, while others do not and could indicate a pattern, for example the one between AU14 and AU04.
 
 \clearpage
 
@@ -172,7 +177,7 @@ Classifying with Random Forest gave me 58,42\% accuracy on the test set, which i
 \clearpage
 
 \subsection{Support Vector Machine Classification} \label{SVM}
-%todo: some kind of image?
+%todo: Maybe add an Image?
 To approach classification with a Support Vector Machine we tried both linear, radial and sigmoid kernel.
 
 The cost $c$ and $\gamma$ parameter were found using a tuning function that performs a grid search over the combinations of cost and gamma for all the kinds of kernels we used, and then by empirically changing the values to see if better results could be achieved. 
@@ -197,29 +202,27 @@ The table below shows a comparison of the results obtained using different machi
 	\begin{tabular}{|l|l|}
 		\hline
 		\textbf{Algorithm}  & \textbf{Accuracy} \\ \hline
-		Logistic Regression & 54.86             \\ \hline
-		Random Forest       & 58,42             \\ \hline
-		SVM - Linear        & 61,56             \\ \hline
-		SVM - Sigmoid        & 66,99             \\ \hline
-		SVM - Radial       & 72,64             \\ \hline
+		Logistic Regression & 54.86\%             \\ \hline
+		Random Forest       & 58,42\%             \\ \hline
+		SVM - Linear        & 61,56\%             \\ \hline
+		SVM - Sigmoid        & 66,99\%             \\ \hline
+		SVM - Radial       & 72,64\%             \\ \hline
 	\end{tabular}
 	\caption{Comparison of the results obtained with different approaches for this dataset.}
 \end{table}
 
-%todo: comparison table to other works
-
-Compared to other similar work using action units and micro expressions our result shows promise, as we don't consider it over and surely it will improve by implementing the ideas in par. \ref{fw}. 
+Compared to other similar work (table \ref{tab:comp}) using action units and micro expressions our result is in line with the others, and it shows promise as we don't consider it over and we are confident it will improve by going forward and implementing the ideas exposed in the "future work" section (par. \ref{fw}). 
 
 \begin{table}[H]
 	\centering
 	\begin{tabular}{|l|l|}
 		\hline
-		\textbf{Research Paper}  & \textbf{Accuracy} \\ \hline
-		Deception Detection in Videos \cite{DBLP:journals/corr/abs-1712-04415} & 75,02             \\ \hline
-		Deception Detection using Real-life Trial Data \cite{Perez-Rosas:2015:DDU:2818346.2820758}       & 70,24             \\ \hline
-		SVM - Linear        & 61,56             \\ \hline
-		SVM - Sigmoid        & 66,99             \\ \hline
-		Our work       & 72,64             \\ \hline
+		\textbf{Research Paper} & Accuracy \\ \hline
+		Deception Detection in Videos \cite{DBLP:journals/corr/abs-1712-04415} & 75,02\%  \\ \hline
+		Deception Detection using Real-life Trial Data \cite{Perez-Rosas:2015:DDU:2818346.2820758} & 70,24\%  \\ \hline
+		\begin{tabular}[c]{@{}l@{}}Does “lie to me” lie to you? \\ An evaluation of facial clues to high-stakes deception \cite{SU201652}\end{tabular} & 76,92\%  \\ \hline
+		\textit{Our work} & 72,64\%  \\ \hline
 	\end{tabular}
 	\caption{Comparison of our result with similar researches.}
+	\label{tab:comp}
 \end{table}
