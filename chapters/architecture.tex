@@ -41,7 +41,10 @@ In the next paragraphs we will describe how we used this tool to perform landmar
 
 The first step in Action Unit identification is to detect the facial landmarks. To accomplish this a local detector called Convolutional Experts Network (CEN) (Fig. \ref{fig:CEN}) is utilized. 
 
-CEN has the advantage of aggregating a neural architecture and patch experts which are local detectors and are used to evaluate the probability of a landmark being aligned at a particular pixel location. CEN can learn different patch experts and adapt to diverse appearance models without explicitly labeling attributes.
+%TODO: IS FORMATTING OK?
+
+CEN has the advantage of aggregating a neural architecture and patch experts, which are local detectors, which are used to evaluate the probability of a landmark being aligned at a particular pixel location. 
+%CEN can learn different patch experts and adapt to diverse appearance models without explicitly labeling attributes.
 
 \begin{figure}[H]
 	\centering
@@ -50,9 +53,9 @@ CEN has the advantage of aggregating a neural architecture and patch experts whi
 	\label{fig:CEN}
 \end{figure}
 
-OpenFace uses a Convolutional Experts Constrained Local Model (CE-CLM) \cite{Baltru2017}, which is a Constrained Local Model (CLM) that uses CEN as a local detector. 
+OpenFace uses a Convolutional Experts Constrained Local Model (CE-CLM) \cite{Baltru2017}, which is a Constrained Local Model (CLM) that uses Convolutional Experts Network as a local detector. 
 
-A Constrained Local Model is class of methods for locating sets of points (constrained by a statistical shape model) on a target image \cite{clm_cootes}.
+A Constrained Local Model is class of methods for locating sets of points, constrained by a statistical shape model, on a target image \cite{clm_cootes}.
 
 Generally the procedure is as follows (fig. \ref{fig:CLM}):
 \begin{itemize}[noitemsep]
