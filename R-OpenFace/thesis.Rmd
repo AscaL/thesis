@@ -1,5 +1,5 @@
 ---
-title: "Thesis Clustering"
+title: "Thesis"
 output: html_notebook
 ---
 
@@ -21,13 +21,15 @@ library(nnet) # Neural Network
 library(mlbench)
 library(RColorBrewer)
 library(magrittr)
-library(pROC)
 library(doSNOW)
 library(doParallel)
 library(parallelSVM)
 library(devtools) # github install
+#library(pROC)
 #library(ggbiplot) # PCA plotting
 set.seed(123)
+
+install.packages("pROC")
 ```
 
 Utils
