@@ -225,6 +225,7 @@ biber
 #R
 R-OpenFace/thesis.Rmd
 .Rhistory
+.Rdata
 
 # Mac finder files and hidden folders
 .DS_Store
