@@ -28,8 +28,6 @@ library(devtools) # github install
 #library(pROC)
 #library(ggbiplot) # PCA plotting
 set.seed(123)
-
-install.packages("pROC")
 ```
 
 Utils
@@ -399,6 +397,7 @@ LDA
 lda.model_all <- lda(truthful ~ ., ALL_train)
 lda.pred_all <- predict(lda.model_all, ALL_test)
 ct_all <- table(ALL_test$truthful, lda.pred_all$class)
+ct_all
 diag(prop.table(ct_all, 1))
 sum(diag(prop.table(ct_all)))
 ```
