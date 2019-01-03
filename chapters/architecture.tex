@@ -1,26 +1,33 @@
 In this chapter we will discuss the architecture of our framework and the tools used for this thesis in Deception Detection. We will first explain the general architecture to perform deception detection (par. \ref{ga}), then we will introduce the OpenFace toolkit (par. \ref{OpenFace}), and describe landmark detection (par. \ref{landmark_det}), action unit recognition (par. \ref{au_det}) and the deception detection process (par. \ref{dec_det}).
 
 \section{General Architecture} \label{ga}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{archi}
+	\caption{System Architecture.}
+	\label{fig:architecture}
+\end{figure}
+
 The general idea of this thesis is to classify whether a person is telling the truth or lying by analyzing the subject's facial movement, extracted using an RGB camera, during a video. To achieve this it is fundamental that the subject's face results visible during the videos.
 
 We ultimately implemented this idea using a Support Vector Machine classifier. 
 
-%todo: image
 The architecture utilized is shown in fig \ref{fig:architecture} and is composed this way:
 
 \begin{itemize}
-	\item We gather a video of a person in a high stake situation;
-	\item Detect the face of the person in the video using Constrained Local Neural Field;
-	\item Detect the facial landmarks using Convolutional Experts Network;
+	\item We gather a video of a person in a high stake situation and split it into frames;
+	\item Detect the face of the person in the frame;
+	\item Detect the facial landmarks using Convolutional Experts Constrained Local Model (CE-CLM);
 	\item Extract the appearance features in the form of Histogram of Oriented Gradients and perform dimensionality reduction and feature normalization through Principal Component Analysis;
-	\item Extract action unit presence and intensity from the videos using a Support Vector Classifier;
-	\item Feed the extracted data to train an Support Vector Classifier for classification on a test set.
+	\item Extract action unit presence and intensity from the frame using a Support Vector Classifier;
+	\item Feed the extracted data to train a Support Vector Classifier for classification on a test set.
 \end{itemize}
 
 \clearpage
 
 \section{OpenFace} \label{OpenFace}
-The OpenFace \cite{Baltru2018} toolkit is a tool for machine learning and computer vision researchers, created by Baltrusaitis et al., to support performing facial landmark detection, head pose estimation, action unit recognition, feature extraction and eye gaze estimation. 
+The OpenFace \cite{Baltru2018} toolkit is a collection of libraries and models for machine learning and computer vision researchers, created by Baltrusaitis et al., to support performing facial landmark detection, head pose estimation, action unit recognition, feature extraction and eye gaze estimation. 
 
 \begin{figure}[H]
 	\centering
@@ -39,9 +46,7 @@ In the next paragraphs we will describe how we used this tool to perform landmar
 
 \section{Landmark Detection} \label{landmark_det}
 
-The first step in Action Unit identification is to detect the facial landmarks. To accomplish this a local detector called Convolutional Experts Network (CEN) (Fig. \ref{fig:CEN}) is utilized. 
-
-%TODO: IS FORMATTING OK?
+The first step in Action Unit identification is to detect the facial landmarks. To accomplish this a local detector called Convolutional Experts Network (CEN) (Fig. \ref{fig:CEN}) is utilized.
 
 CEN has the advantage of aggregating a neural architecture and patch experts, which are local detectors, which are used to evaluate the probability of a landmark being aligned at a particular pixel location. 
 %CEN can learn different patch experts and adapt to diverse appearance models without explicitly labeling attributes.
@@ -49,7 +54,7 @@ CEN has the advantage of aggregating a neural architecture and patch experts, wh
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.75\textwidth]{CEN}
-	\caption{Facial landmarks naturally cluster around appearance prototypes (facial hair, expressions, make-up etc). To model such appearance variations a Convolutional Experts Network is used to merge the advantages of neural architectures and mixtures of patch experts, to model landmark alignment probability \cite{Baltru2017}.}
+	\caption{Facial landmarks generally cluster around facial hair, expressions etc. To model these variations a Convolutional Experts Network is used in order to get a landmark alignment probability \cite{Baltru2017}.}
 	\label{fig:CEN}
 \end{figure}
 
@@ -67,7 +72,7 @@ Generally the procedure is as follows (fig. \ref{fig:CLM}):
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{CLM}
-	\caption{Overview of CLM \cite{clm_cootes}.}
+	\caption{Overview of Constrained Local Model \cite{clm_cootes}.}
 	\label{fig:CLM}
 \end{figure}
 
@@ -83,12 +88,12 @@ In the second phase, all landmarks are considered together and for misaligned la
 	\caption{Overview of the Convolutional Experts Network model. \cite{Baltru2017}.}
 	\label{fig:landmark_det}
 \end{figure}
-In the initial step, the objective is to generate a response map to localize the individual landmarks. This is performed by assessing the landmark alignment probability at specific pixel locations. \\
+In the initial step the objective is to generate a response map to localize the individual landmarks. This is performed by assessing the landmark alignment probability at specific pixel locations. \\
 CEN takes in input a Region of Interest (ROI) around the currently estimated position of a landmark, and outputs a response map that calculates the landmark alignment probability at each pixel location (fig. \ref{fig:landmark_det}).
 
 In order to do all this, the ROI is initially passed in a Contrast Normalizing Convolution layer to perform z-score normalization and to calculate the correlation between input and kernel. The output is then convolved in another layer of ReLU neurons (convolution is an operation on two functions to produce a third function that expresses how the shape of one is modified by the other).
 
-The last neural layer before the response map is the Mixture of Expert Layer (ME-layer), and it can model the alignment probability using a combination of patch experts (local detectors) that are able to represent different landmarks appearance prototypes by outputting individual votes on alignment through a sigmoid function. The response maps from all the local detectors are then combined in the last layer, giving the final alignment probability.
+The last neural layer before the response map is the Mixture of Expert Layer (ME-layer), which models the alignment probability using a combination of patch experts (local detectors) that represent different landmarks appearance prototypes by outputting individual votes on alignment through a sigmoid function. The response maps from all the local detectors are then combined in the last layer, giving the final alignment probability.
 
 \subsection{Point Distribution Model}
 The Point Distribution Model is commonly utilized in computer vision as a standard to represent the mean geometry of a shape, and to gather information from geometric variation inferred from a training set of shapes \cite{wiki:PDM}. 
@@ -96,7 +101,7 @@ The Point Distribution Model is commonly utilized in computer vision as a standa
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.45\textwidth]{PDM}
-	\caption{PDM of a metacarpal. Dots mark the possible position of landmarks, and the line denote the mean shape \cite{PDM}.}
+	\caption{Point Distribution Model of a metacarpal. Dots mark the possible position of landmarks, and the line denote the mean shape \cite{PDM}.}
 	\label{fig:PDM}
 \end{figure}
 
@@ -212,15 +217,12 @@ These parameters can be modified to compute different versions of the model. The
 
 Where $x_i$ is the location of the i\textit{th} feature point in an image, $\overline{x_i}$ is the mean of the i\textit{th} element of the PDM, and $\phi_i$ is the i\textit{th} eigenvector that describes the variation of the feature point.
 
-%todo: non so che sia sta merda
-In the Constrained Local Model we use the parameters from face detection to estimate the maximum a posteriori probability \textit{p} of the face model.
-
 \subsubsection{Alignment and Masking}
 For the extracted face to be correctly analyzed, there needs to be a mapping to a common reference frame, and the changes resulting from scaling and in plane rotation needs to be removed. 
 
-In order to achieve this, a similarity transform from the currently detected landmarks to a representation of frontal landmarks from a neutral expression (projection of mean shape from a 3D PDM) is utilized. \\
+In order to achieve this, a similarity transform from the currently detected landmarks to a representation of frontal landmarks from a neutral expression is utilized. \\
 The similarity transform is done with Procrustes superimposition that minimizes the mean square error between aligned pixels \cite{Baltru2013}.\\
-The result is a $112 \times 112$ pixel image of the face with 45 pixel interpupillary distance (fig \ref{fig:alignment_masking}). 
+The result is a $112 \times 112$ pixel image of the face with 45 pixel interpupillary distance (fig. \ref{fig:alignment_masking}). 
 
 \begin{figure}[H]
 	\centering
@@ -229,10 +231,10 @@ The result is a $112 \times 112$ pixel image of the face with 45 pixel interpupi
 	\label{fig:alignment_masking}
 \end{figure}
 
-To reduce the weight of significant facial expressions (mouth opening, brow raises etc.) on the similarity transform, only the most stable facial landmarks must be used. \\
-In order to determine those points, the most stable CLNF detected landmarks on the CK+ dataset \cite{CK+} are examined
+To reduce the weight of significant facial expressions (mouth opening, cheeks puffing, eyebrow moving etc.) on the similarity transform, only the most stable facial landmarks must be used. \\
+In order to determine those points, the most stable CLNF detected landmarks on the CK+ dataset \cite{CK+} are examined.
 
-Masking, performed using a convex hull surrounding the feature points, is done to remove informations from the image that do not regard the face.
+Masking, performed using a convex hull surrounding the feature points, is done to remove information from the image that do not regard the face.
 
 \subsubsection{Appearance Features}
 After the face is aligned to a $112 \times 112$ image it's time to extract the appearance features. \\
@@ -240,14 +242,14 @@ To get the appearance features, $12 \times 12$ block of 31 dimensional Histogram
 
 Once the feature vector is obtained, the next step is to reduce it's dimensionality. In order to do that Principal Component Analysis (PCA) is applied. \\
 To generalize the dimensionality reduction, the training was performed on the FERA 2015 \cite{FERA15}, CK+ \cite{CK+}, DISFA \cite{DISFA}, AVEC 2011 \cite{AVEC11} and FERA 2011 \cite{FERA11} datasets. \\
-By using PCA while sub-sampling from peak and neutral expressions and keeping 95\% of explained variability, the feature vector becomes of 1379 dimensions.
+By performing Principal Component Analysis and keeping 95\% of explained variability, the feature vector becomes of 1379 dimensions.
 
 \subsubsection{Geometry Features}
-The geometry features are obtained trough the CE-CLM models, and consist of non-rigid shape parameters and landmarks locations ($p$ and $ \phi_i p$ in equation \ref{eq:pdm}). this results in a 227 dimensional vector representing geometry features.\\
+The geometry features are obtained trough the CE-CLM models, and consist of non-rigid shape parameters and landmarks locations ($p$ and $ \phi_i p$ in equation \ref{eq:pdm}). This results in a 227 dimensional vector representing the geometry features.\\
 Summed to the appearance features, this leads to a 1606 dimensional vector that defines the appearance of the face.
 
 \subsubsection{Neutral Expression Extraction}
-To extract some of the facial expression is very important to have a neutral starting expression. There are personal differences on how we appear while in a neutral resting state, such as people looking naturally more cheerful or sad then others \cite{normexpr}. To address this issue there needs to be a person specific calibration, done by adjusting for neutral expressions \cite{Baltru2013}.
+To extract some of the Action Units it is very important to have a neutral starting expression. There are personal differences on how we appear while in a neutral resting state, such as people looking naturally more cheerful or sad then others \cite{normexpr}. To address this issue there needs to be a person specific calibration, done by adjusting for neutral expressions \cite{Baltru2013}.
 
 Neutral expression adjustments are done by computing the median value of the face descriptors in a video, leading to a neutral expression descriptor. This works assuming that in a video most of the frames will contain a neutral expression, and this should hold true especially for real life situations where most of the time the interactions are performed with a neutral expression \cite{NatAffData}.
 
@@ -255,17 +257,18 @@ Once the neutral descriptor is computed, it is subtracted from the feature descr
 %To help with the ease of computing the median, a histogram is kept for each element in the feature vector.
 
 \subsubsection{Classification and Regression}
-The next step is to extract Action Units from each frame of the video. Both intensity and presence are extracted.
+The next step after the feature extraction is to recognize the Action Units from each frame of the video. Both intensity and presence are extracted.
 
 Action Units detection is performed through Support Vector Machines (SVM), and Action Unit intensity using Support Vector Regression (SVR), both using the liblinear implementation \cite{liblinear}. In both cases a linear kernel is utilized, as more complex kernels had no effect on performances and were quite slower to train.  
 
+%TODO: not so sure about this
 Since the AU occurrences are not balanced by nature (for example AU45, blinking, is not very frequent if we analyze each frame of a video), it's highly important to balance the training data. To do this it was needed to undersample the negative AU samples from training data, thus getting to an equal number of positive and negative samples.
 
 \clearpage
 
 \section{Deception Detection} \label{dec_det}
 In this step we feed the extracted action units from the videos to a Support Vector Machine for classification.
-We use an SVM because after a lot of testing with different techniques that was the one that performed the best compared to others, as we can see from par. \ref{results}. 
+We use a Support Vector Machine because after a lot of testing with different techniques, the SVM was the one that performed the best compared to others, as we can see from par. \ref{results}. 
 
 \subsection{Data pre-processing}
 Before feeding the videos to the SVM for Action Units extraction we had to make sure the videos were in good enough condition to be processed. That is not given since all this videos come from real life trials and the recording conditions are not optimal.
@@ -290,9 +293,6 @@ The next step is to remove all the rows that have both no intensity and no prese
 We organized the data in three sets, one concerning only AUs intensity, one with only AUs presence, and another one where we merged the previous ones together, in order to better analyze the data and understand it's structure.
 
 \subsection{Support Vector Machine Classifier}
-
-%todo avola: documento che parla di svm nello specifico per personalizzare / retraining di openface
-
 After pre-processing the data we use the train set to train a Support Vector Machine classifier, and then we utilize the trained model to evaluate on the test set and compare the results with the labels present on the test set.
 
 Generally, each of \textit{n} frames is converted in a vector of length 36, where 17 variables represent the intensity and 18 variables represent the presence of Action Units. The last variable is the class label.
@@ -320,7 +320,6 @@ The goal of our SVM classifier is to correctly classify the test observation bas
 	\label{fig:svmclass}
 \end{figure}
 
-%todo: recheck
 Suppose we are using a \textit{linear} SVM classifier. We would need to figure out weather a point lies on one side or the other of a dividing hyperplane, and we would look at this kind of equations to classify a test observation $au^*$ based on the sign of $f(au^*)$:
 
 \begin{equation} 
@@ -337,9 +336,7 @@ Of course there are two things we need to consider:
 
 As explained in par. \ref{SVM}, to get the best margin we use a grid search and find the best \textit{C} and $\gamma$ parameters.
 
-To enlarge the feature space of our Support Vector classifier we make use of kernel functions (par. \ref{kernel}) and use linear, sigmoid and radial kernels.
-
-%todo: equations from ML chapter rewritten using X
+To enlarge the feature space of our Support Vector classifier we make use of kernel functions (par. \ref{kernel}) and tried linear, sigmoid and radial kernels.
 
 
 
