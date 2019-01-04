@@ -36,7 +36,6 @@ The OpenFace \cite{Baltru2018} toolkit is a collection of libraries and models f
 	\label{fig:openface20_pipeline}
 \end{figure}
 
-%TODO: Avola check
 This tool is fully customizable in such a way that all the support vector machine and neural networks models can be trained with different datasets. Moreover the code is open source so it is possible to change any part of it to fit the needs of the experimenters.
 
 In the next paragraphs we will describe how we used this tool to perform landmark detection (par. \ref{landmark_det}) and action unit detection (par. \ref{au_det}).
@@ -260,9 +259,6 @@ Once the neutral descriptor is computed, it is subtracted from the feature descr
 The next step after the feature extraction is to recognize the Action Units from each frame of the video. Both intensity and presence are extracted.
 
 Action Units detection is performed through Support Vector Machines (SVM), and Action Unit intensity using Support Vector Regression (SVR), both using the liblinear implementation \cite{liblinear}. In both cases a linear kernel is utilized, as more complex kernels had no effect on performances and were quite slower to train.  
-
-%TODO: not so sure about this
-Since the AU occurrences are not balanced by nature (for example AU45, blinking, is not very frequent if we analyze each frame of a video), it's highly important to balance the training data. To do this it was needed to undersample the negative AU samples from training data, thus getting to an equal number of positive and negative samples.
 
 \clearpage
 

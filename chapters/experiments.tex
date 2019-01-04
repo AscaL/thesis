@@ -1,7 +1,6 @@
 This describes the stack used for this thesis and the experiments done to achieve our results: I will start by reviewing the configurations and libraries utilized (par. \ref{bb}), the database used to acquire train and test set (par. \ref{rldb}), all the analysis done on the data (par. \ref{data_an}), and finally we will discuss the results of this work (par. \ref{results}).
 
 \section{Building Blocks} \label{bb}
-%TODO: maybe expand this with something?
 The high level tools and libraries utilized o realize this work were:
 \begin{itemize}
 	\item OpenFace: a collection of libraries and tools to train the models for face detection, landmark detection, feature extraction and action unit recognition.
@@ -61,7 +60,7 @@ We modified this database in the following way:
 \begin{itemize}
 	\item We cut or removed videos where the where the face was covered, hidden or in  any way very difficult to see or recognize;
 	\item We also cut parts of videos that had multiple subjects in the scene because Action Unit extraction works on one person only at the moment;
-	\item Since it is necessary to see the person to perform AU extraction, we also avoided some videos in which the subject was not visible while talking, but the interlocutor was shown.
+	\item Since it is necessary to see the person's face to perform AU extraction, we also avoided some videos in which the subject was not visible while talking, but the interlocutor was shown instead.
 \end{itemize}
 
 With deceptive videos labeled from \#1 to \#61 and truthful videos labeled from \#1 to \#60 we cut and removed the following videos from the original dataset, since they showed signs of the problems just described:
@@ -93,7 +92,7 @@ In the following sections we describe the methods used to analyze the data and t
 We start with comparing the occurrences for deceptive and truthful videos on the training set (par. \ref{data_comp}), then look at the correlation between variables (par. \ref{corr}), then we proceed to explain how we used GLM (par. \ref{GLM}), Random Forest (par. \ref{rf}) and Support Vector Machines (par. \ref{SVM}) to classify the data belonging to the test set.
 
 \subsection{Data Comparison} \label{data_comp}
-The first thing I did, after cleaning the data, was to compare the extracted deceptive (fig. \ref{fig:au_occ_dec}) and truthful (fig. \ref{fig:au_occ_truth}) AUs occurrences (only for presence, not intensity) from the training set, which is shown in fig. \ref{fig:au_occ_comp}.
+The first thing I did, after cleaning the data, was to compare the extracted deceptive (fig. \ref{fig:au_occ_dec}) and truthful (fig. \ref{fig:au_occ_truth}) AUs occurrences (only for presence, not intensity) from the train set, which is shown in fig. \ref{fig:au_occ_comp}.
 
 \begin{figure}[H]
 	\centering
@@ -179,7 +178,6 @@ Classifying with Random Forest gave me 58,42\% accuracy on the test set, which i
 \clearpage
 
 \subsection{Support Vector Machine Classification} \label{SVM}
-%todo: Maybe add an Image?
 To approach classification with a Support Vector Machine we tried both linear, radial and sigmoid kernel.
 
 The cost $c$ and $\gamma$ parameter were found using a tuning function that performs a grid search over the combinations of cost and gamma for all the kinds of kernels we used, and then by empirically changing the values to see if better results could be achieved. 
