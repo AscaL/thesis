@@ -279,6 +279,16 @@ plies <- round(colSums(plies_train[,-c("truthful")]/nrow(plies_train)), 3)
 plies <- enframe(plies, name = "au", value = "lies_occ")
 plies <- data.frame(plies)
 
+# Presence Liest Test
+pltest <- round(colSums(plies_test[,-c("truthful")]/nrow(plies_test)), 3)
+pltest <- enframe(pltest, name = "au", value = "lies_occ")
+pltest <- data.frame(pltest)
+
+# Presence Truth Test
+pttest <- round(colSums(ptruth_test[,-c("truthful")]/nrow(ptruth_test)), 3)
+pttest <- enframe(pttest, name = "au", value = "truth_occ")
+pttest <- data.frame(pttest)
+
 # Truths
 truth <- round(colSums(truth_tot[,-c("truthful")]/nrow(lies_tot)), 3)
 truth <- enframe(truth, name = "au", value = "truth_occ")
@@ -292,8 +302,12 @@ ptruth <- data.frame(ptruth)
 tl <- merge(lies, truth, by="au")
 tl <- melt(tl, value.name = "occ")
 
-ptl <- merge(plies, ptruth, by="au")
+ptl <- merge(pttest, ptruth, by="au")
 ptl <- melt(ptl, value.name = "occ")
+
+# Merged Lies Truth test
+ttl <- merge(pttest, pltest, by="au")
+ttl <- melt(ttl, value.name = "occ")
 
 # # Occurences of AUs in lying train + test
 # ggplot(data = lies, aes(x = au, y = lies_occ)) +
@@ -335,7 +349,14 @@ ggplot(data = ptl, aes(x = au, y = occ, fill = variable)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.5), width = 0.5) +
   scale_fill_manual(values = c("steelblue", "darkgreen"), labels=c("Deceptive", "Thruthful")) +
   theme(axis.text.x = element_text(angle = 90, hjust = 0.5)) +
-  labs(title = "Compared Average AU Occurrences for training set") + xlab("# of AU") + ylab("Avg. occurence of AU") 
+  labs(title = "Compared Average AU Occurrences for training set") + xlab("# of AU") + ylab("Avg. occurence of AU")
+
+# Occurences of AUs compared test 
+ggplot(data = ttl, aes(x = au, y = occ, fill = variable)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.5), width = 0.5) +
+  scale_fill_manual(values = c("steelblue", "darkgreen"), labels=c("Deceptive", "Thruthful")) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 0.5)) +
+  labs(title = "Compared Average AU Occurrences for test set") + xlab("# of AU") + ylab("Avg. occurence of AU")
 
 
 ```
